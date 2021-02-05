@@ -29,7 +29,6 @@ int main() {
 					window.close();
 					break;
 				case sf::Event::MouseButtonPressed:  // move star with mouse
-
 					break;
 				case sf::Event::KeyPressed:
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::M));
