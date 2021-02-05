@@ -7,6 +7,7 @@
 #include "bullet.h"
 #include<thread>
 #include<windows.h>
+#include<vector>
 using namespace std;
 using namespace sf;
 
@@ -17,15 +18,18 @@ TPosition positionTest = TPosition(300, 300);
 Tower aTower = Tower(positionTest, path, 100);
 thread moveThread;
 bullet aBullet = bullet(aTower, 50);
+vector<bullet>bulletList = {};// use to store all the bullet
 
 void MOVE() {
 	while (true) {
-		sleep(milliseconds(100));
-		aBullet.getSp()->move(10, 0);
+		sleep(milliseconds(60));
+		for (int i = 0;i<bulletList.size();i++)// move all the bullet
+			bulletList[i].getSp()->move(20, 0);
 	}
 }
 int main()
 {
+	bulletList.push_back(aBullet);
     /*
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     sf::CircleShape shape(50.f);
@@ -63,16 +67,25 @@ int main()
 
 		}
 		
-		std::cout << "Elapsed time in microseconds: " << clock.getElapsedTime().asMicroseconds() << std::endl;
+		std::cout << "Elapsed time in microseconds: " << clock.getElapsedTime().asMilliseconds() << std::endl;
 		
-			
+		
+		if (clock.getElapsedTime().asMilliseconds()>=1000) {// if time > = 5 sec
+			bullet mBullet = bullet(aTower, 50);//creat a new bullet
+			bulletList.push_back(mBullet);// push a bullet into list
+			clock.restart();// time = 0 second
+		}
+
 
 		renderWindow.clear();
 		
 
 		renderWindow.draw(aTower.getSp());
 		Vector2f pt = aBullet.getSp()->getPosition();
-		renderWindow.draw(*aBullet.getSp());
+		for (int i = 0; i < bulletList.size(); i++) {// draw all the bullet in the vector
+			renderWindow.draw(*bulletList[i].getSp());
+		}
+		
 		
 		renderWindow.display();
 		
