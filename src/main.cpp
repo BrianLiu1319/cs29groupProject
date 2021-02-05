@@ -1,7 +1,6 @@
-//
-// Created by Deniz Erisgen on 1/31/21.
-//
-
+/********************************************************
+ *  Deniz Erisgen
+********************************************************/
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include <iostream>
