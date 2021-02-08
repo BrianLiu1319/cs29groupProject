@@ -11,27 +11,20 @@ protected:
 	bool gotHit;
 	sf::Sprite sprite;
 public:
-	Collidable() : uid((rand()*rand()*4)%4294967295), health(100), attackSpeed(90) { };
+	Collidable() : uid((rand()*rand()*4) % 4294967295), health(100), attackSpeed(90), gotHit(false) { };
 	~Collidable() = default ;
-	virtual bool collided () const = 0;
 	virtual sf::Vector2f getOrigin() const {return sprite.getOrigin();};
+	virtual bool collided () const = 0;
 	virtual float getDistance() const = 0;
 };
 
-
 class Defender :public Collidable{
-public:
-
 };
 
 class Attacker : public Collidable{
-public:
-
 };
 
 class Bullet : public Collidable {
-
 };
-
 
 #endif //CS29GROUPPROJECT_MEMBERS_H
