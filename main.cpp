@@ -4,12 +4,13 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include <string>
+#include "Members.h"
 
 const std::string ResourcePath = "res/";
 using namespace sf;
 
 int main() {
-
+	srand(time(NULL));
 	RenderWindow window(VideoMode(1280, 720), "DogsnCats", Style::Close | Style::Resize);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
