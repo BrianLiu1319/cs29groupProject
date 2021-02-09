@@ -4,7 +4,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include <string>
-#include "Members.h"
+#include "Interface.h"
 
 const std::string ResourcePath = "res/";
 using namespace sf;
