@@ -1,13 +1,17 @@
-/********************************************************
+/********************
  *  Deniz Erisgen
-********************************************************/
+ *  Group Project
+ *  Compiler:GCC
+********************/
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include <string>
 #include "Interface.h"
 
-const std::string ResourcePath = "res/";
 using namespace sf;
+
+
+const std::string ResourcePath = "res/";
 
 int main() {
 	srand(time(NULL));
@@ -46,3 +50,5 @@ int main() {
 	}
 	return 0;
 }
+
+

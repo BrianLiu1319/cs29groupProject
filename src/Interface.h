@@ -1,7 +1,7 @@
 #ifndef CS29GROUPPROJECT_INTERFACE_H
 #define CS29GROUPPROJECT_INTERFACE_H
 
-#include <SFML/Graphics/Sprite.hpp>
+#include "SFML/Graphics/Sprite.hpp"
 #include "SFML/System/Vector2.h"
 #include "SFML/System/Time.h"
 
