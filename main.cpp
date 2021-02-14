@@ -6,15 +6,17 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include <string>
-#include "Interface.h"
+#include <iostream>
+#include "Collider.h"
 
 using namespace sf;
-
-
-const std::string ResourcePath = "res/";
+using std::cout;
+using std::endl;
+static const std::string ResourcePath = "res/";
 
 int main() {
 	srand(time(NULL));
+	/*
 	RenderWindow window(VideoMode(1280, 720), "DogsnCats", Style::Close | Style::Resize);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
@@ -23,7 +25,12 @@ int main() {
 	Sprite bgSprite;
 	bgSprite.setPosition((window.getSize().x / 2)-(backgroundTexture.getSize().x / 2),(window.getSize().y / 2)- (backgroundTexture.getSize().y /2));
 	bgSprite.setTexture(backgroundTexture);
+*/
+	Defender some = Defender();
+	Bullet b1 = Bullet();
+	cout << some << endl << b1 << endl;
 
+/*
 	while (window.isOpen()) {
 		Event event{};
 		while (window.pollEvent(event)) {
@@ -35,20 +42,22 @@ int main() {
 					break;
 				case Event::KeyPressed:
 					if (Keyboard::isKeyPressed(Keyboard::M));
-					if (Keyboard::isKeyPressed(Keyboard::C));
-					if (Keyboard::isKeyPressed(Keyboard::Right));
-					if (Keyboard::isKeyPressed(Keyboard::Left));
-					if (Keyboard::isKeyPressed(Keyboard::Up));
-					if (Keyboard::isKeyPressed(Keyboard::Down));
+					else if (Keyboard::isKeyPressed(Keyboard::C));
+					else if (Keyboard::isKeyPressed(Keyboard::Right));
+					else if (Keyboard::isKeyPressed(Keyboard::Left));
+					else if (Keyboard::isKeyPressed(Keyboard::Up));
+					else if (Keyboard::isKeyPressed(Keyboard::Down));
 					break;
 				default:;
 			}
 		}
 		window.clear();
-		window.draw(bgSprite);
+		//window.draw(bgSprite);
 		window.display();
 	}
+ */
 	return 0;
 }
+
 
 
