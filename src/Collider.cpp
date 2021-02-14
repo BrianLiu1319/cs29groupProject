@@ -1,5 +1,4 @@
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
 #include "Collider.h"
 
