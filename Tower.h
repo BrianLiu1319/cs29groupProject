@@ -31,6 +31,7 @@ private:
 	Texture image;
 	Sprite spTower;
 public:
+
 	
 	Sprite getSp() {
 		return spTower;
