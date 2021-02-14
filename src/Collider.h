@@ -4,30 +4,30 @@
 #include "SFML/System/Vector2.h"
 #include "SFML/System/Time.h"
 #include <ostream>
+
 class Collider {
 protected:
-	unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
+	const unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
 	unsigned int health {100};
 	unsigned int attackSpeed{60};
 	bool gotHit {false};
-	sf::Sprite sprite {sf::Sprite()};
+	sf::Sprite spriteOfObject {sf::Sprite()};
 public:
-	/********************************************************
+	/**************************
  	*  Default constructor
  	*  Creates an object with
  	*  	uuid= random
  	*  	health = 100
  	*  	attackSpeed = 60
  	*  	gotHit = False
-	*   sprite = Sprite()
-	********************************************************/
+	*   spriteOfObject = Sprite()
+	**************************/
 	Collider() = default;
-	~Collider() = default;
 
 	/********************************************************
 	 *  Returns the origin of Sprite OBJ in a V2F
 	********************************************************/
-	virtual sf::Vector2f getOrigin() const { return sprite.getOrigin(); }
+	virtual sf::Vector2f getOrigin() const { return spriteOfObject.getOrigin(); }
 
 	/********************************************************
 	 *  Returns the obj hit bool
@@ -43,11 +43,13 @@ public:
 	********************************************************/
 	virtual sf::Vector2f calcDistance(Collider &attacker) const { return (this->getOrigin() - attacker.getOrigin()); }
 
-	explicit Collider(sf::Sprite &newSprite) { this->sprite = newSprite; }
+	explicit Collider(sf::Sprite &newSprite) { this->spriteOfObject = newSprite; }
 
 	friend std::ostream &operator <<(std::ostream &os, const Collider &collider);
 
 	Collider(unsigned int health, unsigned int attackSpeed) : health(health), attackSpeed(attackSpeed) { }
+
+	Collider(const std::string& textureFileName);
 };
 
 class Bullet : public Collider {
@@ -55,8 +57,12 @@ class Bullet : public Collider {
 	Bullet() : Collider(1,0){};
 };
 
-class Attacker : public Collider {};
+class Attacker : public Collider {
 
-class Defender : public Collider {};
+};
+
+class Defender : public Collider {
+
+};
 
 #endif //CS29GROUPPROJECT_COLLIDER_H
