@@ -5,29 +5,33 @@
 #include "SFML/System/Time.h"
 #include <ostream>
 
-class Collider {
+class Collider : public sf::Sprite {
 protected:
-	const unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
+	//const unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
 	unsigned int health {100};
 	unsigned int attackSpeed{60};
 	bool gotHit {false};
-	sf::Sprite spriteOfObject {sf::Sprite()};
-public:
+	sf::Texture textureOfObject {sf::Texture()};
+//public:
 	/**************************
  	*  Default constructor
  	*  Creates an object with
- 	*  	uuid= random
+ 	*  	uuid= random (OPTIONAL - DEBUG)
  	*  	health = 100
  	*  	attackSpeed = 60
  	*  	gotHit = False
-	*   spriteOfObject = Sprite()
+	*   textureOfObj = texture()
 	**************************/
 	Collider() = default;
 
-	/********************************************************
+/*
+	*/
+/********************************************************
 	 *  Returns the origin of Sprite OBJ in a V2F
-	********************************************************/
-	virtual sf::Vector2f getOrigin() const { return spriteOfObject.getOrigin(); }
+	********************************************************//*
+
+	virtual sf::Vector2f getOrigin() const { return textureOfObject.getOrigin(); }
+*/
 
 	/********************************************************
 	 *  Returns the obj hit bool
@@ -43,18 +47,18 @@ public:
 	********************************************************/
 	virtual sf::Vector2f calcDistance(Collider &attacker) const { return (this->getOrigin() - attacker.getOrigin()); }
 
-	explicit Collider(sf::Sprite &newSprite) { this->spriteOfObject = newSprite; }
-
 	friend std::ostream &operator <<(std::ostream &os, const Collider &collider);
 
 	Collider(unsigned int health, unsigned int attackSpeed) : health(health), attackSpeed(attackSpeed) { }
 
 	Collider(const std::string& textureFileName);
+
+	std::string typeName() const;
 };
 
 class Bullet : public Collider {
 	public:
-	Bullet() : Collider(1,0){};
+	Bullet(unsigned health) : Collider(health,0){};
 };
 
 class Attacker : public Collider {

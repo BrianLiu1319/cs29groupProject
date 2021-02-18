@@ -6,10 +6,12 @@
 #include "SFML/Graphics.hpp"
 #include <string>
 #include <iostream>
+#include <vector>
 #include "Collider.h"
 
 using namespace sf;
 using std::cout;
+using std::vector;
 using std::endl;
 static const std::string ResourcePath = "res/";
 
@@ -21,11 +23,14 @@ int main() {
 	Texture backgroundTexture;
 	backgroundTexture.loadFromFile(ResourcePath + "sprites/doge.png");
 	Sprite bgSprite;
-	bgSprite.setPosition((window.getSize().x / 2)-(backgroundTexture.getSize().x / 2),(window.getSize().y / 2)- (backgroundTexture.getSize().y /2));
+	bgSprite.setPosition((window.getSize().x / 2) - (backgroundTexture.getSize().x / 2),(window.getSize().y / 2) - (backgroundTexture.getSize().y /2));
 	bgSprite.setTexture(backgroundTexture);
 	Defender some = Defender();
-	Bullet b1 = Bullet();
-	cout << some << endl << b1 << endl;
+	Bullet b1 = Bullet(1);
+	some.setPosition((window.getSize().x / 2) - (backgroundTexture.getSize().x / 2),(window.getSize().y / 2) - (backgroundTexture.getSize().y /2));
+	vector<Collider*> spriteList;
+	spriteList.push_back(&some);
+	spriteList.push_back(&b1);
 	while (window.isOpen()) {
 		Event event{};
 		while (window.pollEvent(event)) {
@@ -36,18 +41,27 @@ int main() {
 				case Event::MouseButtonPressed:  // move star with mouse
 					break;
 				case Event::KeyPressed:
-					if (Keyboard::isKeyPressed(Keyboard::M));
+					if (Keyboard::isKeyPressed(Keyboard::M)) ;
 					else if (Keyboard::isKeyPressed(Keyboard::C));
-					else if (Keyboard::isKeyPressed(Keyboard::Right));
-					else if (Keyboard::isKeyPressed(Keyboard::Left));
-					else if (Keyboard::isKeyPressed(Keyboard::Up));
-					else if (Keyboard::isKeyPressed(Keyboard::Down));
+					else if (Keyboard::isKeyPressed(Keyboard::Right))
+							bgSprite.move(1.0f,0.0f);
+						if (Keyboard::isKeyPressed(Keyboard::Left))
+						bgSprite.move(-1.0f,0.0f);
+					    if (Keyboard::isKeyPressed(Keyboard::Up))
+						bgSprite.move(0.0f,-1.0f);
+					    if (Keyboard::isKeyPressed(Keyboard::Down))
+						bgSprite.move(0.0f,1.0f);
 					break;
 				default:;
 			}
 		}
 		window.clear();
-		//window.draw(bgSprite);
+		window.draw(bgSprite);
+		for (Collider* item : spriteList) {
+			window.draw(*item);
+			cout << *item << endl;
+		}
+//		window.draw();
 		window.display();
 	}
 	return 0;
