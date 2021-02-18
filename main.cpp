@@ -59,7 +59,7 @@ int main() {
 		window.draw(bgSprite);
 		for (Collider* item : spriteList) {
 			window.draw(*item);
-			cout << *item << endl;
+//			cout << *item << endl;
 		}
 //		window.draw();
 		window.display();

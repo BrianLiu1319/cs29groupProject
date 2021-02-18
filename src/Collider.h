@@ -12,7 +12,6 @@ protected:
 	unsigned int attackSpeed{60};
 	bool gotHit {false};
 	sf::Texture textureOfObject {sf::Texture()};
-//public:
 	/**************************
  	*  Default constructor
  	*  Creates an object with
@@ -24,15 +23,6 @@ protected:
 	**************************/
 	Collider() = default;
 
-/*
-	*/
-/********************************************************
-	 *  Returns the origin of Sprite OBJ in a V2F
-	********************************************************//*
-
-	virtual sf::Vector2f getOrigin() const { return textureOfObject.getOrigin(); }
-*/
-
 	/********************************************************
 	 *  Returns the obj hit bool
 	********************************************************/
@@ -42,14 +32,14 @@ protected:
 	 *  Calculates the distance between 2 Collider objects
 	 *  by subtracting their origins
 	 *
-	 *  Input:Adress of a Collider OBJ
+	 *  Input:Address of a Collider OBJ
 	 *  Output:Returns the difference a V2F which has X and Y
 	********************************************************/
 	virtual sf::Vector2f calcDistance(Collider &attacker) const { return (this->getOrigin() - attacker.getOrigin()); }
 
 	friend std::ostream &operator <<(std::ostream &os, const Collider &collider);
 
-	Collider(unsigned int health, unsigned int attackSpeed) : health(health), attackSpeed(attackSpeed) { }
+	explicit Collider(unsigned int health, unsigned int attackSpeed) : health(health), attackSpeed(attackSpeed) { }
 
 	Collider(const std::string& textureFileName);
 

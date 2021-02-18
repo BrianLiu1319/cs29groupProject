@@ -4,7 +4,8 @@
 
 
 std::ostream &operator <<(std::ostream &os, const Collider &collider) {
-os << collider.typeName() <<" :" << /*"uid: " << collider.uid <<*/  " health: " << collider.health << " attackSpeed: " << collider.attackSpeed
+	os << collider.typeName() << " :" << /*"uid: " << collider.uid <<*/  " health: "
+	   << collider.health << " attackSpeed: " << collider.attackSpeed
 	   << " gotHit: " << collider.gotHit << " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
 	return os;
 }
