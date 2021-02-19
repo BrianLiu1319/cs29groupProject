@@ -2,6 +2,9 @@
 #include <iostream>
 #include "Collider.h"
 
+using std::cout;
+using std::endl;
+
 std::ostream &operator <<(std::ostream &os, const Collider &collider) {
 	os << collider.typeName() << " :" << /*"uid: " << collider.uid <<*/  " health: "
 	   << collider.health << " speed: " << collider.speed
@@ -10,9 +13,10 @@ std::ostream &operator <<(std::ostream &os, const Collider &collider) {
 }
 
 Collider::Collider(const std::string &textureFileName) {
-	if (!this->textureOfObject.loadFromFile(textureFileName)) {
+	if (!(textureOfObject.loadFromFile(textureFileName))) {
 		std::cerr << "Can not load texture file " << std::endl;
 	}
+	this->setTexture(textureOfObject);
 }
 
 std::string Collider::typeName() const {
@@ -24,3 +28,12 @@ std::string Collider::typeName() const {
 #endif
 	return shapeName;
 }
+
+
+void Bullet::travel (sf::RenderTarget& win) {
+	unsigned x =0 ;
+	this->getPosition().x <= win.getSize().x;
+	cout <<"this x :" << this->getPosition().x << " win :" << win.getView().getSize().x << endl;
+	this->move(0.1f, 0.0f);
+}
+
