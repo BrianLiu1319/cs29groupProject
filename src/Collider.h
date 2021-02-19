@@ -46,12 +46,14 @@ protected:
 	std::string typeName() const;
 };
 
-class Bullet : public Collider {
-	public:
-	Bullet(unsigned health) : Collider(health,0){};
+class Bullet : public Collider { ;
+
+public:
+	Bullet(unsigned health) : Collider(health,0){}
 };
 
 class Attacker : public Collider {
+	unsigned movementSpeed;
 
 };
 
