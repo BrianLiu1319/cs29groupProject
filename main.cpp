@@ -26,7 +26,7 @@ int main() {
 	bgSprite.setPosition((window.getSize().x / 2) - (backgroundTexture.getSize().x / 2),(window.getSize().y / 2) - (backgroundTexture.getSize().y /2));
 	bgSprite.setTexture(backgroundTexture);
 	Defender some = Defender();
-	Bullet b1 = Bullet(1);
+	Bullet b1 = Bullet(20);
 	some.setPosition((window.getSize().x / 2) - (backgroundTexture.getSize().x / 2),(window.getSize().y / 2) - (backgroundTexture.getSize().y /2));
 	vector<Collider*> spriteList;
 	spriteList.push_back(&some);

@@ -8,9 +8,9 @@
 class Collider : public sf::Sprite {
 protected:
 	//const unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
-	unsigned health;
-	unsigned speed;
-	bool gotHit;
+	int health{100};
+	int speed{60};
+	bool gotHit{false};
 	sf::Texture textureOfObject {sf::Texture()};
 	/**************************
  	*  Default constructor
@@ -39,18 +39,16 @@ protected:
 
 	friend std::ostream &operator <<(std::ostream &os, const Collider &collider);
 
-	explicit Collider(unsigned health, unsigned attackSpeed) : health(health), speed(attackSpeed) { }
+	explicit Collider(int health, int attackSpeed) : health(health), speed(attackSpeed) ,gotHit(false){ }
 
-	Collider(const std::string& textureFileName);
+	explicit Collider(const std::string& textureFileName);
 
 	std::string typeName() const;
 };
 
 class Bullet : public Collider {
-	unsigned movementSpeed;
-	unsigned damagePoint;
 public:
-	Bullet() : Collider(damagePoint = 20 ,movementSpeed = 60){}
+	Bullet(int movementSpeed) : Collider( health = 2,movementSpeed){}
 };
 
 class Attacker : public Collider {
