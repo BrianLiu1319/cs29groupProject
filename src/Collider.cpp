@@ -2,10 +2,9 @@
 #include <iostream>
 #include "Collider.h"
 
-
 std::ostream &operator <<(std::ostream &os, const Collider &collider) {
 	os << collider.typeName() << " :" << /*"uid: " << collider.uid <<*/  " health: "
-	   << collider.health << " attackSpeed: " << collider.attackSpeed
+	   << collider.health << " speed: " << collider.speed
 	   << " gotHit: " << collider.gotHit << " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
 	return os;
 }

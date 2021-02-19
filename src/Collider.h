@@ -8,16 +8,16 @@
 class Collider : public sf::Sprite {
 protected:
 	//const unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
-	unsigned int health {100};
-	unsigned int attackSpeed{60};
-	bool gotHit {false};
+	unsigned health;
+	unsigned speed;
+	bool gotHit;
 	sf::Texture textureOfObject {sf::Texture()};
 	/**************************
  	*  Default constructor
  	*  Creates an object with
  	*  	uuid= random (OPTIONAL - DEBUG)
  	*  	health = 100
- 	*  	attackSpeed = 60
+ 	*  	speed = 60
  	*  	gotHit = False
 	*   textureOfObj = texture()
 	**************************/
@@ -39,21 +39,21 @@ protected:
 
 	friend std::ostream &operator <<(std::ostream &os, const Collider &collider);
 
-	explicit Collider(unsigned int health, unsigned int attackSpeed) : health(health), attackSpeed(attackSpeed) { }
+	explicit Collider(unsigned health, unsigned attackSpeed) : health(health), speed(attackSpeed) { }
 
 	Collider(const std::string& textureFileName);
 
 	std::string typeName() const;
 };
 
-class Bullet : public Collider { ;
-
+class Bullet : public Collider {
+	unsigned movementSpeed;
+	unsigned damagePoint;
 public:
-	Bullet(unsigned health) : Collider(health,0){}
+	Bullet() : Collider(damagePoint = 20 ,movementSpeed = 60){}
 };
 
 class Attacker : public Collider {
-	unsigned movementSpeed;
 
 };
 
