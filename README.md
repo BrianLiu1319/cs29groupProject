@@ -32,8 +32,8 @@ How our Base Class Works:
           |
         Collider
      /      |           \
- Attacker   Defender    Bullet
-    |           |
-Derivatives  Derivatives
+Attack     Defender    Bullet
+
+Attacker and Defender will have derivatives of 
 
 
