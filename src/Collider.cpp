@@ -38,10 +38,7 @@ void Collider::collided(Collider &otherObj) {
 }
 
 
-void Bullet::travel(sf::RenderTarget &win) {
-	unsigned x = 0;
-	this->getPosition().x <= win.getSize().x;
-	cout << "this x :" << this->getPosition().x << " win :" << win.getView().getSize().x << endl;
+void Bullet::travel() {
 	this->move(0.1f, 0.0f);
 }
 

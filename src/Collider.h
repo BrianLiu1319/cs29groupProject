@@ -1,16 +1,20 @@
 #ifndef CS29GROUPPROJECT_COLLIDER_H
 #define CS29GROUPPROJECT_COLLIDER_H
+
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/System/Vector2.hpp"
 #include <ostream>
 
+static const std::string ResourcePath = "res/";
+
+
 class Collider : public sf::Sprite {
 protected:
 	//const unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
-	int health{100};
-	int speed{60};
-	bool gotHit{false};
+	int health {100};
+	int speed {60};
+	bool gotHit {false};
 	sf::Texture textureOfObject {sf::Texture()};
 //	virtual void animate() = 0;
 	/**************************
@@ -25,7 +29,10 @@ protected:
 	Collider() = default;
 
 	/********************************************************
-	 *  Returns the obj hit bool
+	 *   Sets got hit bool to true
+	 *
+	 *   Calculates : Health - otherObject health
+	 *   Animates the object
 	********************************************************/
 	virtual void collided(Collider &otherObj);
 
@@ -56,9 +63,13 @@ protected:
 class Bullet : public Collider {
 public:
 	Bullet(const std::string &textureFileName) : Collider(textureFileName) { }
-	Bullet(int damagePoint) : Collider(damagePoint){}
-	Bullet(int damagePoint, int movementSpeed) : Collider(damagePoint,movementSpeed){}
-	void travel (sf::RenderTarget& win);
+
+	Bullet(int damagePoint) : Collider(damagePoint) { }
+
+	Bullet(int damagePoint, int movementSpeed) : Collider(damagePoint, movementSpeed) { }
+
+	void travel();
+
 	~Bullet() = default;
 };
 

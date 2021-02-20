@@ -13,7 +13,6 @@ using namespace sf;
 using std::cout;
 using std::vector;
 using std::endl;
-static const std::string ResourcePath = "res/";
 
 int main() {
 	srand(time(NULL));
@@ -22,11 +21,12 @@ int main() {
 	window.setFramerateLimit(60);
 	Sprite bgSprite;
 	std::string resPath = ResourcePath + "sprites/doge.png";
-	Bullet bulletzz = Bullet(resPath);
-	bulletzz.setPosition ((window.getSize().x / 2) - (bulletzz.getGlobalBounds().width / 2), (window.getSize().y / 2) - (bulletzz.getGlobalBounds().height / 2));
+	Bullet testBulletOne = Bullet(resPath);
+	testBulletOne.setPosition((window.getSize().x / 2) - (testBulletOne.getGlobalBounds().width / 2),
+	                          (window.getSize().y / 2) - (testBulletOne.getGlobalBounds().height / 2));
 
 	while (window.isOpen()) {
-		Event event{};
+		Event event {};
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 				case Event::Closed:
@@ -39,23 +39,24 @@ int main() {
 					else if (Keyboard::isKeyPressed(Keyboard::C));
 
 					else if (Keyboard::isKeyPressed(Keyboard::Right))
-							bulletzz.move(1.0f, 0.0f);
-						if (Keyboard::isKeyPressed(Keyboard::Left))
-						bulletzz.move(-1.0f, 0.0f);
-					    if (Keyboard::isKeyPressed(Keyboard::Up))
-						bulletzz.move(0.0f, -1.0f);
-					    if (Keyboard::isKeyPressed(Keyboard::Down))
-						bulletzz.move(0.0f, 1.0f);
+						testBulletOne.move(1.0f, 0.0f);
+					if (Keyboard::isKeyPressed(Keyboard::Left))
+						testBulletOne.move(-1.0f, 0.0f);
+					if (Keyboard::isKeyPressed(Keyboard::Up))
+						testBulletOne.move(0.0f, -1.0f);
+					if (Keyboard::isKeyPressed(Keyboard::Down))
+						testBulletOne.move(0.0f, 1.0f);
 					break;
 				default:;
 			}
 		}
-		bulletzz.travel(window);
-		cout << bulletzz.getOrigin().y << bulletzz.getOrigin().x << " --- " << bulletzz.getPosition().x << " -- " << bulletzz.getPosition().y << endl;
+		testBulletOne.travel();
+		cout << testBulletOne.getOrigin().y << testBulletOne.getOrigin().x << " --- " << testBulletOne.getPosition().x
+		     << " -- " << testBulletOne.getPosition().y << endl;
 //      gameclock();
 		window.clear();
 //		window.draw(bgSprite);
-		window.draw(bulletzz);
+		window.draw(testBulletOne);
 		window.display();
 	}
 	return 0;
