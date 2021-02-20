@@ -29,11 +29,19 @@ std::string Collider::typeName() const {
 	return shapeName;
 }
 
+void Collider::collided(Collider &otherObj) {
+	this->gotHit = true;
+	this->health -= otherObj.health;
+	// play hurt animation
+	// this.hurt(); or
+	// this.animate(hurt);
+}
 
-void Bullet::travel (sf::RenderTarget& win) {
-	unsigned x =0 ;
+
+void Bullet::travel(sf::RenderTarget &win) {
+	unsigned x = 0;
 	this->getPosition().x <= win.getSize().x;
-	cout <<"this x :" << this->getPosition().x << " win :" << win.getView().getSize().x << endl;
+	cout << "this x :" << this->getPosition().x << " win :" << win.getView().getSize().x << endl;
 	this->move(0.1f, 0.0f);
 }
 

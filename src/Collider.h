@@ -2,8 +2,7 @@
 #define CS29GROUPPROJECT_COLLIDER_H
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics.hpp"
-#include "SFML/System/Vector2.h"
-#include "SFML/System/Time.h"
+#include "SFML/System/Vector2.hpp"
 #include <ostream>
 
 class Collider : public sf::Sprite {
@@ -28,7 +27,7 @@ protected:
 	/********************************************************
 	 *  Returns the obj hit bool
 	********************************************************/
-	virtual bool collided() const { return this->gotHit; }
+	virtual void collided(Collider &otherObj);
 
 	/********************************************************
 	 *  Calculates the distance between 2 Collider objects
@@ -37,13 +36,19 @@ protected:
 	 *  Input:Address of a Collider OBJ
 	 *  Output:Returns the difference a V2F which has X and Y
 	********************************************************/
-	/*virtual sf::Vector2f calcDistance(Collider &attacker) const { return (this->getOrigin() - attacker.getOrigin()); }*/
+	virtual sf::Vector2f calcDistance(Collider &attacker) const {
+		return (this->getPosition() - attacker.getPosition());
+	}
 
 	friend std::ostream &operator <<(std::ostream &os, const Collider &collider);
-	Collider(int health, int speed) : health(health), speed(speed) , gotHit(false){ }
-	Collider(int health): health(health), speed(60) , gotHit(false){ }
-	Collider(const std::string& textureFileName);
-	Collider(sf::Vector2f location) { this->setPosition(location);} ;
+
+	Collider(int health, int speed) : health(health), speed(speed), gotHit(false) { }
+
+	Collider(int health) : health(health), speed(60), gotHit(false) { }
+
+	Collider(const std::string &textureFileName);
+
+	Collider(sf::Vector2f location) { this->setPosition(location); }
 
 	std::string typeName() const;
 };
