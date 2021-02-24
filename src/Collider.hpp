@@ -1,5 +1,5 @@
-#ifndef CS29GROUPPROJECT_COLLIDER_H
-#define CS29GROUPPROJECT_COLLIDER_H
+#ifndef CS29GROUPPROJECT_COLLIDER_HPP
+#define CS29GROUPPROJECT_COLLIDER_HPP
 
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics.hpp"
@@ -104,4 +104,4 @@ public:
 	~Defender() { }
 };
 
-#endif //CS29GROUPPROJECT_COLLIDER_H
+#endif //CS29GROUPPROJECT_COLLIDER_HPP

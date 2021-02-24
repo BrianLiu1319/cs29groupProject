@@ -1,6 +1,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <iostream>
-#include "Collider.h"
+#include "Collider.hpp"
 
 using std::cout;
 using std::endl;
