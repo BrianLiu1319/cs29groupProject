@@ -8,13 +8,15 @@ using std::endl;
 std::ostream &operator <<(std::ostream &os, const Collider &collider) {
 	os << collider.typeName() << " :" << /*"uid: " << collider.uid <<*/  " health: "
 	   << collider.health << " speed: " << collider.speed
-	   << " gotHit: " << collider.gotHit << " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
+	   << " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
 	return os;
 }
 
 Collider::Collider(const std::string &textureFileName) {
 	if (!(textureOfObject.loadFromFile(textureFileName))) std::cerr << "Can not load texture file " << std::endl;
-	this->setTexture(textureOfObject);
+		this->setTexture(textureOfObject);
+	sf::Vector2f origin(this->getGlobalBounds().width / 2.0f,this->getGlobalBounds().height / 2.0f );
+	this->setOrigin(origin);
 }
 
 std::string Collider::typeName() const {
@@ -28,22 +30,30 @@ std::string Collider::typeName() const {
 }
 
 void Collider::autoTravel(DIRECTION direction) {
-	cout <<"this x :" << this->getPosition().x << endl;
-	if (direction == RIGHT) this->move(0.5f, 0.0f);
-	else if (direction == LEFT) this->move(-0.5f, 0.0f);
+	cout << this->typeName() <<" x :" << this->getPosition().x << endl;
+	if (direction == RIGHT) this->move(5.5f, 0.0f);
+	else if (direction == LEFT) this->move(-5.5f, 0.0f);
 }
 
 void Collider::hurt(Collider &other) {
-
+	cout << this->typeName() <<"OUCH" << endl;
 }
 
 void Collider::updateObject() {
-	animate();
+//	animate();
 	if ((dynamic_cast<Attacker*>(this)) != NULL) autoTravel(LEFT);
-	else autoTravel(RIGHT);
-}
-
-void Collider::animate() {
+	else if ((dynamic_cast<Bullet*>(this)) != NULL) autoTravel(RIGHT);
 
 }
 
+void Bullet::hurt(Collider &other) {
+	cout << "Bullet OUCH" << endl;
+	other.hurt(*this);
+}
+
+void Attacker::hurt(Collider &other) {
+	cout << "Health Before :" << getHealth() << endl;
+	this->health -= other.getHealth();
+	cout << "Health After :" << getHealth() << endl;
+	// if (health == 0 ) dead
+}
