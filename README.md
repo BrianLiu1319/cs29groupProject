@@ -5,12 +5,9 @@ Things still need to be done:
 - GameClock
     - Continually update objects to see if they need to fire
  
-- Tower functions
+- Implement Tower functions to base class
   -  Fire Function
     -  Need to Create Bullet
-
-- Add grid 
-  - 2D array
 
 - Drag & Drop
 
