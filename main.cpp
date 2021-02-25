@@ -23,7 +23,7 @@ void addAttacker(RenderWindow &window, vector<Attacker*> &attackers);
 void checkCollision(vector<Attacker*> &attackers, vector<Bullet*> &bullets);
 
 int main() {
-	srand(time(NULL));
+	srand(time(nullptr));
 	RenderWindow window(VideoMode(1280, 720), "DogsnCats", Style::Close | Style::Resize);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
@@ -82,11 +82,12 @@ int main() {
 
 
 void gameClock(RenderWindow &window, vector<Collider*> &things) {
+
 	for (auto it = things.begin() ; it != things.end() ; it++) {
+		if (*it == nullptr) return;
 		(*it)->updateObject();
 		if ((*it)->getPosition().x > 2000 || (*it)->getPosition().x < -100) {
 			it = things.erase(it);
-			break;
 		} else window.draw(**it);
 	}
 }
@@ -97,6 +98,7 @@ void gameClock(RenderWindow &window, vector<Collider*> &things) {
 
 void checkCollision(vector<Attacker*> &attackers, vector<Bullet*> &bullets) {
 	for (auto bIt =bullets.begin() ; bIt != bullets.end(); bIt++) {
+		if (attackers.empty()) return;
 		for (auto att : attackers) {
 			if ((*bIt)->getGlobalBounds().intersects(att->getGlobalBounds())) {
 				(*bIt)->hurt(*att);

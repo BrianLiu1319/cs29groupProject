@@ -43,8 +43,8 @@ void Collider::hurt(Collider &other) {
 
 void Collider::updateObject() {
 	this->animate();
-	if ((dynamic_cast<Attacker*>(this)) != NULL) autoTravel(LEFT);
-	else if ((dynamic_cast<Bullet*>(this)) != NULL) autoTravel(RIGHT);
+	if ((dynamic_cast<Attacker*>(this)) != nullptr) autoTravel(LEFT);
+	else if ((dynamic_cast<Bullet*>(this)) != nullptr) autoTravel(RIGHT);
 
 }
 
