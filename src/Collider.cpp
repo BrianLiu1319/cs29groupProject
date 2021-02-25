@@ -29,19 +29,18 @@ std::string Collider::typeName() const {
 
 void Collider::autoTravel(DIRECTION direction) {
 	cout <<"this x :" << this->getPosition().x << endl;
-	if (direction == RIGHT) this->move(0.1f, 0.0f);
-	else if (direction == LEFT) this->move(-0.1f, 0.0f);
+	if (direction == RIGHT) this->move(0.5f, 0.0f);
+	else if (direction == LEFT) this->move(-0.5f, 0.0f);
 }
 
 void Collider::hurt(Collider &other) {
 
 }
 
-void Collider::update() {
+void Collider::updateObject() {
 	animate();
 	if ((dynamic_cast<Attacker*>(this)) != NULL) autoTravel(LEFT);
 	else autoTravel(RIGHT);
-
 }
 
 void Collider::animate() {

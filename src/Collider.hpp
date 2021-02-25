@@ -5,26 +5,25 @@
 #include "SFML/System/Vector2.h"
 #include "SFML/System/Time.h"
 #include <ostream>
-
+//Res const path
 static const std::string ResourcePath = "res/";
 
+// direction types for Auto Travel
 enum DIRECTION {LEFT,RIGHT};
 
 class Collider : public sf::Sprite {
 protected:
-	//const unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
 	int health{100};
 	int speed{60};
 	bool gotHit{false};
 	sf::Texture textureOfObject {sf::Texture()};
-	void hurt(Collider& other);
-	void update();
-	void animate();
+	void hurt(Collider& other);   // remove other.health - this.health and trigger hurt animation
+	void updateObject();          // call funcs to calculate or whatever is needed to be done
+	void animate();               // animate object
 
 	/**************************
  	*  Default constructor
  	*  Creates an object with
- 	*  	uuid= random (OPTIONAL - DEBUG)
  	*  	health = 100
  	*  	speed = 60
  	*  	gotHit = False
@@ -61,17 +60,16 @@ public:
 
 class Attacker : public Collider {
 	DIRECTION defaulDirection= LEFT;
-private:
-
 	int movementSpeed {60};
 	void walk() {}
 	void attack() {}
 	void dead() {}
-public:
 
+public:
 	void autoTravel() {	Collider::autoTravel(defaulDirection);}
 	~Attacker(){ }
 	Attacker(const std::string &textureFileName, int attackSpeed) : Collider(textureFileName), movementSpeed(attackSpeed) { }
+	Attacker(const std::string &textureFileName) : Collider(textureFileName) { }
 };
 
 class Defender : public Collider {

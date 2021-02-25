@@ -19,10 +19,11 @@ int main() {
 	RenderWindow window(VideoMode(1280, 720), "DogsnCats", Style::Close | Style::Resize);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
-	Sprite bgSprite;
-	std::string resPath = ResourcePath + "sprites/doge.png";
-	Bullet bulletzz = Bullet(resPath);
+	std::string spritePath = ResourcePath + "sprites/a.gif";
+
+	Bullet bulletzz = Bullet(spritePath);
 	bulletzz.setPosition ((window.getSize().x / 2) - (bulletzz.getGlobalBounds().width / 2), (window.getSize().y / 2) - (bulletzz.getGlobalBounds().height / 2));
+	bulletzz.scale(0.4,0.4);
 	while (window.isOpen()) {
 		Event event{};
 		while (window.pollEvent(event)) {
