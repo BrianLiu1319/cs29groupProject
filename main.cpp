@@ -49,7 +49,7 @@ int main() {
 				default:;
 			}
 		}
-		bulletzz.autoTravel();
+		bulletzz.autoTravel(RIGHT);
 		cout << bulletzz.getOrigin().y << bulletzz.getOrigin().x << " --- " << bulletzz.getPosition().x << " -- " << bulletzz.getPosition().y << endl;
 //      gameclock();
 		window.clear();

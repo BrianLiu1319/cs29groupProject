@@ -17,7 +17,7 @@ protected:
 	sf::Texture textureOfObject {sf::Texture()};
 //	virtual void animate() = 0;
 	void hurt(Collider& other);
-	void autoTravel(DIRECTION direction);
+
 	/**************************
  	*  Default constructor
  	*  Creates an object with
@@ -41,6 +41,8 @@ protected:
 	// will be deleted
 	std::string typeName() const;
 
+public:
+	void autoTravel(DIRECTION direction);
 };
 
 class Bullet : public Collider {
