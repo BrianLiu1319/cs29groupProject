@@ -4,10 +4,11 @@
  *  Compiler:GCC
 ********************/
 #include "SFML/Graphics.hpp"
-#include <string>
 #include <iostream>
 #include <vector>
 #include "Collider.hpp"
+
+
 
 using namespace sf;
 using std::cout;
@@ -23,8 +24,7 @@ void addAttacker(RenderWindow &window, vector<Attacker*> &attackers);
 void checkCollision(vector<Attacker*> &attackers, vector<Bullet*> &bullets);
 
 int main() {
-	srand(time(nullptr));
-	RenderWindow window(VideoMode(1280, 720), "DogsnCats", Style::Close | Style::Resize);
+	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "DogsnCats", Style::Close | Style::Resize);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
 	Bullet bulletzz = Bullet();
@@ -80,7 +80,6 @@ int main() {
 	return 0;
 }
 
-
 void gameClock(RenderWindow &window, vector<Collider*> &things) {
 
 	for (auto it = things.begin() ; it != things.end() ; it++) {
@@ -91,9 +90,6 @@ void gameClock(RenderWindow &window, vector<Collider*> &things) {
 		} else window.draw(**it);
 	}
 }
-
-
-
 
 
 void checkCollision(vector<Attacker*> &attackers, vector<Bullet*> &bullets) {

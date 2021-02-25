@@ -15,6 +15,7 @@ Collider::Collider(const string &textureFileName,DIRECTION direction) {
 	Vector2f origin(getGlobalBounds().width / 2.0f,getGlobalBounds().height / 2.0f );
 	setOrigin(origin);
 	defaultDirection = direction;
+	setPosition((WINDOW_WIDTH / 5), (WINDOW_HEIGHT / 2));
 	
 }
 

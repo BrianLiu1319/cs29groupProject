@@ -14,6 +14,9 @@ using namespace sf;
 static const string bulSpritePath = "res/sprites/bul.png";
 static const string catSpritePath = "res/sprites/cat1.png";
 static const string towerSpritePath = "res/sprites/tower.png";
+static const unsigned WINDOW_WIDTH = 1280;
+static const unsigned WINDOW_HEIGHT = 720;
+
 // direction types for Auto Travel
 enum DIRECTION {
 	LEFT, RIGHT
