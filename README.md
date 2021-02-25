@@ -2,7 +2,7 @@
 
 Things still need to be done:
 
-- GameClock
+- GameClockUpdate()
     - Continually update objects to see if they need to fire
  
 - Implement Tower functions to base class
