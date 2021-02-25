@@ -4,14 +4,11 @@
  *  Compiler:GCC
 ********************/
 #include "SFML/Graphics.hpp"
-#include "SFML/System/Thread.hpp"
 #include <string>
 #include <iostream>
 #include <vector>
 #include "Collider.hpp"
 
-static const std::string bulSpritePath = ResourcePath + "sprites/bul.png";
-static const std::string catSpritePath = ResourcePath + "sprites/cat1.png";
 using namespace sf;
 using std::cout;
 using std::vector;
@@ -30,8 +27,8 @@ int main() {
 	RenderWindow window(VideoMode(1280, 720), "DogsnCats", Style::Close | Style::Resize);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
-	Bullet bulletzz = Bullet(bulSpritePath);
-	Attacker cAttacker = Attacker(catSpritePath);
+	Bullet bulletzz = Bullet();
+	Attacker cAttacker = Attacker();
 	bulletzz.setPosition((window.getSize().x / 5), (window.getSize().y / 2));
 	bulletzz.scale(0.4, 0.4);
 	cAttacker.setPosition((4 * window.getSize().x / 5), (window.getSize().y / 2));
@@ -106,19 +103,9 @@ void gameClock(RenderWindow &window, vector<Collider*> &things) {
 	}
 }
 
-void addBullet(RenderWindow &window, vector<Bullet*> &bullets) {
-	auto* temp = new Bullet(bulSpritePath);
-	temp->setPosition((window.getSize().x / 5), (window.getSize().y / 2));
-	temp->scale(0.4, 0.4);
-	bullets.push_back(temp);
-}
 
-void addAttacker(RenderWindow &window, vector<Attacker*> &attackers) {
-	auto* temp = new Attacker(catSpritePath);
-	temp->setPosition((4 * window.getSize().x / 5), (window.getSize().y / 2));
-//	temp->scale(0.4, 0.4);
-	attackers.push_back(temp);
-}
+
+
 
 void checkCollision(vector<Attacker*> &attackers, vector<Bullet*> &bullets) {
 	for (auto bIt =bullets.begin() ; bIt != bullets.end(); bIt++) {
@@ -131,8 +118,6 @@ void checkCollision(vector<Attacker*> &attackers, vector<Bullet*> &bullets) {
 			break;
 		}
 	}
-
-
 }
 
 /*

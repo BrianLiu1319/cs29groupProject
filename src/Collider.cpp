@@ -57,3 +57,17 @@ void Attacker::hurt(Collider &other) {
 	cout << "Health After :" << getHealth() << endl;
 	// if (health == 0 ) dead
 }
+
+void addAttacker(sf::RenderWindow &window, std::vector<Attacker*> &attackers) {
+	auto* temp = new Attacker();
+	temp->setPosition((4 * window.getSize().x / 5), (window.getSize().y / 2));
+//	temp->scale(0.4, 0.4);
+	attackers.push_back(temp);
+}
+
+void addBullet(sf::RenderWindow &window, std::vector<Bullet*> &bullets) {
+	auto* temp = new Bullet();
+	temp->setPosition((window.getSize().x / 5), (window.getSize().y / 2));
+	temp->scale(0.4, 0.4);
+	bullets.push_back(temp);
+}

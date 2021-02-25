@@ -7,44 +7,40 @@
 #include "SFML/System/Time.h"
 #include <ostream>
 
+using namespace std;
+using namespace sf;
 //Res const path
-static const std::string ResourcePath = "res/";
+// This is the only place to change the sprite file
+
+static const string bulSpritePath = "res/sprites/bul.png";
+static const string catSpritePath = "res/sprites/cat1.png";
+static const string towerSpritePath = "res/sprites/tower.png";
 
 // direction types for Auto Travel
 enum DIRECTION {
 	LEFT, RIGHT
 };
 
-class Collider : public sf::Sprite {
+class Collider : public Sprite {
 protected:
 	int health {100};
 	int speed {60};
-	sf::Texture textureOfObject {sf::Texture()};
-
+	Texture textureOfObject {Texture()};
+	string spritePath;
 	// remove other.health - this.health and trigger hurt animation
 	void animate();               // animate object
-	/**************************
- 	*  Default constructor
- 	*  Creates an object with
- 	*  	health = 100
- 	*  	speed = 60
-	*   textureOfObj = texture()
-	**************************/
-	Collider() = default;
+	friend ostream &operator <<(ostream &os, const Collider &collider);
 
-	friend std::ostream &operator <<(std::ostream &os, const Collider &collider);
+//	Collider(int health, int speed) : health(health), speed(speed) { }
 
-	Collider(int health, int speed) : health(health), speed(speed) { }
-
-	Collider(int health) : health(health), speed(60) { }
-
-	Collider(const std::string &textureFileName);
+//	Collider(int health) : health(health), speed(60) { }
 
 	// will be deleted
-	std::string typeName() const;
-
+	string typeName() const;
 public:
-	~Collider() override { std::cout << "Collider Destructor" << std::endl; }
+
+	Collider(const string &textureFileName);
+	~Collider() override { cout << "Collider Destructor" << endl; }
 
 	virtual void hurt(Collider &other);
 
@@ -62,15 +58,15 @@ public:
 
 	void autoTravel() { Collider::autoTravel(defaultDirection); }
 
-	Bullet(const std::string &textureFileName) : Collider(textureFileName) { }
+	Bullet() : Collider(bulSpritePath) { }
 
-	Bullet(int damagePoint) : Collider(damagePoint) { }
+//	Bullet(int damagePoint) : Collider(damagePoint) { }
 
-	Bullet(int damagePoint, int movementSpeed) : Collider(damagePoint, movementSpeed) { }
+//	Bullet(int damagePoint, int movementSpeed) : Collider(damagePoint, movementSpeed) { }
 };
 
 class Attacker : public Collider {
-	DIRECTION defaulDirection = LEFT;
+	DIRECTION defaultDirection = LEFT;
 	int movementSpeed {60};
 
 	void walk() { }
@@ -81,14 +77,11 @@ class Attacker : public Collider {
 
 public:
 	void hurt(Collider &other) override;
+	void autoTravel() { Collider::autoTravel(defaultDirection); }
 
-public:
-	void autoTravel() { Collider::autoTravel(defaulDirection); }
+	Attacker(const string &textureFileName, int attackSpeed) : Collider(textureFileName), movementSpeed(attackSpeed) { }
 
-	Attacker(const std::string &textureFileName, int attackSpeed) : Collider(textureFileName),
-	                                                                movementSpeed(attackSpeed) { }
-
-	Attacker(const std::string &textureFileName) : Collider(textureFileName) { }
+	Attacker() : Collider(catSpritePath) { }
 };
 
 class Defender : public Collider {
@@ -106,13 +99,10 @@ private:
 	void idle() { }
 
 public:
-	Defender(sf::Vector2f location) { this->setPosition(location); };
+//	Defender(Vector2f location) { this->setPosition(location); };
 
-	Defender(const std::string &textureFileName, int price) : Collider(textureFileName), price(price) {
-		std::cout << "Def Const" << std::endl;
-	}
+	Defender(int price) : Collider(towerSpritePath), price(price) { }
 
-	~Defender() { }
 };
 
 #endif //CS29GROUPPROJECT_COLLIDER_H
