@@ -24,7 +24,6 @@ int main() {
 	std::string resPath = ResourcePath + "sprites/doge.png";
 	Bullet bulletzz = Bullet(resPath);
 	bulletzz.setPosition ((window.getSize().x / 2) - (bulletzz.getGlobalBounds().width / 2), (window.getSize().y / 2) - (bulletzz.getGlobalBounds().height / 2));
-
 	while (window.isOpen()) {
 		Event event{};
 		while (window.pollEvent(event)) {
@@ -50,7 +49,7 @@ int main() {
 				default:;
 			}
 		}
-		bulletzz.travel(window);
+		bulletzz.autoTravel();
 		cout << bulletzz.getOrigin().y << bulletzz.getOrigin().x << " --- " << bulletzz.getPosition().x << " -- " << bulletzz.getPosition().y << endl;
 //      gameclock();
 		window.clear();

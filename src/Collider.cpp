@@ -29,11 +29,12 @@ std::string Collider::typeName() const {
 	return shapeName;
 }
 
-
-void Bullet::travel (sf::RenderTarget& win) {
-	unsigned x =0 ;
-	this->getPosition().x <= win.getSize().x;
-	cout <<"this x :" << this->getPosition().x << " win :" << win.getView().getSize().x << endl;
-	this->move(0.1f, 0.0f);
+void Collider::autoTravel(DIRECTION direction) {
+	cout <<"this x :" << this->getPosition().x << endl;
+	if (direction == RIGHT) {
+		this->move(0.1f, 0.0f);
+	} else if (direction == LEFT) {
+		this->move(-0.1f, 0.0f);
+	}
 }
 

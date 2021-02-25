@@ -6,6 +6,8 @@
 #include "SFML/System/Time.h"
 #include <ostream>
 
+enum DIRECTION { LEFT,RIGHT};
+
 class Collider : public sf::Sprite {
 protected:
 	//const unsigned int uid {static_cast<unsigned int>((rand() + 1) * (rand() + 1) * 4 % 4294967295)};
@@ -14,6 +16,7 @@ protected:
 	bool gotHit{false};
 	sf::Texture textureOfObject {sf::Texture()};
 //	virtual void animate() = 0;
+	void autoTravel(DIRECTION direction);
 	/**************************
  	*  Default constructor
  	*  Creates an object with
@@ -30,22 +33,13 @@ protected:
 	********************************************************/
 	virtual bool collided() const { return this->gotHit; }
 
-	/********************************************************
-	 *  Calculates the distance between 2 Collider objects
-	 *  by subtracting their origins
-	 *
-	 *  Input:Address of a Collider OBJ
-	 *  Output:Returns the difference a V2F which has X and Y
-	********************************************************/
-	/*virtual sf::Vector2f calcDistance(Collider &attacker) const { return (this->getOrigin() - attacker.getOrigin()); }*/
-
 	friend std::ostream &operator <<(std::ostream &os, const Collider &collider);
 	Collider(int health, int speed) : health(health), speed(speed) , gotHit(false){ }
 	Collider(int health): health(health), speed(60) , gotHit(false){ }
 	Collider(const std::string& textureFileName);
-	Collider(sf::Vector2f location) { this->setPosition(location);} ;
-
+	// will be deleted
 	std::string typeName() const;
+
 };
 
 class Bullet : public Collider {
@@ -53,20 +47,18 @@ public:
 	Bullet(const std::string &textureFileName) : Collider(textureFileName) { }
 	Bullet(int damagePoint) : Collider(damagePoint){}
 	Bullet(int damagePoint, int movementSpeed) : Collider(damagePoint,movementSpeed){}
-	void travel (sf::RenderTarget& win);
 	~Bullet() = default;
 };
 
 class Attacker : public Collider {
-	int attackSpeed {60};
+	int movementSpeed {60};
 	void walk() {}
 	void attack() {}
 	void dead() {}
-public:
 
+public:
 	~Attacker(){ }
-	Attacker(const std::string &textureFileName, int attackSpeed) : Collider(textureFileName),
-	                                                                attackSpeed(attackSpeed) { }
+	Attacker(const std::string &textureFileName, int attackSpeed) : Collider(textureFileName), movementSpeed(attackSpeed) { }
 };
 
 class Defender : public Collider {
@@ -82,6 +74,7 @@ class Defender : public Collider {
 	}
 
 public:
+	Defender(sf::Vector2f location) { this->setPosition(location);} ;
 	Defender(const std::string &textureFileName, int price) : Collider(textureFileName), price(price) {
 		std::cout << "Def Const" << std::endl;
 	}
