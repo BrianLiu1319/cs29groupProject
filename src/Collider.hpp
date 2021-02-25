@@ -24,11 +24,14 @@ enum DIRECTION {
 
 class Collider : public Sprite {
 protected:
-	int health {100};
-	int speed {60};
+	unsigned health;
+	float speed;
 	Texture textureOfObject {Texture()};
 	string spritePath;
 	DIRECTION defaultDirection;
+	Vector2f position ;
+
+	Collider(const string &textureFileName, DIRECTION direction, Vector2f positionOfObj = {0, 0},unsigned objHealth = 100,float objSpeed = 60.0f);
 
 	// remove other.health - this.health and trigger hurt animation
 	virtual void animate() {};               // animate object
@@ -37,19 +40,17 @@ protected:
 //	Collider(int health) : health(health), speed(60) { }
 	// will be deleted
 	string typeName() const;
-	Collider(const string &textureFileName,DIRECTION direction = RIGHT);
 	~Collider() override { cout << "Collider Destructor" << endl; }
 	void autoTravel(DIRECTION direction);
-	int getHealth() const { return health; }
 public:
+	unsigned getHealth() const { return health; }
 	virtual void hurt(Collider &other);
 	virtual void updateObject();          // call funcs to calculate or whatever is needed to be done
 };
 
 class Bullet : public Collider {
-
 public:
-	Bullet() : Collider(bulSpritePath,RIGHT) { }
+	Bullet() : Collider(bulSpritePath, RIGHT, {25, 360},25) { scale(0.1,0.1);}
 
 //	Bullet(int damagePoint) : Collider(damagePoint) { }
 
@@ -57,15 +58,11 @@ public:
 };
 
 class Attacker : public Collider {
-	int movementSpeed {60};
 	void attack() { }
 
 public:
 //	void hurt(Collider &other) override;
-
-	Attacker(const string &textureFileName, int attackSpeed) : Collider(textureFileName), movementSpeed(attackSpeed) { }
-
-	Attacker() : Collider(catSpritePath,LEFT) { }
+	Attacker() : Collider(catSpritePath, LEFT, {WINDOW_WIDTH - 20,360},100, 10.0f) {};
 };
 
 class Defender : public Collider {
@@ -76,12 +73,6 @@ private:
 		// create a bullet object
 	}
 
-
-
-public:
-//	Defender(Vector2f location) { this->setPosition(location); };
-
-	Defender(int price) : Collider(towerSpritePath), price(price) { }
 
 };
 

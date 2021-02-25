@@ -9,14 +9,15 @@ ostream &operator <<(ostream &os, const Collider &collider) {
 	return os;
 }
 
-Collider::Collider(const string &textureFileName,DIRECTION direction) {
+Collider::Collider(const string &textureFileName, DIRECTION direction, Vector2f positionOfObj,unsigned objHealth, float objSpeed) {
+	speed = objSpeed;
+	health = objHealth;
 	if (!(textureOfObject.loadFromFile(textureFileName))) cerr << "Can not load texture file " << endl;
-		setTexture(textureOfObject);
-	Vector2f origin(getGlobalBounds().width / 2.0f,getGlobalBounds().height / 2.0f );
+	setTexture(textureOfObject);
+	Vector2f origin(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f);
 	setOrigin(origin);
 	defaultDirection = direction;
-	setPosition((WINDOW_WIDTH / 5), (WINDOW_HEIGHT / 2));
-	
+	setPosition(positionOfObj.x, positionOfObj.y);
 }
 
 string Collider::typeName() const {
@@ -30,16 +31,17 @@ string Collider::typeName() const {
 }
 
 void Collider::autoTravel(DIRECTION direction) {
-	cout << this->typeName() <<" x :" << this->getPosition().x << endl;
-	if (direction == RIGHT) this->move((0.1f)*speed, 0.0f);
-	else if (direction == LEFT) this->move((-0.1f)*speed, 0.0f);
+	cout << this->typeName() << " x :" << this->getPosition().x << endl;
+	if (direction == RIGHT) this->move(((0.1f) * speed), 0.0f);
+	else if (direction == LEFT) this->move(((-0.1f) * speed), 0.0f);
 }
 
 void Collider::hurt(Collider &other) {
-	cout << this->typeName() <<"OUCH" << endl;
-	cout << "Health Before :" << getHealth() << endl;
-	this->health -= other.getHealth();
-	cout << "Health After :" << getHealth() << endl;
+	cout << typeName() << "OUCH" << endl;
+	cout << "Health Before :" << other.health << endl;
+	other.health -= health;
+	cout << "Health After :" << other.health << endl;
+	if (health == other.health) other.health = 0;
 }
 
 void Collider::updateObject() {
@@ -64,16 +66,12 @@ void Attacker::hurt(Collider &other) {
 	// if (health == 0 ) dead
 }*/
 
-void addAttacker(RenderWindow &window, vector<Attacker*> &attackers) {
+void addAttacker(vector<Attacker*> &attackers) {
 	auto* temp = new Attacker();
-	temp->setPosition((4 * window.getSize().x / 5), (window.getSize().y / 2));
-//	temp->scale(0.4, 0.4);
-	attackers.push_back(temp);
+		attackers.push_back(temp);
 }
 
-void addBullet(RenderWindow &window, vector<Bullet*> &bullets) {
+void addBullet(vector<Bullet*> &things) {
 	auto* temp = new Bullet();
-	temp->setPosition((window.getSize().x / 5), (window.getSize().y / 2));
-	temp->scale(0.4, 0.4);
-	bullets.push_back(temp);
+	things.push_back(temp);
 }
