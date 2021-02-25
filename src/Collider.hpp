@@ -17,6 +17,7 @@ protected:
 	sf::Texture textureOfObject {sf::Texture()};
 //	virtual void animate() = 0;
 	void hurt(Collider& other);
+	void update();
 
 	/**************************
  	*  Default constructor

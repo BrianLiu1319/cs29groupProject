@@ -13,9 +13,7 @@ std::ostream &operator <<(std::ostream &os, const Collider &collider) {
 }
 
 Collider::Collider(const std::string &textureFileName) {
-	if (!(textureOfObject.loadFromFile(textureFileName))) {
-		std::cerr << "Can not load texture file " << std::endl;
-	}
+	if (!(textureOfObject.loadFromFile(textureFileName))) std::cerr << "Can not load texture file " << std::endl;
 	this->setTexture(textureOfObject);
 }
 
@@ -37,6 +35,10 @@ void Collider::autoTravel(DIRECTION direction) {
 
 void Collider::hurt(Collider &other) {
 
+
+}
+
+void Collider::update() {
 
 }
 
