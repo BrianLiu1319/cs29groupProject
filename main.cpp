@@ -13,7 +13,6 @@ using namespace sf;
 using std::cout;
 using std::vector;
 using std::endl;
-static const std::string ResourcePath = "res/";
 
 int main() {
 	srand(time(NULL));
@@ -49,7 +48,7 @@ int main() {
 				default:;
 			}
 		}
-		bulletzz.autoTravel(RIGHT);
+		bulletzz.autoTravel();
 		cout << bulletzz.getOrigin().y << bulletzz.getOrigin().x << " --- " << bulletzz.getPosition().x << " -- " << bulletzz.getPosition().y << endl;
 //      gameclock();
 		window.clear();

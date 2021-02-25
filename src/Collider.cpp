@@ -35,10 +35,16 @@ void Collider::autoTravel(DIRECTION direction) {
 
 void Collider::hurt(Collider &other) {
 
-
 }
 
 void Collider::update() {
+	animate();
+	if ((dynamic_cast<Attacker*>(this)) != NULL) autoTravel(LEFT);
+	else autoTravel(RIGHT);
+
+}
+
+void Collider::animate() {
 
 }
 

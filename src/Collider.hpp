@@ -6,7 +6,9 @@
 #include "SFML/System/Time.h"
 #include <ostream>
 
-enum DIRECTION { LEFT,RIGHT};
+static const std::string ResourcePath = "res/";
+
+enum DIRECTION {LEFT,RIGHT};
 
 class Collider : public sf::Sprite {
 protected:
@@ -15,9 +17,9 @@ protected:
 	int speed{60};
 	bool gotHit{false};
 	sf::Texture textureOfObject {sf::Texture()};
-//	virtual void animate() = 0;
 	void hurt(Collider& other);
 	void update();
+	void animate();
 
 	/**************************
  	*  Default constructor
@@ -43,11 +45,14 @@ protected:
 	std::string typeName() const;
 
 public:
-	void autoTravel(DIRECTION direction);
+	virtual void autoTravel(DIRECTION direction);
 };
 
 class Bullet : public Collider {
+	DIRECTION defaulDirection= RIGHT;
 public:
+	void autoTravel()  {Collider::autoTravel(defaulDirection);}
+
 	Bullet(const std::string &textureFileName) : Collider(textureFileName) { }
 	Bullet(int damagePoint) : Collider(damagePoint){}
 	Bullet(int damagePoint, int movementSpeed) : Collider(damagePoint,movementSpeed){}
@@ -55,17 +60,22 @@ public:
 };
 
 class Attacker : public Collider {
+	DIRECTION defaulDirection= LEFT;
+private:
+
 	int movementSpeed {60};
 	void walk() {}
 	void attack() {}
 	void dead() {}
-
 public:
+
+	void autoTravel() {	Collider::autoTravel(defaulDirection);}
 	~Attacker(){ }
 	Attacker(const std::string &textureFileName, int attackSpeed) : Collider(textureFileName), movementSpeed(attackSpeed) { }
 };
 
 class Defender : public Collider {
+private:
 	int price {40};
 	void fire () {
 		// create a bullet object
@@ -73,9 +83,7 @@ class Defender : public Collider {
 	void death() {
 
 	}
-	void idle() {
-
-	}
+	void idle() {}
 
 public:
 	Defender(sf::Vector2f location) { this->setPosition(location);} ;
