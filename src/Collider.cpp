@@ -40,7 +40,7 @@ void Collider::hurt(Collider &other) {
 }
 
 void Collider::updateObject() {
-//	animate();
+	this->animate();
 	if ((dynamic_cast<Attacker*>(this)) != NULL) autoTravel(LEFT);
 	else if ((dynamic_cast<Bullet*>(this)) != NULL) autoTravel(RIGHT);
 
@@ -48,7 +48,7 @@ void Collider::updateObject() {
 
 void Bullet::hurt(Collider &other) {
 	cout << "Bullet OUCH" << endl;
-	other.hurt(*this);
+//	other.hurt(*this);
 }
 
 void Attacker::hurt(Collider &other) {

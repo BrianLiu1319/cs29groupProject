@@ -82,20 +82,8 @@ int main() {
 
 
 void gameClock(RenderWindow &window, vector<Collider*> &things) {
-	// all goes in here
-/*	for (vector<Player>::iterator it=allPlayers.begin();
-                              it!=allPlayers.end();
-                              *//*it++*//*) <----------- I commented it.
-{
-
-   if(it->getpMoney()<=0)
-      it = allPlayers.erase(it);
-  else
-      ++it;
- }*/
 	for (auto it = things.begin() ; it != things.end() ; it++) {
 		(*it)->updateObject();
-
 		if ((*it)->getPosition().x > 2000 ) {
 			it = things.erase(it);
 			break;
