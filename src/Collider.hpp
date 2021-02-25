@@ -11,11 +11,9 @@ using namespace std;
 using namespace sf;
 //Res const path
 // This is the only place to change the sprite file
-
 static const string bulSpritePath = "res/sprites/bul.png";
 static const string catSpritePath = "res/sprites/cat1.png";
 static const string towerSpritePath = "res/sprites/tower.png";
-
 // direction types for Auto Travel
 enum DIRECTION {
 	LEFT, RIGHT
@@ -27,38 +25,28 @@ protected:
 	int speed {60};
 	Texture textureOfObject {Texture()};
 	string spritePath;
+	DIRECTION defaultDirection;
+
 	// remove other.health - this.health and trigger hurt animation
-	void animate();               // animate object
+	virtual void animate() {};               // animate object
 	friend ostream &operator <<(ostream &os, const Collider &collider);
-
 //	Collider(int health, int speed) : health(health), speed(speed) { }
-
 //	Collider(int health) : health(health), speed(60) { }
-
 	// will be deleted
 	string typeName() const;
-public:
-
-	Collider(const string &textureFileName);
+	Collider(const string &textureFileName,DIRECTION direction = RIGHT);
 	~Collider() override { cout << "Collider Destructor" << endl; }
-
-	virtual void hurt(Collider &other);
-
-	void updateObject();          // call funcs to calculate or whatever is needed to be done
-
-	virtual void autoTravel(DIRECTION direction);
-
+	void autoTravel(DIRECTION direction);
 	int getHealth() const { return health; }
+public:
+	virtual void hurt(Collider &other);
+	virtual void updateObject();          // call funcs to calculate or whatever is needed to be done
 };
 
 class Bullet : public Collider {
-	DIRECTION defaultDirection = RIGHT;
+
 public:
-	void hurt(Collider &other) override;
-
-	void autoTravel() { Collider::autoTravel(defaultDirection); }
-
-	Bullet() : Collider(bulSpritePath) { }
+	Bullet() : Collider(bulSpritePath,RIGHT) { }
 
 //	Bullet(int damagePoint) : Collider(damagePoint) { }
 
@@ -66,22 +54,15 @@ public:
 };
 
 class Attacker : public Collider {
-	DIRECTION defaultDirection = LEFT;
 	int movementSpeed {60};
-
-	void walk() { }
-
 	void attack() { }
 
-	void dead() { }
-
 public:
-	void hurt(Collider &other) override;
-	void autoTravel() { Collider::autoTravel(defaultDirection); }
+//	void hurt(Collider &other) override;
 
 	Attacker(const string &textureFileName, int attackSpeed) : Collider(textureFileName), movementSpeed(attackSpeed) { }
 
-	Attacker() : Collider(catSpritePath) { }
+	Attacker() : Collider(catSpritePath,LEFT) { }
 };
 
 class Defender : public Collider {
@@ -92,11 +73,7 @@ private:
 		// create a bullet object
 	}
 
-	void death() {
 
-	}
-
-	void idle() { }
 
 public:
 //	Defender(Vector2f location) { this->setPosition(location); };

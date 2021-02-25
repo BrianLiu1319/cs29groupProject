@@ -84,7 +84,7 @@ int main() {
 void gameClock(RenderWindow &window, vector<Collider*> &things) {
 	for (auto it = things.begin() ; it != things.end() ; it++) {
 		(*it)->updateObject();
-		if ((*it)->getPosition().x > 2000 ) {
+		if ((*it)->getPosition().x > 2000 || (*it)->getPosition().x < -100) {
 			it = things.erase(it);
 			break;
 		} else window.draw(**it);
@@ -100,7 +100,7 @@ void checkCollision(vector<Attacker*> &attackers, vector<Bullet*> &bullets) {
 		for (auto att : attackers) {
 			if ((*bIt)->getGlobalBounds().intersects(att->getGlobalBounds())) {
 				(*bIt)->hurt(*att);
-				bIt = bullets.erase(bIt);
+				bullets.erase(bIt);
 				if (bullets.empty()) return;
 			}
 			break;

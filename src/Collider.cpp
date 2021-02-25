@@ -2,25 +2,24 @@
 #include <iostream>
 #include "Collider.hpp"
 
-using std::cout;
-using std::endl;
-
-std::ostream &operator <<(std::ostream &os, const Collider &collider) {
+ostream &operator <<(ostream &os, const Collider &collider) {
 	os << collider.typeName() << " :" << /*"uid: " << collider.uid <<*/  " health: "
 	   << collider.health << " speed: " << collider.speed
 	   << " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
 	return os;
 }
 
-Collider::Collider(const std::string &textureFileName) {
-	if (!(textureOfObject.loadFromFile(textureFileName))) std::cerr << "Can not load texture file " << std::endl;
-		this->setTexture(textureOfObject);
-	sf::Vector2f origin(this->getGlobalBounds().width / 2.0f,this->getGlobalBounds().height / 2.0f );
-	this->setOrigin(origin);
+Collider::Collider(const string &textureFileName,DIRECTION direction) {
+	if (!(textureOfObject.loadFromFile(textureFileName))) cerr << "Can not load texture file " << endl;
+		setTexture(textureOfObject);
+	Vector2f origin(getGlobalBounds().width / 2.0f,getGlobalBounds().height / 2.0f );
+	setOrigin(origin);
+	defaultDirection = direction;
+	
 }
 
-std::string Collider::typeName() const {
-	std::string shapeName = typeid(*this).name();
+string Collider::typeName() const {
+	string shapeName = typeid(*this).name();
 #ifdef _MSC_VER       // for MS Visual Studio
 	shapeName = shapeName.substr(6);
 #else                 // for other compilers
@@ -31,12 +30,15 @@ std::string Collider::typeName() const {
 
 void Collider::autoTravel(DIRECTION direction) {
 	cout << this->typeName() <<" x :" << this->getPosition().x << endl;
-	if (direction == RIGHT) this->move(5.5f, 0.0f);
-	else if (direction == LEFT) this->move(-5.5f, 0.0f);
+	if (direction == RIGHT) this->move((0.1f)*speed, 0.0f);
+	else if (direction == LEFT) this->move((-0.1f)*speed, 0.0f);
 }
 
 void Collider::hurt(Collider &other) {
 	cout << this->typeName() <<"OUCH" << endl;
+	cout << "Health Before :" << getHealth() << endl;
+	this->health -= other.getHealth();
+	cout << "Health After :" << getHealth() << endl;
 }
 
 void Collider::updateObject() {
@@ -46,26 +48,25 @@ void Collider::updateObject() {
 
 }
 
+/*
 void Bullet::hurt(Collider &other) {
 	cout << "Bullet OUCH" << endl;
 //	other.hurt(*this);
 }
 
 void Attacker::hurt(Collider &other) {
-	cout << "Health Before :" << getHealth() << endl;
-	this->health -= other.getHealth();
-	cout << "Health After :" << getHealth() << endl;
+	
 	// if (health == 0 ) dead
-}
+}*/
 
-void addAttacker(sf::RenderWindow &window, std::vector<Attacker*> &attackers) {
+void addAttacker(RenderWindow &window, vector<Attacker*> &attackers) {
 	auto* temp = new Attacker();
 	temp->setPosition((4 * window.getSize().x / 5), (window.getSize().y / 2));
 //	temp->scale(0.4, 0.4);
 	attackers.push_back(temp);
 }
 
-void addBullet(sf::RenderWindow &window, std::vector<Bullet*> &bullets) {
+void addBullet(RenderWindow &window, vector<Bullet*> &bullets) {
 	auto* temp = new Bullet();
 	temp->setPosition((window.getSize().x / 5), (window.getSize().y / 2));
 	temp->scale(0.4, 0.4);
