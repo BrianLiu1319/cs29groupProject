@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "Collider.h"
+#include "Collider.hpp"
 
 using namespace sf;
 using std::cout;

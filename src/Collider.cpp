@@ -1,6 +1,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <iostream>
-#include "Collider.h"
+#include "Collider.hpp"
 
 using std::cout;
 using std::endl;
@@ -36,5 +36,10 @@ void Collider::autoTravel(DIRECTION direction) {
 	} else if (direction == LEFT) {
 		this->move(-0.1f, 0.0f);
 	}
+}
+
+void Collider::hurt(Collider &other) {
+
+
 }
 

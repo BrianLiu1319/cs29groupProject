@@ -16,6 +16,7 @@ protected:
 	bool gotHit{false};
 	sf::Texture textureOfObject {sf::Texture()};
 //	virtual void animate() = 0;
+	void hurt(Collider& other);
 	void autoTravel(DIRECTION direction);
 	/**************************
  	*  Default constructor
