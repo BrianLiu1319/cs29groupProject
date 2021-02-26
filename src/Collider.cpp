@@ -1,26 +1,27 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <iostream>
-#include "Collider.h"
+#include "Collider.hpp"
 
-using std::cout;
-using std::endl;
-
-std::ostream &operator <<(std::ostream &os, const Collider &collider) {
+ostream &operator <<(ostream &os, const Collider &collider) {
 	os << collider.typeName() << " :" << /*"uid: " << collider.uid <<*/  " health: "
 	   << collider.health << " speed: " << collider.speed
-	   << " gotHit: " << collider.gotHit << " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
+	   << " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
 	return os;
 }
 
-Collider::Collider(const std::string &textureFileName) {
-	if (!(textureOfObject.loadFromFile(textureFileName))) {
-		std::cerr << "Can not load texture file " << std::endl;
-	}
-	this->setTexture(textureOfObject);
+Collider::Collider(const string &textureFileName, DIRECTION direction, Vector2f positionOfObj,unsigned objHealth, float objSpeed) {
+	speed = objSpeed;
+	health = objHealth;
+	if (!(textureOfObject.loadFromFile(textureFileName))) cerr << "Can not load texture file " << endl;
+	setTexture(textureOfObject);
+	Vector2f origin(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f);
+	setOrigin(origin);
+	defaultDirection = direction;
+	setPosition(positionOfObj.x, positionOfObj.y);
 }
 
-std::string Collider::typeName() const {
-	std::string shapeName = typeid(*this).name();
+string Collider::typeName() const {
+	string shapeName = typeid(*this).name();
 #ifdef _MSC_VER       // for MS Visual Studio
 	shapeName = shapeName.substr(6);
 #else                 // for other compilers
@@ -29,11 +30,48 @@ std::string Collider::typeName() const {
 	return shapeName;
 }
 
-
-void Bullet::travel (sf::RenderTarget& win) {
-	unsigned x =0 ;
-	this->getPosition().x <= win.getSize().x;
-	cout <<"this x :" << this->getPosition().x << " win :" << win.getView().getSize().x << endl;
-	this->move(0.1f, 0.0f);
+void Collider::autoTravel(DIRECTION direction) {
+	cout << this->typeName() << " x :" << this->getPosition().x << endl;
+	if (direction == RIGHT) this->move(((0.1f) * speed), 0.0f);
+	else if (direction == LEFT) this->move(((-0.1f) * speed), 0.0f);
 }
 
+void Collider::hurt(Collider &other) {
+	cout << typeName() << "OUCH" << endl;
+	cout << "Health Before :" << other.health << endl;
+	other.health -= health;
+	cout << "Health After :" << other.health << endl;
+	if (health == other.health) other.health = 0;
+}
+
+void Collider::updateObject() {
+	this->animate();
+	if (defaultDirection == LEFT) autoTravel(LEFT);
+	else if (defaultDirection == RIGHT) autoTravel(RIGHT);
+/*
+	if ((dynamic_cast<Attacker*>(this)) != nullptr) autoTravel(LEFT);
+	else if ((dynamic_cast<Bullet*>(this)) != nullptr) autoTravel(RIGHT);
+*/
+
+}
+
+/*
+void Bullet::hurt(Collider &other) {
+	cout << "Bullet OUCH" << endl;
+//	other.hurt(*this);
+}
+
+void Attacker::hurt(Collider &other) {
+	
+	// if (health == 0 ) dead
+}*/
+
+void addAttacker(vector<Attacker*> &attackers) {
+	auto* temp = new Attacker();
+		attackers.push_back(temp);
+}
+
+void addBullet(vector<Bullet*> &things) {
+	auto* temp = new Bullet();
+	things.push_back(temp);
+}
