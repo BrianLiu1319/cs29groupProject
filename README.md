@@ -9,11 +9,9 @@ Things still need to be done:
   -  Fire Function
     -  Need to Create Bullet
 
-- Drag & Drop
+- Drag & Drop ( would be nice ) 
 
 - Attacker / Defender Derivatives
-
-- Thread?
 
 - Integrate Main Menu ( maybe later )
 
