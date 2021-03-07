@@ -14,6 +14,19 @@ Collider::Collider(const string& textureFileName, DIRECTION direction, Vector2f 
 	health = objHealth;
 	if (!(textureOfObject.loadFromFile(textureFileName))) cerr << "Can not load texture file " << endl;
 	setTexture(textureOfObject);
+
+	Vector2f origin(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f);
+	setOrigin(origin);
+	defaultDirection = direction;
+	setPosition(positionOfObj.x, positionOfObj.y);
+	//Resize(20.0f, 20.0f); // Problem: Need to work on scaling the sprite somehow. 
+}
+
+Collider::Collider(const Texture& textureTemp, DIRECTION direction, Vector2f positionOfObj, unsigned objHealth, float objSpeed) {
+	speed = objSpeed;
+	health = objHealth;
+	setTexture(textureTemp);
+
 	Vector2f origin(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f);
 	setOrigin(origin);
 	defaultDirection = direction;
@@ -42,7 +55,7 @@ void Collider::hurt(Collider& other) {
 	cout << "Health Before :" << other.health << endl;
 	other.health -= health;
 	cout << "Health After :" << other.health << endl;
-	if (health == other.health) other.health = 0;
+	// if (health == other.health) other.health = 0; Removed since it took enemies out early. 
 }
 
 void Collider::updateObject() {
@@ -74,7 +87,20 @@ void addAttacker(vector<Attacker*>& attackers) {
 	attackers.push_back(temp);
 }
 
+void addAttacker(vector<Attacker*>& attackers, Vector2f a) {
+	auto* temp = new Attacker(a);
+	attackers.push_back(temp);
+}
+
+/*
 void addBullet(vector<Bullet*>& things) {
+	cout << "Adding the new boi" << endl;
 	auto* temp = new Bullet();
+	things.push_back(temp);
+}
+*/
+
+void addBullet(vector<Bullet*>& things, Bullet* a) {
+	Bullet* temp = a;
 	things.push_back(temp);
 }
