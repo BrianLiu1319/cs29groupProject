@@ -18,8 +18,12 @@ using namespace sf;
 // to use and I apologize for making it convenient like that >_<. 
 
 void addBullet(vector<Bullet*>& things);
+void addBullet(vector<Bullet*>& things, Bullet* a);
 void addAttacker(vector<Attacker*>& attackers);
+void addAttacker(vector<Attacker*>& attackers, sf::Vector2f a);
+
 void gameClock(RenderWindow& window, vector<Collider*>& things);
+void checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets);
 
 string path = "C:/temp/doge.png";
 Font font1;
@@ -57,7 +61,7 @@ vector<Land*> genrateLandList()
 	int x = 50; int y = 50;
 	for (int i = 0; i < 30; i++)
 	{
-		tempPosition.x = x;		
+		tempPosition.x = x;
 		tempPosition.y = y;
 		Land* aland = new  Land(i, tempPosition);
 		landList.push_back(aland);
@@ -132,8 +136,10 @@ int howManyTower(int money)  // PROBLEM TO FIX: Add a Cost to the Defender class
 
 // Take a selected land and build the tower on this land. Return the pointer of this tower
 // PROBLEM: Issue is dynanmic memory. We need to delete this after!!!
-Defender * defenderBuild(Land * aLand)
+Defender* defenderBuild(Land* aLand)
 {
+	Vector2f temp;
+	temp = aLand->getSprite().getOrigin();
 	Defender* aDefender = new Defender(aLand->getVector());
 	return aDefender;
 };
@@ -150,12 +156,16 @@ void fire(Clock* clock, Defender* fireTower, vector<Bullet*> bulletList)
 
 	if (clock->getElapsedTime().asMilliseconds() >= 1000) {// if time > = 5 sec // Time constraint, ho
 		cout << "Fire away!" << endl;
-		//bullet mBullet = bullet(t, 50); // 
-		addBullet(bulletList);// push a bullet into list, but we need to add a specific bullet...
+		//Bullet mBullet = Bullet(t.getPosition()); // 
+		//addBullet(bulletList, mBullet);// push a bullet into list, but we need to add a specific bullet...
+		//addBullet(bulletList);
+		auto* temp = new Bullet();
+		bulletList.push_back(temp);
 
 		// Now we need to add a bullet with specific spot based on the tower position... 
 
 	}
+	cout << "End of fire" << endl;
 	//Vector2f pt = aBullet.getSp()->getPosition();
 
 }
@@ -187,6 +197,12 @@ void showMoney(int money)
 
 int main()
 {
+
+	sf::Texture textureOfObject;
+	textureOfObject.loadFromFile("C:/temp/bul.png");
+	//textureOfObject
+	//renderWindow.setVerticalSyncEnabled(true);
+	renderWindow.setFramerateLimit(60);
 	if (!font1.loadFromFile("C:/temp/font1.ttf"))
 		cout << "erro " << endl;
 
@@ -194,7 +210,7 @@ int main()
 	int time = 0;
 	Clock* clock = new Clock();
 	// define a land
-	sf::Vector2f landPoint (50.f, 50.f);
+	sf::Vector2f landPoint(50.f, 50.f);
 	Land* aLand = new Land(0, landPoint);
 
 	// Land and Inventory Vectors
@@ -210,7 +226,7 @@ int main()
 	vector<Bullet*> allBullets = {};
 	vector<Attacker*> allAttackers = {};
 	vector<Defender*> allDefenders = {}; // List of all defenders. Could implement this in the future. 
-	vector<Defender*> builtDefenderList= {}; // Have a seperate list for built Towers to differentiate.
+	vector<Defender*> builtDefenderList = {}; // Have a seperate list for built Towers to differentiate.
 
 	int nInvenselected = -1;		//This int is a counter; represent the Inventory user selected; if user didnt select; it is -1;
 	InvenList = generateInvenList();	// creat the Inventory list
@@ -229,22 +245,34 @@ int main()
 
 	// int counter used for selection.
 	int nSelected = -1;
-	
+
 	// Temp values used in the main. 
 
 	//Tower* pTower = NULL;
 	//Tower* pTowerHolder = NULL;
 	Defender* tempDefender = NULL;
 	Defender* pDefenderHolder = NULL;
+	int tempLandIndex;
+	sf::Vector2f landTempVec;
 	while (renderWindow.isOpen())
 	{
 		while (renderWindow.pollEvent(event))
 		{
-			if (event.type == Event::EventType::Closed)
+			switch (event.type)
+			{
+			case Event::Closed:
 				renderWindow.close();
-
+				break;
+			case Event::KeyPressed:
+				if (Keyboard::isKeyPressed(Keyboard::M))
+				{
+					tempLandIndex = rand() % 30;
+					landTempVec = landList[tempLandIndex]->getVector();
+					addAttacker(allAttackers, landList[tempLandIndex]->getVector());  // this should be called with game clock
+				}
+			}
 		}
-
+		//
 		std::cout << "Elapsed time in microseconds: " << clock->getElapsedTime().asMilliseconds() << std::endl;
 		renderWindow.clear();
 
@@ -301,7 +329,7 @@ int main()
 		// If you selected a inventory dog AND a grid spot, create and place a tower there. 
 		if (nSelected >= 0 && nSelected < 30 && nInvenselected<2 && nInvenselected>-1)// make sure the selected code is inthe range of 0-30, the inventory shouldnt be -1
 		{
-			tempDefender = defenderBuild(landList[nSelected]);
+			tempDefender = defenderBuild(landList[nSelected]);  // 
 			if (landList[nSelected]->getEnpty() == true)
 			{
 				landList[nSelected]->setEmpty(false); //set the empty of a land to false, prevent from being repeatly use
@@ -323,25 +351,43 @@ int main()
 			for (int i = 0; i < builtDefenderList.size(); i++)
 			{
 				pDefenderHolder = builtDefenderList[i];
-				if (clock->getElapsedTime().asMilliseconds() >= 1000)
-					fire(clock, pDefenderHolder, allBullets);						
+
+				if (clock->getElapsedTime().asMilliseconds() >= 2000)
+				{
+					cout << allBullets.size() << endl;
+
+					if (clock->getElapsedTime().asMilliseconds() >= 2000) {// if time > = 5 sec // Time constraint, ho
+
+						auto* temp = new Bullet(textureOfObject, pDefenderHolder->getPosition());
+						allBullets.push_back(temp);
+
+						//addBullet(allBullets); //For test purposes
+
+					}
+					cout << "End of fire" << endl;
+
+					//fire(clock, pDefenderHolder, allBullets);		
+				}
 			}
-			if (clock->getElapsedTime().asMilliseconds() >= 1000)
+
+			if (clock->getElapsedTime().asMilliseconds() >= 2000)
 			{
 				clock->restart();
 			}
 		}
 
 		// Use this to update, erase, and draw all the respective Bullets, Defenders, and Attackers. 
+
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider*> &> (allBullets));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider*> &> (builtDefenderList));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider*> &> (allAttackers));
+		checkCollision(allAttackers, allBullets);
 		renderWindow.display();
 	}
 	bThread = false;
 	while (!bExitThread)		//this make the thread sleep after user close window 
 	{
-		sleep(milliseconds(100));
+		//sleep(milliseconds(100));
 	}
 	return 0;
 }
@@ -353,9 +399,17 @@ void gameClock(RenderWindow& window, vector<Collider*>& things) {
 	{
 		return;
 	}
-	for (int i = 0; i < things.size(); i++) 
+	for (int i = 0; i < things.size(); i++)
 	{
 		things[i]->updateObject();
+		// Add dynamic cast for attacker for game over
+		if (dynamic_cast<Attacker*>(things[i]) != nullptr)
+		{
+			if ((things[i])->getPosition().x > WINDOW_WIDTH + (things[i])->getGlobalBounds().width || (things[i])->getPosition().x < -100)
+			{
+				exit(-420);
+			}
+		}
 		if ((things[i])->getPosition().x > WINDOW_WIDTH + (things[i])->getGlobalBounds().width || (things[i])->getPosition().x < -100)
 		{
 			things.erase(things.begin() + i);
@@ -365,4 +419,33 @@ void gameClock(RenderWindow& window, vector<Collider*>& things) {
 			window.draw(*things[i]);
 		}
 	}
+}
+
+void checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets) {
+	if (bullets.empty()) return;
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		for (int j = 0; j < attackers.size(); j++)
+		{
+			if (bullets[i]->getGlobalBounds().intersects(attackers[j]->getGlobalBounds()))
+			{
+				bullets[i]->hurt(*(attackers[j]));
+				cout << attackers[j]->getHealth() << endl;
+				if (attackers[j]->getHealth() <= 0)
+				{
+					attackers.erase(attackers.begin() + j);
+				}
+				bullets.erase(bullets.begin() + i);
+				break;
+			}
+		}
+	}
+
+}
+
+void addBullet(vector<Bullet*>& things) {
+	cout << "Adding the new boi" << endl;
+	auto* temp = new Bullet();
+	things.push_back(temp);
+	cout << "End of new boi" << endl;
 }
