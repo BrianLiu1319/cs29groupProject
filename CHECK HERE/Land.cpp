@@ -20,9 +20,9 @@ Land::Land(int num, sf::Vector2f o)
 
 	spLand.setTexture(image);
 	spLand.setPosition(o);
+	spLand.setOrigin(image.getSize().x / 2.0f, image.getSize().y / 2.0f);
 	spLand.setTextureRect(IntRect(0, 0, 77, 94));
 	empty = true;
 	//spLand.setScale(Vector2f(0.5, 0.5));
 }
-
 
