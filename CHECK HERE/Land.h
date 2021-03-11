@@ -10,8 +10,6 @@ class Land
 	private:
 		int width;
 		int height;
-		//TPosition centerPosition; //
-		//TPosition oPoint;
 		sf::Vector2f oPoint1;
 		bool empty;
 		sf::Texture image;
@@ -46,6 +44,7 @@ class Land
 		{
 			return spLand.getPosition();
 		}
+
 		sf::Vector2f setVector(sf::Vector2f a)
 		{
 			oPoint1 = a;
