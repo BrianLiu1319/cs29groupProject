@@ -23,7 +23,7 @@ void addAttacker(vector<Attacker*>& attackers);
 void addAttacker(vector<Attacker*>& attackers, sf::Vector2f a);
 
 void gameClock(RenderWindow& window, vector<Collider*>& things);
-void checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets);
+void checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets, vector<Defender*>& defenders);
 
 string path = "C:/temp/doge.png";
 Font font1;
@@ -289,7 +289,6 @@ int main()
 			renderWindow.draw(InvenList[i]->getSprite());
 		}
 
-
 		// Checks to see if you clicked a inventory dog.
 		if (event.type == Event::EventType::MouseButtonPressed)
 		{
@@ -344,6 +343,7 @@ int main()
 			}
 		}
 
+		
 		// Fires every 1 second a bullet. Currently, the fire function creates bullets in the same spot 
 		// PROBLEM: Makes bullets position in it's constructor take the vector of Tower.
 		if (builtDefenderList.size() > 0)  // If the number of towers that have been built is not zero, we fire
@@ -361,7 +361,25 @@ int main()
 						auto* temp = new Bullet(textureOfObject, pDefenderHolder->getPosition());
 						allBullets.push_back(temp);
 
+
+						for (int l = 0; l < allAttackers.size(); l++)
+						{
+							// Purpose is to check for collision in here.
+							if (allAttackers[l]->getGlobalBounds().intersects(builtDefenderList[i]->getGlobalBounds()))
+							{
+								//allAttackers[l]->setDirection(TWR);
+								//builtDefenderList[i]->hurt(*(allAttackers[l]));
+
+								allAttackers[l]->hurt(*(builtDefenderList[i]));
+								cout << builtDefenderList[i]->getHealth() << endl;
+									
+
+								cout << "HITTEM!! " << "THE DOG HP IS NOW " << builtDefenderList[i]->getHealth() << endl;
+							}
+							
+						}
 						//addBullet(allBullets); //For test purposes
+						// Add damage check for tower 
 
 					}
 					cout << "End of fire" << endl;
@@ -381,7 +399,7 @@ int main()
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider*> &> (allBullets));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider*> &> (builtDefenderList));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider*> &> (allAttackers));
-		checkCollision(allAttackers, allBullets);
+		checkCollision(allAttackers, allBullets, builtDefenderList);
 		renderWindow.display();
 	}
 	bThread = false;
@@ -421,11 +439,19 @@ void gameClock(RenderWindow& window, vector<Collider*>& things) {
 	}
 }
 
-void checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets) {
-	if (bullets.empty()) return;
-	for (int i = 0; i < bullets.size(); i++)
+void checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets, vector<Defender*>& defenders)
+{
+
+	// Add a temp to all the vectors to ensure never crash!
+	if (attackers.empty())
 	{
-		for (int j = 0; j < attackers.size(); j++)
+		return;
+	}
+	bool getOut = false;
+
+	for (int j = 0; j < attackers.size(); j++)
+	{
+		for (int i = 0; i < bullets.size(); i++)
 		{
 			if (bullets[i]->getGlobalBounds().intersects(attackers[j]->getGlobalBounds()))
 			{
@@ -439,8 +465,34 @@ void checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets) {
 				break;
 			}
 		}
-	}
 
+		if (attackers.empty())
+		{
+			return;
+		}
+
+		// DEFNDER GONE STOPS RUNNING
+		for (int k = 0; k < defenders.size(); k++)
+		{
+			if (attackers[j]->getGlobalBounds().intersects(defenders[k]->getGlobalBounds()))
+			{
+				cout << "Cmere" << endl;
+				attackers[j]->setDirection(TWR);
+				if (defenders[k]->getHealth() <= 0)
+				{
+					// iterate through all attackers again//
+					// If bool stops,
+					for (int z = 0; z < attackers.size(); z++)
+					{
+						if (attackers[z]->getGlobalBounds().intersects(defenders[k]->getGlobalBounds()))
+						attackers[z]->setDirection(LEFT);
+					}
+					defenders.erase(defenders.begin() + k);
+					break;
+				}
+			}
+		}
+	}
 }
 
 void addBullet(vector<Bullet*>& things) {
