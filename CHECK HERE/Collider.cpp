@@ -9,7 +9,7 @@ ostream& operator <<(ostream& os, const Collider& collider) {
 	return os;
 }
 
-Collider::Collider(const string& textureFileName, DIRECTION direction, Vector2f positionOfObj, unsigned objHealth, float objSpeed) {
+Collider::Collider(const string& textureFileName, DIRECTION direction, Vector2f positionOfObj, int objHealth, float objSpeed) {
 	speed = objSpeed;
 	health = objHealth;
 	if (!(textureOfObject.loadFromFile(textureFileName))) cerr << "Can not load texture file " << endl;
@@ -22,7 +22,7 @@ Collider::Collider(const string& textureFileName, DIRECTION direction, Vector2f 
 	//Resize(20.0f, 20.0f); // Problem: Need to work on scaling the sprite somehow. 
 }
 
-Collider::Collider(const Texture& textureTemp, DIRECTION direction, Vector2f positionOfObj, unsigned objHealth, float objSpeed) {
+Collider::Collider(const Texture& textureTemp, DIRECTION direction, Vector2f positionOfObj, int objHealth, float objSpeed) {
 	speed = objSpeed;
 	health = objHealth;
 	setTexture(textureTemp);
@@ -68,8 +68,6 @@ void Collider::updateObject() {
 	*/
 
 }
-
-
 
 /*
 void Bullet::hurt(Collider &other) {
