@@ -64,7 +64,7 @@ void addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vec
 	attackers.push_back(temp);
 }
 
-void addTower(vector<Defender *> &towers, const Texture &defText, Vector2f loc) {
+void er(vector<Defender *> &towers, const Texture &defText, Vector2f loc) {
 	auto temp = new Defender(defText,loc);
 	towers.push_back(temp);
 }
@@ -106,3 +106,9 @@ Land::Land(int num, Vector2f o, AllTextures *texture) {
 	empty = true;
 	// spLand.setScale(Vector2f(0.5, 0.5));
 }
+Vector2f Land::getPositionofLand() {
+	auto offset = Vector2f({spLand.getLocalBounds().width / 2, spLand.getLocalBounds().height / 2 });
+	auto temp = spLand.getPosition() + offset;
+	return temp;
+}
+

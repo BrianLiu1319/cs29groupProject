@@ -207,13 +207,9 @@ int main() {
 			                                                             // where custom release button)
 			// that's also where user want to build a tower
 
-			for (int i = 0; i < 30; i++)  // traverse the land list
-			{
-				Sprite landSprit = landList[i]->getSprite();
-				if (landSprit.getGlobalBounds().contains(mouseRepostion.x,
-				      mouseRepostion.y))  // if the range of land contain the position of mouse
-				{
-					nSelected = i;  // the selected land is i
+			for (int i = 0; i < 30; i++) { // traverse the land list
+				if (landList[i]->getSprite().getGlobalBounds().contains(mouseRepostion.x,mouseRepostion.y)){  // if the range of land contain the position of mouse
+									nSelected = i;  // the selected land is i
 					break;
 				}
 			}
@@ -360,6 +356,7 @@ void checkCollision(vector<Attacker *> &attackers, vector<Bullet *> &bullets, ve
 // Generate the list of towers. Prebuilds a list of towers to use.
 // Used to just add towers to built tower list. Currently, I don't use this, for
 // testing purposes.
+/*
 vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *texture) {
 	vector<Defender *> towerList = {};
 	Vector2f temp;
@@ -369,12 +366,12 @@ vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *textu
 	}
 	return towerList;
 }
+*/
 
 // Take a selected land and build the tower on this land. Return the pointer of
 // this tower PROBLEM: Issue is dynanmic memory. We need to delete this after!!!
 Defender *defenderBuild(Land *aLand, AllTextures *texture) {
-	Vector2f temp = aLand->getSprite().getOrigin();
-	auto *aDefender = new Defender(texture->getTower(), temp);
+	auto *aDefender = new Defender(texture->getTower(), aLand->getPositionofLand());
 	return aDefender;
 }
 

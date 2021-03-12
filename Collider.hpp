@@ -85,7 +85,6 @@ class AllTextures {
 	Texture *land2;
 
 public:
-
 	AllTextures();
 	~AllTextures() {
 		delete bullet;
@@ -102,16 +101,15 @@ public:
 };
 
 
-
 class Land {
 	bool empty;
 	Texture image;
 	Sprite spLand;
 
 public:
-	Land(int num, sf::Vector2f o, AllTextures *texture);
+	Land(int num, Vector2f o, AllTextures *texture);
 	Sprite getSprite() { return spLand; }
-	Vector2f getPositionofLand() { return spLand.getPosition(); }
+	Vector2f getPositionofLand();
 	void setEmpty(bool em) { empty = em; }
 	bool getEmpty() const { return empty; }
 };
