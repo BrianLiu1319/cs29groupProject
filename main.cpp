@@ -1,7 +1,7 @@
-#include "Collider.hpp"
-#include "Inventory.hpp"
 #include "SFML/Audio.hpp"
 #include "SFML/Graphics.hpp"
+#include "src/Collider.hpp"
+#include "src/Inventory.hpp"
 
 #include <iostream>
 #include <string>
@@ -20,7 +20,7 @@ Defender *defenderBuild(Land *aLand, AllTextures *texture);
 void addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vector2f loc);
 void gameClock(RenderWindow &window, vector<Collider *> &things);
 void checkCollision(vector<Attacker *> &attackers, vector<Bullet *> &bullets, vector<Defender *> &defenders);
-vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *texture);
+//vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *texture);
 RenderWindow renderWindow(VideoMode(1000, 1000), "SFML Demo");
 Event event {};
 Font font1 {};
@@ -31,13 +31,12 @@ int money = 200;
 vector<Inventory *> generateInvenList() {
 	vector<Inventory *> InvenList = {};
 	Vector2f aPosition;
-	Inventory *aInven = NULL;
 	int x = 50;
 	int y = 600;
 	for (int i = 0; i < 2; i++) {
 		aPosition.x = x;
 		aPosition.y = y;
-		aInven = new Inventory(aPosition, i);
+		auto aInven = new Inventory(aPosition, i);
 		InvenList.push_back(aInven);
 		x += 60;
 	}
@@ -52,7 +51,7 @@ int howManyTower(int money) {
 	 this function with a defender instead of tower.
 	Tower* aTower = new Tower();       // Use this as a reference and replace with
 	Defender instead. int cost = aTower->getCost(); vector<Tower*> TowerList = {};
-	int amount = money / cost;
+	int amount = tempM / cost;
 	//return amount;
 	*/
 	return 1;  // Just returns 1 for test purposes. Remove this for "amount"
@@ -69,8 +68,6 @@ int howManyTower(int money) {
 void fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList, AllTextures *texture) {
 	Defender t = *fireTower;
 	cout << bulletList.size() << endl;
-	int a = clock->getElapsedTime().asMilliseconds();
-
 	if (clock->getElapsedTime().asMilliseconds() >= 1000) {  // if time > = 5 sec // Time constraint, ho
 		cout << "Fire away!" << endl;
 		// Bullet mBullet = Bullet(t.getPosition()); //
@@ -107,31 +104,25 @@ void showMoney(int val) {
 
 int main() {
 	auto myTextures = AllTextures();
-	font1.loadFromFile("res/Font1.ttf");
+	font1.loadFromFile("res/arial.ttf");
 	// textureOfObject
 	renderWindow.setVerticalSyncEnabled(true);
 	renderWindow.setFramerateLimit(60);
 	int towerInStore = 2;
 	Clock *clock = new Clock();
-	// define a land
-	Vector2f landPoint(50.f, 50.f);
-
 	// Land and Inventory Vectors
-	vector<Land *> landList;  // vector to store the land, you can think this
-	                          // vector is the grass grid!
+	// vector to store the land, you can think this
+	vector<Land *> landList;
+	// vector is the grass grid!
 	vector<Inventory *> InvenList;
-
-	/* // Unused but left for archive
-	vector<Tower*> towerList;		//This ia a vector stores all towers
-	vector<Tower*> builtTowerList;// this a vector only stores the towers which
-	has been built;
-	*/
 
 	// Vectors of the main subjects, allBullets // allAttackers // allDefenders
 	vector<Bullet *> allBullets = {};
 	vector<Attacker *> allAttackers = {};
-	vector<Defender *> allDefenders = {};       // List of all defenders. Could implement this in the future.
-	vector<Defender *> builtDefenderList = {};  // Have a seperate list for built Towers to differentiate.
+	// List of all defenders. Could implement this in the future.
+	vector<Defender *> allDefenders = {};
+	// Have a seperate list for built Towers to differentiate.
+	vector<Defender *> builtDefenderList = {};
 
 	int nInvenselected = -1;                  // This int is a counter; represent the Inventory
 	                                          // user selected; if user didnt select; it is -1;
@@ -142,19 +133,16 @@ int main() {
 	// this can be of use?
 
 	// Line to use for seperating space between inventory and grid? Unsure
-	Vertex line[] = {Vertex(Vector2f(0, 0)), Vertex(Vector2f(500, 500))};
-
-	line->color = Color(256, 256, 0);
+	Vertex line[] = {Vertex(Vector2f(0, 550)), Vertex(Vector2f(500, 550))};
+	line->color = Color::White;
 
 	// int counter used for selection.
 	int nSelected = -1;
 
 	// Temp values used in the main.
 
-	// Tower* pTower = NULL;
-	// Tower* pTowerHolder = NULL;
-	Defender *tempDefender = NULL;
-	Defender *pDefenderHolder = NULL;
+	Defender *tempDefender{};
+	Defender *pDefenderHolder{};
 	int tempLandIndex;
 	Vector2f landTempVec;
 	while (renderWindow.isOpen()) {
@@ -173,7 +161,7 @@ int main() {
 			}
 		}
 		//
-		std::cout << "Elapsed time in microseconds: " << clock->getElapsedTime().asMilliseconds() << std::endl;
+//		std::cout << "Elapsed time in microseconds: " << clock->getElapsedTime().asMilliseconds() << std::endl;
 		renderWindow.clear();
 
 		showMoney(money);
@@ -246,8 +234,8 @@ int main() {
 		// constructor take the vector of Tower.
 		if (!builtDefenderList.empty())  // If the number of towers that have been built is not zero, we fire
 		{
-			for (int i = 0; i < builtDefenderList.size(); i++) {
-				pDefenderHolder = builtDefenderList[i];
+			for (auto & i : builtDefenderList) {
+				pDefenderHolder = i;
 
 				if (clock->getElapsedTime().asMilliseconds() >= 2000) {
 					cout << allBullets.size() << endl;
@@ -257,18 +245,18 @@ int main() {
 						auto *temp = new Bullet(myTextures.getBullet(), pDefenderHolder->getPosition());
 						allBullets.push_back(temp);
 
-						for (int l = 0; l < allAttackers.size(); l++) {
+						for (auto & allAttacker : allAttackers) {
 							// Purpose is to check for collision in here.
-							if (allAttackers[l]->getGlobalBounds().intersects(
-							      builtDefenderList[i]->getGlobalBounds())) {
+							if (allAttacker->getGlobalBounds().intersects(
+							      i->getGlobalBounds())) {
 								// allAttackers[l]->setDirection(TWR);
 								// builtDefenderList[i]->hurt(*(allAttackers[l]));
 
-								allAttackers[l]->hurt(*(builtDefenderList[i]));
-								cout << builtDefenderList[i]->getHealth() << endl;
+								allAttacker->hurt(*i);
+								cout << i->getHealth() << endl;
 
 								cout << "HITTEM!! "
-								     << "THE DOG HP IS NOW " << builtDefenderList[i]->getHealth() << endl;
+								     << "THE DOG HP IS NOW " << i->getHealth() << endl;
 							}
 						}
 						// addBullet(allBullets); //For test purposes
@@ -290,6 +278,7 @@ int main() {
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(builtDefenderList));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allAttackers));
 		checkCollision(allAttackers, allBullets, builtDefenderList);
+		renderWindow.draw(line, 2, Lines);
 		renderWindow.display();
 	}
 	return 0;
@@ -298,7 +287,7 @@ int main() {
 // Draws, erases if out of screen, and updates accordingly.
 void gameClock(RenderWindow &window, vector<Collider *> &things) {
 	if (things.empty()) { return; }
-	for (int i = 0; i < things.size(); i++) {
+	for (size_t i = 0; i < things.size(); i++) {
 		things[i]->updateObject();
 		// Add dynamic cast for attacker for game over
 		if (dynamic_cast<Attacker *>(things[i]) != nullptr) {
@@ -320,8 +309,8 @@ void checkCollision(vector<Attacker *> &attackers, vector<Bullet *> &bullets, ve
 	// Add a temp to all the vectors to ensure never crash!
 	if (attackers.empty()) { return; }
 
-	for (int j = 0; j < attackers.size(); j++) {
-		for (int i = 0; i < bullets.size(); i++) {
+	for (size_t j = 0; j < attackers.size(); j++) {
+		for (size_t i = 0; i < bullets.size(); i++) {
 			if (bullets[i]->getGlobalBounds().intersects(attackers[j]->getGlobalBounds())) {
 				bullets[i]->hurt(*(attackers[j]));
 				cout << attackers[j]->getHealth() << endl;
@@ -334,16 +323,16 @@ void checkCollision(vector<Attacker *> &attackers, vector<Bullet *> &bullets, ve
 		if (attackers.empty()) { return; }
 
 		// DEFNDER GONE STOPS RUNNING
-		for (int k = 0; k < defenders.size(); k++) {
+		for (size_t k = 0; k < defenders.size(); k++) {
 			if (attackers[j]->getGlobalBounds().intersects(defenders[k]->getGlobalBounds())) {
-				cout << "Cmere" << endl;
+//				cout << "Cmere" << endl;
 				attackers[j]->setDirection(TWR);
 				if (defenders[k]->getHealth() <= 0) {
 					// iterate through all attackers again//
 					// If bool stops,
-					for (int z = 0; z < attackers.size(); z++) {
-						if (attackers[z]->getGlobalBounds().intersects(defenders[k]->getGlobalBounds()))
-							attackers[z]->setDirection(LEFT);
+					for (auto & attacker : attackers) {
+						if (attacker->getGlobalBounds().intersects(defenders[k]->getGlobalBounds()))
+							attacker->setDirection(LEFT);
 					}
 					defenders.erase(defenders.begin() + k);
 					break;
