@@ -1,27 +1,28 @@
-#ifndef COLLIDER_HPP
-#define COLLIDER_HPP
+#pragma once
+#pragma warning(push, 0)
+#include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics.hpp"
-#include "SFML/System/Time.hpp"
+#pragma warning(pop)
 #include "SFML/System/Vector2.hpp"
-
-#include <iostream>
+#include "SFML/System/Time.hpp"
+#include <ostream>
 
 using namespace std;
 using namespace sf;
-
-// Res const path
+//Res const path
 // This is the only place to change the sprite file
 
-static const string bulSpritePath = "res/sprites/bul.png";
-static const string catSpritePath = "res/sprites/cat1.png";
-static const string towerSpritePath = "res/sprites/doge.png";
-static const string landSpritePath = "res/sprites/grass.jpg";
-static const string landSpritePath2 = "res/sprites/grass2.jpg";
+/*
+static const string bulSpritePath = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/bul.png";
+static const string catSpritePath = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/cat1.png";
+static const string towerSpritePath = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/tower.png";
+static const string dogeTower = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/doge.png";
+*/
+static const string bulSpritePath = "assets/bul.png";
+static const string catSpritePath = "assets/cat1.png";
+static const string towerSpritePath = "assets/tower.png";
+static const string dogeTower = "assets/doge.png";
 
-// static const string bulSpritePath = "C:/temp/bul.png";
-// static const string catSpritePath = "C:/temp/cat1.png";
-// static const string towerSpritePath = "res/sprites/tower.png";
-// static const string dogeTower = "C:/temp/doge.png";
 
 static const unsigned WINDOW_WIDTH = 1280;
 static const unsigned WINDOW_HEIGHT = 720;
