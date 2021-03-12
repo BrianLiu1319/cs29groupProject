@@ -1,10 +1,10 @@
 #pragma once
-#include<SFML/Graphics.hpp>
 #include "SFML/Graphics/Sprite.hpp"
-#include<string.h>
-#include<iostream>
-class Inventory
-{
+
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <string.h>
+class Inventory {
 private:
 	int width;
 	int height;
@@ -15,18 +15,13 @@ private:
 	sf::Vector2f position;
 	sf::Texture image;
 	sf::Sprite spInven;
-	int contain;//if contain == 0 it's a dog, if contain is 1,this Inventory contain a sunflower
+	int contain;  // if contain == 0 it's a dog, if contain is 1,this Inventory
+	              // contain a sunflower
 
 
 public:
-
-	//Inventory(TPosition pt, int co);
+	// Inventory(TPosition pt, int co);
 	Inventory(sf::Vector2f a, int co);
 	Inventory();
-	sf::Sprite getSprite()
-	{
-		return spInven;
-	}
-
-
+	sf::Sprite getSprite() { return spInven; }
 };

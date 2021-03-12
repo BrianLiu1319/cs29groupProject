@@ -5,7 +5,9 @@ Inventory::Inventory(Vector2f pt, int co) {
 	width = 54;
 	height = 54;
 
-	if (!image.loadFromFile(path, sf::IntRect(0, 0, 54, 54))) { std::cout << "erro" << std::endl; }
+	if (!image.loadFromFile(path, sf::IntRect(0, 0, 54, 54))) {
+		std::cout << "erro" << std::endl;
+	}
 	spInven.setTexture(image);
 	spInven.setPosition(pt);
 	position = pt;

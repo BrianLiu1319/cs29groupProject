@@ -1,27 +1,21 @@
-#pragma once
-#pragma warning(push, 0)
-#include "SFML/Graphics/Sprite.hpp"
+#ifndef COLLIDER_H
+#define COLLIDER_H
 #include "SFML/Graphics.hpp"
-#pragma warning(pop)
-#include "SFML/System/Vector2.hpp"
+#include "SFML/Graphics/Sprite.hpp"
 #include "SFML/System/Time.hpp"
+#include "SFML/System/Vector2.hpp"
+
 #include <ostream>
 
 using namespace std;
 using namespace sf;
-//Res const path
-// This is the only place to change the sprite file
 
-/*
-static const string bulSpritePath = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/bul.png";
-static const string catSpritePath = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/cat1.png";
-static const string towerSpritePath = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/tower.png";
-static const string dogeTower = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/doge.png";
-*/
 static const string bulSpritePath = "assets/bul.png";
 static const string catSpritePath = "assets/cat1.png";
 static const string towerSpritePath = "assets/tower.png";
 static const string dogeTower = "assets/doge.png";
+static const string landSpritePath = "assets/grass.jpeg";
+static const string landSpritePath2 = "assets/grass2.jpeg";
 
 
 static const unsigned WINDOW_WIDTH = 1280;
@@ -50,7 +44,8 @@ public:
 	int getHealth() const { return health; }
 	void setDirection(DIRECTION ab) { defaultDirection = ab; }
 	virtual void hurt(Collider &other);
-	virtual void updateObject();  // call funcs to calculate or whatever is needed to be done
+	virtual void
+	updateObject();  // call funcs to calculate or whatever is needed to be done
 };
 
 class Bullet : public Collider {
@@ -65,7 +60,8 @@ class Attacker : public Collider {
 public:
 	void attack() {}
 	//	void hurt(Collider &other) override;
-	Attacker(const Texture &catTexture, Vector2f loc) : Collider(catTexture, LEFT, {WINDOW_WIDTH, loc.y}, 100, 10.0f) {
+	Attacker(const Texture &catTexture, Vector2f loc) :
+	    Collider(catTexture, LEFT, {WINDOW_WIDTH, loc.y}, 100, 10.0f) {
 		scale(0.5, 0.5);
 	};
 };
@@ -73,7 +69,8 @@ public:
 class Defender : public Collider {
 public:
 	void fire(vector<Bullet *> &bulletsList, const Texture &bulletTextrue);
-	Defender(const Texture &towerTexture, Vector2f loc) : Collider(towerTexture, TWR, {loc.x, loc.y}, 100, 0) {
+	Defender(const Texture &towerTexture, Vector2f loc) :
+	    Collider(towerTexture, TWR, {loc.x, loc.y}, 100, 0) {
 		scale(0.5, 0.5);
 	};
 };

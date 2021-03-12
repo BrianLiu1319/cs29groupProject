@@ -43,13 +43,11 @@ void Collider::updateObject() {
 		autoTravel(LEFT);
 	else if (defaultDirection == RIGHT)
 		autoTravel(RIGHT);
-	/*
-	        if ((dynamic_cast<Attacker*>(this)) != nullptr) autoTravel(LEFT);
-	        else if ((dynamic_cast<Bullet*>(this)) != nullptr) autoTravel(RIGHT);
-	*/
 }
 
-void addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vector2f loc) {
+void addAttacker(vector<Attacker *> &attackers,
+  const Texture &attackerText,
+  Vector2f loc) {
 	auto temp = new Attacker(attackerText, loc);
 	attackers.push_back(temp);
 }
@@ -97,7 +95,8 @@ Land::Land(int num, Vector2f o, AllTextures *texture) {
 	// spLand.setScale(Vector2f(0.5, 0.5));
 }
 Vector2f Land::getPositionofLand() {
-	auto offset = Vector2f({spLand.getLocalBounds().width / 2, spLand.getLocalBounds().height / 2});
+	auto offset = Vector2f(
+	  {spLand.getLocalBounds().width / 2, spLand.getLocalBounds().height / 2});
 	auto temp = spLand.getPosition() + offset;
 	return temp;
 }
