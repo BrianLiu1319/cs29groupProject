@@ -1,6 +1,5 @@
 #include "Collider.hpp"
-#include "Inventory.h"
-#include "Land.h"
+#include "Inventory.hpp"
 #include "SFML/Audio.hpp"
 #include "SFML/Graphics.hpp"
 
@@ -16,7 +15,7 @@ using namespace sf;
 // says PROBLEM: it's an issue that still needs to be addressed. Also, some of
 // the image paths are C:/temp which was for me to use and I apologize for
 // making it convenient like that >_<.
-
+vector<Land *> genrateLandList(AllTextures *texture);
 Defender *defenderBuild(Land *aLand, AllTextures *texture);
 void addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vector2f loc);
 void gameClock(RenderWindow &window, vector<Collider *> &things);
@@ -27,28 +26,6 @@ Event event {};
 Font font1 {};
 // Land, Money, and Thread variables
 int money = 200;
-
-// Generate the land list to build grid(map);
-vector<Land *> genrateLandList() {
-	vector<Land *> landList = {};
-	Vector2f tempPosition;
-	int x = 50;
-	int y = 50;
-	for (int i = 0; i < 30; i++) {
-		tempPosition.x = x;
-		tempPosition.y = y;
-		Land *aland = new Land(i, tempPosition);
-		landList.push_back(aland);
-		y += 94;
-
-		if (y > 480)  // Here, it checks if the grid doesn't exist and we go back down.
-		{
-			y = 50;
-			x += 74;
-		}
-	}
-	return landList;
-}
 
 // This function create a inventory vector which stores all inventory
 vector<Inventory *> generateInvenList() {
@@ -114,7 +91,7 @@ void drawBuiltDefender(vector<Defender *> builtTowerList) {
 	for (int i = 0; i < builtTowerList.size(); i++) {
 		renderWindow.draw(*builtTowerList[i]);  ////////// work on this!!!
 	}
-};
+}
 
 // This function define a textview that shows the how much money user has.
 void showMoney(int money) {
@@ -131,16 +108,14 @@ void showMoney(int money) {
 
 int main() {
 	auto myTextures = AllTextures();
-	font1.loadFromFile("res/images/Font1.ttf");
+	font1.loadFromFile("res/Font1.ttf");
 	// textureOfObject
 	renderWindow.setVerticalSyncEnabled(true);
 	renderWindow.setFramerateLimit(60);
 	int towerInStore = 2;
-	int time = 0;
 	Clock *clock = new Clock();
 	// define a land
 	Vector2f landPoint(50.f, 50.f);
-	Land *aLand = new Land(0, landPoint);
 
 	// Land and Inventory Vectors
 	vector<Land *> landList;  // vector to store the land, you can think this
@@ -162,7 +137,7 @@ int main() {
 	int nInvenselected = -1;          // This int is a counter; represent the Inventory
 	                                  // user selected; if user didnt select; it is -1;
 	InvenList = generateInvenList();  // creat the Inventory list
-	landList = genrateLandList();     // creat land list
+	landList = genrateLandList(&myTextures);     // creat land list
 
 	// allDefenders = generateTowerList(landList);	// creat towerList, maybe
 	// this can be of use?
@@ -190,9 +165,10 @@ int main() {
 				case Event::KeyPressed:
 					if (Keyboard::isKeyPressed(Keyboard::M)) {
 						tempLandIndex = rand() % 30;
-						landTempVec = landList[tempLandIndex]->getVector();
+						landTempVec = landList[tempLandIndex]->getPositionofLand();
 						addAttacker(allAttackers,myTextures.getAttacker(),landTempVec);  // this should be called with game clock
 					}
+				default:break;
 			}
 		}
 		//
@@ -345,7 +321,6 @@ void gameClock(RenderWindow &window, vector<Collider *> &things) {
 void checkCollision(vector<Attacker *> &attackers, vector<Bullet *> &bullets, vector<Defender *> &defenders) {
 	// Add a temp to all the vectors to ensure never crash!
 	if (attackers.empty()) { return; }
-	bool getOut = false;
 
 	for (int j = 0; j < attackers.size(); j++) {
 		for (int i = 0; i < bullets.size(); i++) {
@@ -387,15 +362,8 @@ void checkCollision(vector<Attacker *> &attackers, vector<Bullet *> &bullets, ve
 vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *texture) {
 	vector<Defender *> towerList = {};
 	Vector2f temp;
-	int x = 0;
-	int y = 0;
 	for (int i = 0; i < 30; i++) {
-		temp.x = landList[i]->getVector().x;
-		temp.y = landList[i]->getVector().y;
-
-		// Tower* aInven = new Tower(temp);
-		// towerList.push_back(aInven);
-		Defender *aInven = new Defender(texture->getTower(),temp);
+		Defender *aInven = new Defender(texture->getTower(),landList[i]->getPositionofLand());
 		towerList.push_back(aInven);
 	}
 	return towerList;
@@ -405,6 +373,29 @@ vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *textu
 // this tower PROBLEM: Issue is dynanmic memory. We need to delete this after!!!
 Defender *defenderBuild(Land *aLand, AllTextures *texture) {
 	Vector2f temp= aLand->getSprite().getOrigin();
-	auto *aDefender = new Defender(texture->getTower(),aLand->getVector());
+	auto *aDefender = new Defender(texture->getTower(),temp);
 	return aDefender;
-};
+}
+
+
+// Generate the land list to build grid(map);
+vector<Land *> genrateLandList(AllTextures *texture) {
+	vector<Land *> landList = {};
+	Vector2f tempPosition;
+	int x = 50;
+	int y = 50;
+	for (int i = 0; i < 30; i++) {
+		tempPosition.x = x;
+		tempPosition.y = y;
+		Land *aland = new Land(i, tempPosition, texture);
+		landList.push_back(aland);
+		y += 94;
+
+		if (y > 480)  // Here, it checks if the grid doesn't exist and we go back down.
+		{
+			y = 50;
+			x += 74;
+		}
+	}
+	return landList;
+}

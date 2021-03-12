@@ -1,9 +1,8 @@
-#include "Inventory.h"
+#include "Inventory.hpp"
 using namespace std;
 using namespace sf;
-Inventory::Inventory() {}
 Inventory::Inventory(Vector2f pt, int co) {
-	string path = "inven2.png";
+	string path = "res/inven2.png";
 	width = 54;
 	height = 54;
 

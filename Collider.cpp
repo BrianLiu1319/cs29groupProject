@@ -83,7 +83,26 @@ AllTextures::AllTextures() {
 	t->loadFromFile(towerSpritePath);
 	auto a = new Texture;
 	a->loadFromFile(catSpritePath);
+	auto l = new Texture;
+	l->loadFromFile(landSpritePath);
+	auto l2 = new Texture;
+	l2->loadFromFile(landSpritePath2);
+
 	bullet = b;
 	tower = t;
 	attacker = a;
+	land = l;
+	land2 = l2;
+}
+
+Land::Land(int num, Vector2f o, AllTextures *texture) {
+	if ((num + 1) % 2 == 0) {
+		spLand.setTexture(texture->getLand());
+	}else
+	spLand.setTexture(texture->getLand2());
+	spLand.setPosition(o);
+	spLand.setOrigin(image.getSize().x / 2.0f, image.getSize().y / 2.0f);
+	spLand.setTextureRect(IntRect(0, 0, 77, 94));
+	empty = true;
+	// spLand.setScale(Vector2f(0.5, 0.5));
 }

@@ -12,9 +12,11 @@ using namespace sf;
 // Res const path
 // This is the only place to change the sprite file
 
-static const string bulSpritePath = "res/images/bul.png";
-static const string catSpritePath = "res/images/cat1.png";
-static const string towerSpritePath = "res/images/tower.png";
+static const string bulSpritePath = "res/bul.png";
+static const string catSpritePath = "res/cat1.png";
+static const string towerSpritePath = "res/doge.png";
+static const string landSpritePath = "res/grass.jpg";
+static const string landSpritePath2 = "res/grass2.jpg";
 
 // static const string bulSpritePath = "C:/temp/bul.png";
 // static const string catSpritePath = "C:/temp/cat1.png";
@@ -79,17 +81,38 @@ class AllTextures {
 	Texture *bullet;
 	Texture *tower;
 	Texture *attacker;
+	Texture *land;
+	Texture *land2;
 
 public:
+
 	AllTextures();
 	~AllTextures() {
 		delete bullet;
 		delete tower;
 		delete attacker;
+		delete land;
+		delete land2;
 	}
 	Texture &getBullet() const { return *bullet; }
 	Texture &getTower() const { return *tower; }
 	Texture &getAttacker() const { return *attacker; }
+	Texture &getLand() const { return *land; }
+	Texture &getLand2() const { return *land2; }
 };
 
+
+
+class Land {
+	bool empty;
+	Texture image;
+	Sprite spLand;
+
+public:
+	Land(int num, sf::Vector2f o, AllTextures *texture);
+	Sprite getSprite() { return spLand; }
+	Vector2f getPositionofLand() { return spLand.getPosition(); }
+	void setEmpty(bool em) { empty = em; }
+	bool getEmpty() const { return empty; }
+};
 #endif

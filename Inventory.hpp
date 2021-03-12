@@ -3,24 +3,21 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <string.h>
+
+using namespace sf;
+using namespace std;
 class Inventory {
-private:
+
 	int width;
 	int height;
-	/*
-	TPosition centerPosition;
-	TPosition oPoint;
-	*/
-	sf::Vector2f position;
-	sf::Texture image;
-	sf::Sprite spInven;
+	Vector2f position;
+	Texture image;
+	Sprite spInven;
 	int contain;  // if contain == 0 it's a dog, if contain is 1,this Inventory
 	              // contain a sunflower
 
 public:
 	// Inventory(TPosition pt, int co);
 	Inventory(sf::Vector2f a, int co);
-	Inventory();
-	sf::Sprite getSprite() { return spInven; }
+	Sprite getSprite() { return spInven; }
 };
