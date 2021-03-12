@@ -18,17 +18,17 @@ int main() {
 	/*********************************
 	Create a RenderWindow and Game
 	*********************************/
-	sf::RenderWindow window(sf::VideoMode(1280, 720),
-	  "Dogs vs Cats",
-	  sf::Style::Titlebar | sf::Style::Resize);  // sf::Style::Close);
-	window.setFramerateLimit(30);
-	Game dogsVsCats(static_cast<sf::Vector2f>(window.getSize()));
+	
+	RenderWindow window(VideoMode(1280, 720),
+	  "Dogs vs Cats",Style::Close);
+	window.setFramerateLimit(60);
+	Game dogsVsCats(static_cast<Vector2f>(window.getSize()));
 
 	/*********************************
 	Set up necessary stuff
 	*********************************/
-	StartMenu startMenu(static_cast<sf::Vector2f>(window.getSize()));
-	HighScoreEntry highScoreEntryBox(static_cast<sf::Vector2f>(window.getSize()));
+	StartMenu startMenu(static_cast<Vector2f>(window.getSize()));
+	HighScoreEntry highScoreEntryBox(static_cast<Vector2f>(window.getSize()));
 	// unsigned int score = 99999;
 	Score temp;
 	// bool muteMusic = false;
@@ -39,12 +39,12 @@ int main() {
 	Set up the clock
 	*********************************/
 	float deltaTime = 0.0f;
-	sf::Clock clock;
+	Clock clock;
 
 	// just some testing for animation I did last time:
 	/*
-	sf::Sprite tempSprite;
-	sf::Texture spriteTexture;
+	Sprite tempSprite;
+	Texture spriteTexture;
 	if(!spriteTexture.loadFromFile(spriteSheet)) {
 	    std::cerr << "JDLHFJDHFDJHD" << std::endl;
 	    exit(1);
@@ -53,7 +53,7 @@ int main() {
 	tempSprite.setScale(0.4f, 0.4f);
 
 	//test animation
-	Animation spriteAnimator(&spriteTexture, sf::Vector2u(10, 5), 1.0f / 6.0f);
+	Animation spriteAnimator(&spriteTexture, Vector2u(10, 5), 1.0f / 6.0f);
 	spriteAnimator.setNumOfSpritesInRow(1, 8);
 	 */
 
@@ -74,10 +74,10 @@ int main() {
 	while (window.isOpen()) {
 		deltaTime = clock.restart().asSeconds();
 
-		sf::Event evnt;
+		Event evnt;
 		while (window.pollEvent(evnt)) {
-			if (evnt.type == sf::Event::Closed) { window.close(); }
-			if (gameState == enterHighScore && evnt.type == sf::Event::TextEntered) {
+			if (evnt.type == Event::Closed) { window.close(); }
+			if (gameState == enterHighScore && evnt.type == Event::TextEntered) {
 				if (evnt.text.unicode == 8
 				    || (evnt.text.unicode > 31 && evnt.text.unicode < 127)) {
 					highScoreEntryBox.enterText(
@@ -92,7 +92,7 @@ int main() {
 			case menu:
 				window.draw(startMenu);
 				state = startMenu.run(
-				  static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
+				  static_cast<Vector2f>(Mouse::getPosition(window)));
 
 				switch (state) {
 					case 0: gameState = playGame; break;
@@ -149,7 +149,7 @@ int main() {
 
 				window.draw(highScoreEntryBox);
 				if (highScoreEntryBox.run(
-				      static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)),
+				      static_cast<Vector2f>(Mouse::getPosition(window)),
 				      deltaTime)) {
 					gameState = menu;
 					temp = highScoreEntryBox.getScore();

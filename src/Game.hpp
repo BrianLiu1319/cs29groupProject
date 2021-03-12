@@ -41,15 +41,14 @@ class Game : public Menu {
 	int howManyTower(int money);
 	Defender *defenderBuild(Land *aLand);
 	void fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList);
-	void drawBuiltDefender(vector<Defender *> builtTowerList,
-	  RenderWindow &renderWindow);
+
 	void showMoney(int money, RenderWindow &renderWindow);
 
 public:
 	Game(sf::Vector2f windowSize);
 	int run(RenderWindow &renderWindow);
 	unsigned int getScore() const { return score; }
-	void toggleMuteSfx();
+	void toggleMuteSfx() override;
 };
 
 #endif /* Game_hpp */

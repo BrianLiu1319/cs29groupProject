@@ -1,5 +1,5 @@
 #include "Game.hpp"
-Game::Game(sf::Vector2f windowSize) : Menu(windowSize) {
+Game::Game(Vector2f windowSize) : Menu(windowSize) {
 	try {
 		setClickSound(clickSFXPath01);
 	} catch (const std::string &fileName) {
@@ -11,7 +11,7 @@ Game::Game(sf::Vector2f windowSize) : Menu(windowSize) {
 
 vector<Land *> Game::genrateLandList() {
 	vector<Land *> landList = {};
-	sf::Vector2f tempPosition;
+	Vector2f tempPosition;
 	float x = 50;
 	float y = 50;
 	for (int i = 0; i < 60; i++) {
@@ -61,9 +61,7 @@ int Game::howManyTower(int money) { // function with a defender instead of tower
 // Take a selected land and build the tower on this land. Return the pointer of this
 // tower PROBLEM: Issue is dynanmic memory. We need to delete this after!!!
 Defender *Game::defenderBuild(Land *aLand) {
-	Vector2f temp;
-	temp = aLand->getSprite().getOrigin();
-	auto aDefender = new Defender(myTextures.getTower(), temp);
+	auto aDefender = new Defender(myTextures.getTower(), aLand->getPositionofLand());
 	return aDefender;
 }
 
@@ -75,10 +73,8 @@ Defender *Game::defenderBuild(Land *aLand) {
 
 void Game::fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList) {
 	Defender t = *fireTower;
-	cout << bulletList.size() << endl;
 	if (clock->getElapsedTime().asMilliseconds()
 	    >= 1000) {  // if time > = 5 sec // Time constraint, ho
-		cout << "Fire away!" << endl;
 		// Bullet mBullet = Bullet(t.getPosition()); //
 		// addBullet(bulletList, mBullet);// push a bullet into list, but we need to
 		// add a specific bullet... addBullet(bulletList);
@@ -88,7 +84,6 @@ void Game::fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList) 
 		// Now we need to add a bullet with specific spot based on the tower
 		// position...
 	}
-	cout << "End of fire" << endl;
 	// Vector2f pt = aBullet.getSp()->getPosition();
 }
 
@@ -98,13 +93,13 @@ void Game::showMoney(int money, RenderWindow &renderWindow) {
 	Text showMoney;
 	string show = "Money:  " + to_string(money) + "\nScore:  " + to_string(score);
 	showMoney.setFont(font1);
-	showMoney.setFillColor(sf::Color::Red);
+	showMoney.setFillColor(Color::Red);
 	showMoney.setString(show);
 	showMoney.setPosition(
 	  renderWindow.getSize().x - showMoney.getLocalBounds().width,
 	  50);
 	showMoney.setCharacterSize(20);
-	showMoney.setStyle(sf::Text::Regular);
+	showMoney.setStyle(Text::Regular);
 	renderWindow.draw(showMoney);
 }
 
@@ -120,7 +115,6 @@ void Game::gameClock(RenderWindow &window, vector<Collider *> &things) {
 			    || (things[i])->getPosition().x < -100) {
 				gameOver = true;
 				return;
-				// exit(-420);
 			}
 		}
 		if ((things[i])->getPosition().x
@@ -138,8 +132,6 @@ void Game::checkCollision(vector<Attacker *> &attackers,
   vector<Defender *> &defenders) {
 	// Add a temp to all the vectors to ensure never crash!
 	if (attackers.empty()) { return; }
-	bool getOut = false;
-
 	for (unsigned int j = 0; j < attackers.size(); j++) {
 		for (unsigned int i = 0; i < bullets.size(); i++) {
 			if (bullets[i]->getGlobalBounds().intersects(
@@ -166,10 +158,10 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 				if (defenders[k]->getHealth() <= 0) {
 					// iterate through all attackers again//
 					// If bool stops,
-					for (unsigned int z = 0; z < attackers.size(); z++) {
-						if (attackers[z]->getGlobalBounds().intersects(
+					for (auto & attacker : attackers) {
+						if (attacker->getGlobalBounds().intersects(
 						      defenders[k]->getGlobalBounds()))
-							attackers[z]->setDirection(LEFT);
+							attacker->setDirection(LEFT);
 					}
 					defenders.erase(defenders.begin() + k);
 					break;
@@ -185,18 +177,15 @@ int Game::run(RenderWindow &renderWindow) {
 	gameOver = false;
 	score = 0;
 
-	sf::Texture textureOfObject;
+	Texture textureOfObject;
 	textureOfObject.loadFromFile("assets/bul.png");
 	// textureOfObject
 	// renderWindow.setVerticalSyncEnabled(true);
 	renderWindow.setFramerateLimit(60);
-	if (!font1.loadFromFile("assets/font1.ttf")) cout << "erro " << endl;
+	if (!font1.loadFromFile("assets/Font1.ttf")) cout << "erro " << endl;
 
 	int towerInStore = 2;
-	int time = 0;
-	Clock *clock = new Clock();
-	// define a land
-	Land *aLand = new Land(0,{50.f, 50.f},&myTextures);
+	auto *clock = new Clock();
 
 	// Land and Inventory Vectors
 	vector<Land *> landList;  // vector to store the land, you can think this vector
@@ -212,10 +201,10 @@ int Game::run(RenderWindow &renderWindow) {
 	// Vectors of the main subjects, allBullets // allAttackers // allDefenders
 	vector<Bullet *> allBullets = {};
 	vector<Attacker *> allAttackers = {};
-	vector<Defender *> allDefenders
-	  = {};  // List of all defenders. Could implement this in the future.
-	vector<Defender *> builtDefenderList
-	  = {};  // Have a seperate list for built Towers to differentiate.
+	// List of all defenders. Could implement this in the future.
+	vector<Defender *> allDefenders = {};
+	// Have a seperate list for built Towers to differentiate.
+	vector<Defender *> builtDefenderList = {};
 
 	int nInvenselected = -1;  // This int is a counter; represent the Inventory user
 	                          // selected; if user didnt select; it is -1;
@@ -226,8 +215,8 @@ int Game::run(RenderWindow &renderWindow) {
 	// can be of use?
 
 	// Line to use for seperating space between inventory and grid? Unsure
-	sf::Vertex line[]
-	  = {sf::Vertex(sf::Vector2f(0, 0)), sf::Vertex(sf::Vector2f(500, 500))};
+	Vertex line[]
+	  = {Vertex(Vector2f(0, 0)), Vertex(Vector2f(500, 500))};
 
 	line->color = Color();
 
@@ -241,7 +230,6 @@ int Game::run(RenderWindow &renderWindow) {
 	Defender *tempDefender = NULL;
 	Defender *pDefenderHolder = NULL;
 	int tempLandIndex;
-	sf::Vector2f landTempVec;
 
 	while (!gameOver && renderWindow.isOpen()) {
 		while (renderWindow.pollEvent(event)) {
@@ -250,10 +238,9 @@ int Game::run(RenderWindow &renderWindow) {
 				case Event::KeyPressed:
 					if (Keyboard::isKeyPressed(Keyboard::M)) {
 						tempLandIndex = rand() % 60;
-						landTempVec = landList[tempLandIndex]->getPositionofLand();
-						addAttacker(allAttackers,
-						  sf::Vector2f());  // this should be called with game clock
+						addAttacker(allAttackers,landList[tempLandIndex]->getPositionofLand());
 					}
+				default:break;
 			}
 		}
 		//
@@ -270,7 +257,7 @@ int Game::run(RenderWindow &renderWindow) {
 
 
 		// Checks to see if you clicked a inventory dog.
-		if (Mouse::isButtonPressed(sf::Mouse::Left)) {
+		if (Mouse::isButtonPressed(Mouse::Left)) {
 			Vector2i mousePressPosition = Mouse::getPosition(renderWindow);
 			for (int i = 0; i < 2; i++) {
 				Sprite InvenSp = InvenList[i]->getSprite();
@@ -278,7 +265,7 @@ int Game::run(RenderWindow &renderWindow) {
 				      mousePressPosition.y))  // if the range of a inventory contain
 				                              // the position of mouse
 				{
-					if (!muteSfx && click.getStatus() != sf::Sound::Playing)
+					if (!muteSfx && click.getStatus() != Sound::Playing)
 						click.play();
 					if (towerInStore > 0) {
 						nInvenselected = i;  // the selected Inventory is i
@@ -289,7 +276,7 @@ int Game::run(RenderWindow &renderWindow) {
 		}
 
 		// Checks where you clicked to select a grid slot to place tower.
-		if (Mouse::isButtonPressed(sf::Mouse::Left)
+		if (Mouse::isButtonPressed(Mouse::Left)
 		    && nInvenselected != -1)  // mouse event
 		{
 			Vector2i mouseRepostion = Mouse::getPosition(
@@ -304,7 +291,7 @@ int Game::run(RenderWindow &renderWindow) {
 				      mouseRepostion
 				        .y))  // if the range of land contain the position of mouse
 				{
-					if (!muteSfx && click.getStatus() != sf::Sound::Playing)
+					if (!muteSfx && click.getStatus() != Sound::Playing)
 						click.play();
 					nSelected = i;  // the selected land is i
 					break;
@@ -363,16 +350,10 @@ int Game::run(RenderWindow &renderWindow) {
 							      builtDefenderList[i]->getGlobalBounds())) {
 								// allAttackers[l]->setDirection(TWR);
 								// builtDefenderList[i]->hurt(*(allAttackers[l]));
-
 								allAttackers[l]->hurt(*(builtDefenderList[i]));
-								cout << builtDefenderList[i]->getHealth() << endl;
-								cout << "HITTEM!! "
-								     << "THE DOG HP IS NOW "
-								     << builtDefenderList[i]->getHealth() << endl;
 							}
 						}
 					}
-					cout << "End of fire" << endl;
 				}
 			}
 

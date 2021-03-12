@@ -12,10 +12,9 @@ using namespace sf;
 
 static const string bulSpritePath = "assets/bul.png";
 static const string catSpritePath = "assets/cat1.png";
-static const string towerSpritePath = "assets/tower.png";
-static const string dogeTower = "assets/doge.png";
-static const string landSpritePath = "assets/grass.jpeg";
-static const string landSpritePath2 = "assets/grass2.jpeg";
+static const string towerSpritePath = "assets/doge.png";
+static const string landSpritePath = "assets/grass.jpg";
+static const string landSpritePath2 = "assets/grass2.jpg";
 
 
 static const unsigned WINDOW_WIDTH = 1280;

@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED 17)
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 FILE(GLOB AllSource src/*.*pp)
 include_directories(src assets)
-add_executable(GroupProject main.cpp ${AllSource})
+add_executable(GroupProject ${AllSource})
 target_link_libraries(GroupProject sfml-graphics sfml-audio)
 

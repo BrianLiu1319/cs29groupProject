@@ -1,7 +1,7 @@
 #include "Inventory.hpp"
 
 Inventory::Inventory(Vector2f pt, int co) {
-	string path = "invr.jpeg";
+	string path = "assets/inv.png";
 	width = 54;
 	height = 54;
 
