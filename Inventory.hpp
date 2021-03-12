@@ -7,7 +7,6 @@
 using namespace sf;
 using namespace std;
 class Inventory {
-
 	int width;
 	int height;
 	Vector2f position;

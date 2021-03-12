@@ -49,23 +49,13 @@ void Collider::updateObject() {
 	*/
 }
 
-/*
-void Bullet::hurt(Collider &other) {
-        cout << "Bullet OUCH" << endl;
-//	other.hurt(*this);
-}
-void Attacker::hurt(Collider &other) {
-
-        // if (health == 0 ) dead
-}*/
-
 void addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vector2f loc) {
-	auto temp = new Attacker(attackerText,loc);
+	auto temp = new Attacker(attackerText, loc);
 	attackers.push_back(temp);
 }
 
 void er(vector<Defender *> &towers, const Texture &defText, Vector2f loc) {
-	auto temp = new Defender(defText,loc);
+	auto temp = new Defender(defText, loc);
 	towers.push_back(temp);
 }
 
@@ -98,8 +88,8 @@ AllTextures::AllTextures() {
 Land::Land(int num, Vector2f o, AllTextures *texture) {
 	if ((num + 1) % 2 == 0) {
 		spLand.setTexture(texture->getLand());
-	}else
-	spLand.setTexture(texture->getLand2());
+	} else
+		spLand.setTexture(texture->getLand2());
 	spLand.setPosition(o);
 	spLand.setOrigin(image.getSize().x / 2.0f, image.getSize().y / 2.0f);
 	spLand.setTextureRect(IntRect(0, 0, 77, 94));
@@ -107,8 +97,7 @@ Land::Land(int num, Vector2f o, AllTextures *texture) {
 	// spLand.setScale(Vector2f(0.5, 0.5));
 }
 Vector2f Land::getPositionofLand() {
-	auto offset = Vector2f({spLand.getLocalBounds().width / 2, spLand.getLocalBounds().height / 2 });
+	auto offset = Vector2f({spLand.getLocalBounds().width / 2, spLand.getLocalBounds().height / 2});
 	auto temp = spLand.getPosition() + offset;
 	return temp;
 }
-

@@ -207,9 +207,10 @@ int main() {
 			                                                             // where custom release button)
 			// that's also where user want to build a tower
 
-			for (int i = 0; i < 30; i++) { // traverse the land list
-				if (landList[i]->getSprite().getGlobalBounds().contains(mouseRepostion.x,mouseRepostion.y)){  // if the range of land contain the position of mouse
-									nSelected = i;  // the selected land is i
+			for (int i = 0; i < 30; i++) {  // traverse the land list
+				if (landList[i]->getSprite().getGlobalBounds().contains(mouseRepostion.x,
+				      mouseRepostion.y)) {  // if the range of land contain the position of mouse
+					nSelected = i;          // the selected land is i
 					break;
 				}
 			}
@@ -358,13 +359,13 @@ void checkCollision(vector<Attacker *> &attackers, vector<Bullet *> &bullets, ve
 // testing purposes.
 /*
 vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *texture) {
-	vector<Defender *> towerList = {};
-	Vector2f temp;
-	for (int i = 0; i < 30; i++) {
-		Defender *aInven = new Defender(texture->getTower(), landList[i]->getPositionofLand());
-		towerList.push_back(aInven);
-	}
-	return towerList;
+    vector<Defender *> towerList = {};
+    Vector2f temp;
+    for (int i = 0; i < 30; i++) {
+        Defender *aInven = new Defender(texture->getTower(), landList[i]->getPositionofLand());
+        towerList.push_back(aInven);
+    }
+    return towerList;
 }
 */
 
