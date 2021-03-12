@@ -1,37 +1,89 @@
-#include "Collider.h"
-#include "SFML/Graphics.hpp"
-#include "iostream"
-using namespace std;
+#include "Collider.hpp"
 
-Collider::Collider(sf::RectangleShape& body) 
-    : body(body)
-{
+#include <SFML/Graphics/Texture.hpp>
+#include <iostream>
 
+const short BULLET_OFFSET = 5;  // change this for number for bullet spawn location
+
+Collider::Collider(const Texture &textureTemp,
+  DIRECTION direction,
+  Vector2f positionOfObj,
+  int objHealth,
+  float objSpeed) {
+	speed = objSpeed;
+	health = objHealth;
+	setTexture(textureTemp);
+
+	Vector2f origin(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f);
+	setOrigin(origin);
+	defaultDirection = direction;
+	setPosition(positionOfObj.x, positionOfObj.y);
+	// Resize(20.0f, 20.0f); // Problem: Need to work on scaling the sprite
+	// somehow.
 }
 
-Collider::~Collider()
-{
-
+void Collider::autoTravel(DIRECTION direction) {
+	if (direction == RIGHT)
+		this->move(((0.1f) * speed), 0.0f);
+	else if (direction == LEFT)
+		this->move(((-0.1f) * speed), 0.0f);
 }
 
-bool Collider :: CheckCollision(Collider other)
-{
+void Collider::hurt(Collider &other) {
+	cout << "Health Before :" << other.health << endl;
+	other.health -= health;
+	cout << "Health After :" << other.health << endl;
+	// if (health == other.health) other.health = 0; Removed since it took enemies
+	// out early.
+}
 
-    sf::Vector2f otherPosition = other.getPosition();
-    sf::Vector2f otherHalfSize = other.getHalfSize();
-    sf::Vector2f thisPosition = getPosition();
-    sf::Vector2f thisHalfSize = getHalfSize();
-  
+void Collider::updateObject() {
+	this->animate();
+	if (defaultDirection == LEFT)
+		autoTravel(LEFT);
+	else if (defaultDirection == RIGHT)
+		autoTravel(RIGHT);
+	/*
+	        if ((dynamic_cast<Attacker*>(this)) != nullptr) autoTravel(LEFT);
+	        else if ((dynamic_cast<Bullet*>(this)) != nullptr) autoTravel(RIGHT);
+	*/
+}
 
-    float deltaX = otherPosition.x - thisPosition.x;
-    float deltaY = otherPosition.y - thisPosition.y;
-    float intersectX = abs(deltaX) - (otherHalfSize.x + thisHalfSize.x);
-    float intersectY = abs(deltaY) - (otherHalfSize.y + thisHalfSize.y);
-    
-    if (intersectX < 0.0f && intersectY < 0.0f)
-    {
-        return true;
-    }
+/*
+void Bullet::hurt(Collider &other) {
+        cout << "Bullet OUCH" << endl;
+//	other.hurt(*this);
+}
+void Attacker::hurt(Collider &other) {
 
-    return false;
+        // if (health == 0 ) dead
+}*/
+
+void addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vector2f loc) {
+	auto temp = new Attacker(attackerText,loc);
+	attackers.push_back(temp);
+}
+
+void addTower(vector<Defender *> &towers, const Texture &defText, Vector2f loc) {
+	auto temp = new Defender(defText,loc);
+	towers.push_back(temp);
+}
+
+void Defender::fire(vector<Bullet *> &bulletsList, const Texture &bulletTextrue) {
+	auto point = this->getPosition();
+	point.y += BULLET_OFFSET;  // offset for bullet
+	auto *temp = new Bullet(bulletTextrue, point);
+	bulletsList.push_back(temp);
+}
+
+AllTextures::AllTextures() {
+	auto b = new Texture;
+	b->loadFromFile(bulSpritePath);
+	auto t = new Texture;
+	t->loadFromFile(towerSpritePath);
+	auto a = new Texture;
+	a->loadFromFile(catSpritePath);
+	bullet = b;
+	tower = t;
+	attacker = a;
 }

@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.17)
+project(GroupProject)
+add_compile_options(-Wall -Wextra -pedantic)
+set(CMAKE_CXX_STANDARD_REQUIRED 17)
+find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
+FILE(GLOB AllSource *.*pp)
+add_executable(GroupProject main.cpp ${AllSource})
+target_link_libraries(GroupProject sfml-graphics sfml-audio)
