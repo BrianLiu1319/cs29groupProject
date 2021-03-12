@@ -55,7 +55,7 @@ public:
 class Bullet : public Collider {
 public:
 	Bullet(const Texture &temp, Vector2f loc) : Collider(temp, RIGHT, loc, 25) {
-		scale(0.1, 0.1);
+		scale(0.05, 0.05);
 		speed = 15;
 	}
 };

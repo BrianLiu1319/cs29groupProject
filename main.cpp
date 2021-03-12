@@ -45,7 +45,6 @@ vector<Inventory *> generateInvenList() {
 }
 
 
-
 // this function cauculate how many towers we could build. Currently I just set
 // it to just return 1, since I haven't made the cost yet.
 int howManyTower(int money) {
@@ -77,7 +76,7 @@ void fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList, AllTex
 		// Bullet mBullet = Bullet(t.getPosition()); //
 		// addBullet(bulletList, mBullet);// push a bullet into list, but we need to
 		// add a specific bullet... addBullet(bulletList);
-		t.fire(bulletList,texture->getBullet());
+		t.fire(bulletList, texture->getBullet());
 		// Now we need to add a bullet with specific spot based on the tower
 		// position...
 	}
@@ -88,15 +87,15 @@ void fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList, AllTex
 // this function draw all the towers which we have alrady built. Currently we
 // don't need this, only for testing purposes.
 void drawBuiltDefender(vector<Defender *> builtTowerList) {
-	for (int i = 0; i < builtTowerList.size(); i++) {
-		renderWindow.draw(*builtTowerList[i]);  ////////// work on this!!!
+	for (auto item : builtTowerList) {
+		renderWindow.draw(*item);  ////////// work on this!!!
 	}
 }
 
 // This function define a textview that shows the how much money user has.
-void showMoney(int money) {
+void showMoney(int val) {
 	Text showMoney;
-	string show = "Money:  " + to_string(money);
+	string show = "Money:  " + to_string(val);
 	showMoney.setFont(font1);
 	showMoney.setFillColor(Color::Red);
 	showMoney.setString(show);
@@ -134,10 +133,10 @@ int main() {
 	vector<Defender *> allDefenders = {};       // List of all defenders. Could implement this in the future.
 	vector<Defender *> builtDefenderList = {};  // Have a seperate list for built Towers to differentiate.
 
-	int nInvenselected = -1;          // This int is a counter; represent the Inventory
-	                                  // user selected; if user didnt select; it is -1;
-	InvenList = generateInvenList();  // creat the Inventory list
-	landList = genrateLandList(&myTextures);     // creat land list
+	int nInvenselected = -1;                  // This int is a counter; represent the Inventory
+	                                          // user selected; if user didnt select; it is -1;
+	InvenList = generateInvenList();          // creat the Inventory list
+	landList = genrateLandList(&myTextures);  // creat land list
 
 	// allDefenders = generateTowerList(landList);	// creat towerList, maybe
 	// this can be of use?
@@ -166,9 +165,11 @@ int main() {
 					if (Keyboard::isKeyPressed(Keyboard::M)) {
 						tempLandIndex = rand() % 30;
 						landTempVec = landList[tempLandIndex]->getPositionofLand();
-						addAttacker(allAttackers,myTextures.getAttacker(),landTempVec);  // this should be called with game clock
+						addAttacker(allAttackers,
+						  myTextures.getAttacker(),
+						  landTempVec);  // this should be called with game clock
 					}
-				default:break;
+				default: break;
 			}
 		}
 		//
@@ -246,7 +247,7 @@ int main() {
 		// Fires every 1 second a bullet. Currently, the fire function creates
 		// bullets in the same spot PROBLEM: Makes bullets position in it's
 		// constructor take the vector of Tower.
-		if (builtDefenderList.size() > 0)  // If the number of towers that have been built is not zero, we fire
+		if (!builtDefenderList.empty())  // If the number of towers that have been built is not zero, we fire
 		{
 			for (int i = 0; i < builtDefenderList.size(); i++) {
 				pDefenderHolder = builtDefenderList[i];
@@ -363,7 +364,7 @@ vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *textu
 	vector<Defender *> towerList = {};
 	Vector2f temp;
 	for (int i = 0; i < 30; i++) {
-		Defender *aInven = new Defender(texture->getTower(),landList[i]->getPositionofLand());
+		Defender *aInven = new Defender(texture->getTower(), landList[i]->getPositionofLand());
 		towerList.push_back(aInven);
 	}
 	return towerList;
@@ -372,11 +373,10 @@ vector<Defender *> generateTowerList(vector<Land *> landList, AllTextures *textu
 // Take a selected land and build the tower on this land. Return the pointer of
 // this tower PROBLEM: Issue is dynanmic memory. We need to delete this after!!!
 Defender *defenderBuild(Land *aLand, AllTextures *texture) {
-	Vector2f temp= aLand->getSprite().getOrigin();
-	auto *aDefender = new Defender(texture->getTower(),temp);
+	Vector2f temp = aLand->getSprite().getOrigin();
+	auto *aDefender = new Defender(texture->getTower(), temp);
 	return aDefender;
 }
-
 
 // Generate the land list to build grid(map);
 vector<Land *> genrateLandList(AllTextures *texture) {
