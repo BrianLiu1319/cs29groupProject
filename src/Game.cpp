@@ -54,7 +54,8 @@ void Game::showMoney(int money, RenderWindow &renderWindow) {
 	showMoney.setFont(font1);
 	showMoney.setFillColor(Color::Red);
 	showMoney.setString(show);
-	showMoney.setPosition(renderWindow.getSize().x - showMoney.getLocalBounds().width, 50);
+	showMoney.setPosition(renderWindow.getSize().x - showMoney.getLocalBounds().width,
+	  renderWindow.getSize().y - showMoney.getLocalBounds().height);
 	showMoney.setCharacterSize(20);
 	showMoney.setStyle(Text::Regular);
 	renderWindow.draw(showMoney);

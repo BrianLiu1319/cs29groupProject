@@ -69,7 +69,7 @@ HowToPlay::HowToPlay(sf::Vector2f windowSize) : Menu(windowSize) {
 Sets the texture and inverse
  texture of the next button.
 *********************************/
-void HowToPlay::setNextTexture(std::string path, std::string pathInv) {
+void HowToPlay::setNextTexture(const std::string &path, const std::string &pathInv) {
 	if (!nextTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!nextTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
@@ -80,7 +80,7 @@ void HowToPlay::setNextTexture(std::string path, std::string pathInv) {
 Sets the texture and inverse
  texture of the prev button.
 *********************************/
-void HowToPlay::setPrevTexture(std::string path, std::string pathInv) {
+void HowToPlay::setPrevTexture(const std::string &path, const std::string &pathInv) {
 	if (!prevTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!prevTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
@@ -91,7 +91,7 @@ void HowToPlay::setPrevTexture(std::string path, std::string pathInv) {
 Sets the texture and inverse
  texture of the back button.
 *********************************/
-void HowToPlay::setBackTexture(std::string path, std::string pathInv) {
+void HowToPlay::setBackTexture(const std::string &path, const std::string &pathInv) {
 	if (!backTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!backTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 

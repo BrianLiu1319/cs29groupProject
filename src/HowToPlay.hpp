@@ -31,9 +31,9 @@ private:
 
 public:
 	HowToPlay(sf::Vector2f windowSize);
-	void setNextTexture(std::string path, std::string pathInv);
-	void setPrevTexture(std::string path, std::string pathInv);
-	void setBackTexture(std::string path, std::string pathInv);
+	void setNextTexture(const std::string &path, const std::string &pathInv);
+	void setPrevTexture(const std::string &path, const std::string &pathInv);
+	void setBackTexture(const std::string &path, const std::string &pathInv);
 	int run(sf::Vector2f mousePos);
 };
 

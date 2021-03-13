@@ -11,7 +11,9 @@ using namespace sf;
 
 static const unsigned WINDOW_WIDTH = 1280;
 static const unsigned WINDOW_HEIGHT = 720;
-
+/**
+ * @enum DIRECTION = LEFT RIGHT TOWER
+ */
 enum DIRECTION { LEFT, RIGHT, TWR };
 
 /// @brief
@@ -67,13 +69,13 @@ public:
 };
 
 /**
- * @brief Attacker derived from Collider
+ * @brief Attacker class derived from collider
  */
 class Attacker : public Collider {
 public:
 	//	void hurt(Collider &other) override;
-	Attacker(const Texture &catTexture, Vector2f loc) :
-	    Collider(catTexture, LEFT, {WINDOW_WIDTH+10, loc.y}, 100, 10.0f) {
+	Attacker(const Texture &catTexture, Vector2f location) :
+	    Collider(catTexture, LEFT, {WINDOW_WIDTH + 10, location.y}, 100, 10.0f) {
 		scale(0.5, 0.5);
 	};
 };
@@ -141,6 +143,7 @@ class Land {
 	bool empty;
 	Texture image;
 	Sprite spLand;
+
 public:
 	/**
 	 * @brief Land Constructor
