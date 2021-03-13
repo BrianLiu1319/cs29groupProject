@@ -38,7 +38,7 @@ Credits::Credits(sf::Vector2f windowSize) : Menu(windowSize) {
 Sets the texture and inverse
  texture of the back button.
 *********************************/
-void Credits::setBackTexture(std::string path, std::string pathInv) {
+void Credits::setBackTexture(const std::string &path, const std::string &pathInv) {
 	if (!backTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!backTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 

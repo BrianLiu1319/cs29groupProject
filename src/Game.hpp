@@ -4,6 +4,7 @@
 #include "Inventory.hpp"
 #include "Menu.hpp"
 #include "SFML/Graphics.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -29,7 +30,10 @@ class Game : public Menu {
 	bool gameOver = false;
 	bool muteSfx = false;
 	void addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vector2f loc);
-	void addDefender(vector<Defender *> &towers, const Texture &towerTexture, Vector2f loc);
+	void addDefender(vector<Defender *> &towers,
+	  const Texture &towerTexture,
+	  Vector2f loc,
+	  unsigned level);
 	void gameClock(RenderWindow &window, vector<Collider *> &things);
 	void checkCollision(vector<Attacker *> &attackers,
 	  vector<Bullet *> &bullets,
@@ -38,7 +42,7 @@ class Game : public Menu {
 	void showMoney(int money, RenderWindow &renderWindow);
 
 public:
-	Game(Vector2f windowSize);
+	explicit Game(Vector2f windowSize);
 	~Game() override;
 	int run(RenderWindow &renderWindow);
 	unsigned int getScore() const { return score; }

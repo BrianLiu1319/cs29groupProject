@@ -19,7 +19,7 @@ private:
 
 public:
 	Credits(sf::Vector2f windowSize);
-	void setBackTexture(std::string path, std::string pathInv);
+	void setBackTexture(const std::string &path, const std::string &pathInv);
 	int run(sf::Vector2f mousePos);
 };
 
