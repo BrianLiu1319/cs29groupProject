@@ -9,7 +9,7 @@ Game::Game(Vector2f windowSize) : Menu(windowSize) {
 	}
 }
 
-vector<Land *> Game::genrateLandList() {
+vector<Land *> Game::generateLandList() {
 	vector<Land *> landList = {};
 	Vector2f tempPosition;
 	float x = 50;
@@ -17,7 +17,7 @@ vector<Land *> Game::genrateLandList() {
 	for (int i = 0; i < 60; i++) {
 		tempPosition.x = x;
 		tempPosition.y = y;
-		Land *aland = new Land(i, tempPosition, &myTextures);
+		Land *aland = new Land(i, tempPosition, &allTextures);
 		landList.push_back(aland);
 		y += 94;
 
@@ -37,14 +37,14 @@ vector<Inventory *> Game::generateInvenList() {
 	float x = 50;
 	float y = 600;
 	for (int i = 0; i < 2; i++) {
-		auto aInven = new Inventory({x,y}, i);
+		auto aInven = new Inventory({x, y}, i, &allTextures);
 		InvenList.push_back(aInven);
 		x += 60;
 	}
 	return InvenList;
 }
 
-// this function cauculate how many towers we could build. Currently I just set it to
+// this function calculate how many towers we could build. Currently I just set it to
 // just return 1, since I haven't made the cost yet.
 // PROBLEM TO FIX: Add a Cost to the Defender class and replace this
 int Game::howManyTower(int money) { // function with a defender instead of tower.
@@ -59,11 +59,12 @@ int Game::howManyTower(int money) { // function with a defender instead of tower
 
 
 // Take a selected land and build the tower on this land. Return the pointer of this
-// tower PROBLEM: Issue is dynanmic memory. We need to delete this after!!!
+// tower PROBLEM: Issue is dynamic memory. We need to delete this after!!!
 Defender *Game::defenderBuild(Land *aLand) {
-	auto aDefender = new Defender(myTextures.getTower(), aLand->getPositionofLand());
+	auto aDefender = new Defender(allTextures.getTower(), aLand->getPositionofLand());
 	return aDefender;
 }
+/*
 
 // Fire function with the defender class. Responsible for creating new Bullets and
 // put them in the Bullet Vector. PROBLEM: Bullet still needs to take a position
@@ -78,7 +79,7 @@ void Game::fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList) 
 		// Bullet mBullet = Bullet(t.getPosition()); //
 		// addBullet(bulletList, mBullet);// push a bullet into list, but we need to
 		// add a specific bullet... addBullet(bulletList);
-		auto *temp = new Bullet(myTextures.getBullet(),fireTower->getPosition());
+		auto *temp = new Bullet(allTextures.getBullet(),fireTower->getPosition());
 		bulletList.push_back(temp);
 
 		// Now we need to add a bullet with specific spot based on the tower
@@ -86,6 +87,7 @@ void Game::fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList) 
 	}
 	// Vector2f pt = aBullet.getSp()->getPosition();
 }
+*/
 
 
 // This function define a textview that shows the how much money user has.
@@ -130,7 +132,6 @@ void Game::gameClock(RenderWindow &window, vector<Collider *> &things) {
 void Game::checkCollision(vector<Attacker *> &attackers,
   vector<Bullet *> &bullets,
   vector<Defender *> &defenders) {
-	// Add a temp to all the vectors to ensure never crash!
 	if (attackers.empty()) { return; }
 	for (unsigned int j = 0; j < attackers.size(); j++) {
 		for (unsigned int i = 0; i < bullets.size(); i++) {
@@ -148,12 +149,11 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 
 		if (attackers.empty()) { return; }
 
-		// DEFNDER GONE STOPS RUNNING
+		// DEFENDER GONE STOPS RUNNING
 		for (unsigned int k = 0; k < defenders.size(); k++) {
 			if (defenders.empty()) break;
 			if (attackers[j]->getGlobalBounds().intersects(
 			      defenders[k]->getGlobalBounds())) {
-				cout << "Cmere" << endl;
 				attackers[j]->setDirection(TWR);
 				if (defenders[k]->getHealth() <= 0) {
 					// iterate through all attackers again//
@@ -172,21 +172,13 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 }
 
 int Game::run(RenderWindow &renderWindow) {
-	// RenderWindow renderWindow(VideoMode(1000, 1000), "Dogs vs Cats");
-
 	gameOver = false;
 	score = 0;
-
-	Texture textureOfObject;
-	textureOfObject.loadFromFile("assets/bul.png");
-	// textureOfObject
-	// renderWindow.setVerticalSyncEnabled(true);
+	renderWindow.setVerticalSyncEnabled(true);
 	renderWindow.setFramerateLimit(60);
-	if (!font1.loadFromFile("assets/Font1.ttf")) cout << "erro " << endl;
-
+	if (!font1.loadFromFile("assets/Font1.ttf")) cerr << "error loading font " << endl;
 	int towerInStore = 2;
 	auto *clock = new Clock();
-
 	// Land and Inventory Vectors
 	vector<Land *> landList;  // vector to store the land, you can think this vector
 	                          // is the grass grid!
@@ -202,34 +194,28 @@ int Game::run(RenderWindow &renderWindow) {
 	vector<Bullet *> allBullets = {};
 	vector<Attacker *> allAttackers = {};
 	// List of all defenders. Could implement this in the future.
-	vector<Defender *> allDefenders = {};
-	// Have a seperate list for built Towers to differentiate.
+	// Have a separate list for built Towers to differentiate.
 	vector<Defender *> builtDefenderList = {};
 
 	int nInvenselected = -1;  // This int is a counter; represent the Inventory user
-	                          // selected; if user didnt select; it is -1;
-	InvenList = generateInvenList();  // creat the Inventory list
-	landList = genrateLandList();     // creat land list
+	                          // selected; if user didn't select; it is -1;
+	InvenList = generateInvenList();  // create the Inventory list
+	landList = generateLandList();     // create land list
 
-	// allDefenders = generateTowerList(landList);    // creat towerList, maybe this
+	// allDefenders = generateTowerList(landList);    // create towerList, maybe this
 	// can be of use?
 
-	// Line to use for seperating space between inventory and grid? Unsure
+	// Line to use for separating space between inventory and grid? Unsure
 	Vertex line[]
 	  = {Vertex(Vector2f(0, 0)), Vertex(Vector2f(500, 500))};
 
-	line->color = Color();
+	line->color = Color::White;
 
 	// int counter used for selection.
 	int nSelected = -1;
 
-	// Temp values used in the main.
-
-	// Tower* pTower = NULL;
-	// Tower* pTowerHolder = NULL;
-	Defender *tempDefender = NULL;
-	Defender *pDefenderHolder = NULL;
-	int tempLandIndex;
+	Defender *tempDefender = nullptr;
+	Defender *pDefenderHolder = nullptr;
 
 	while (!gameOver && renderWindow.isOpen()) {
 		while (renderWindow.pollEvent(event)) {
@@ -237,8 +223,8 @@ int Game::run(RenderWindow &renderWindow) {
 				case Event::Closed: renderWindow.close(); break;
 				case Event::KeyPressed:
 					if (Keyboard::isKeyPressed(Keyboard::M)) {
-						tempLandIndex = rand() % 60;
-						addAttacker(allAttackers,landList[tempLandIndex]->getPositionofLand());
+						auto tempLandIndex = rand() % 60;
+						addAttacker(allAttackers,allTextures.getAttacker(),landList[tempLandIndex]->getPositionofLand());
 					}
 				default:break;
 			}
@@ -279,7 +265,7 @@ int Game::run(RenderWindow &renderWindow) {
 		if (Mouse::isButtonPressed(Mouse::Left)
 		    && nInvenselected != -1)  // mouse event
 		{
-			Vector2i mouseRepostion = Mouse::getPosition(
+			Vector2i mousePostion = Mouse::getPosition(
 			  renderWindow);  // get the relative position of mouse (get where custom
 			                  // release button)
 			// that's also where user want to build a tower
@@ -287,8 +273,8 @@ int Game::run(RenderWindow &renderWindow) {
 			for (int i = 0; i < 60; i++)  // traverse the land list
 			{
 				Sprite landSprit = landList[i]->getSprite();
-				if (landSprit.getGlobalBounds().contains(mouseRepostion.x,
-				      mouseRepostion
+				if (landSprit.getGlobalBounds().contains(mousePostion.x,
+				      mousePostion
 				        .y))  // if the range of land contain the position of mouse
 				{
 					if (!muteSfx && click.getStatus() != Sound::Playing)
@@ -309,7 +295,7 @@ int Game::run(RenderWindow &renderWindow) {
 			if (landList[nSelected]->getEmpty()) {
 				landList[nSelected]->setEmpty(
 				  false);  // set the empty of a land to false, prevent from being
-				           // repeatly use
+				           // repeatedly use
 				builtDefenderList.push_back(tempDefender);
 
 				// money -= towerList[nSelected]->getCost();        // user' money
@@ -340,7 +326,7 @@ int Game::run(RenderWindow &renderWindow) {
 					if (clock->getElapsedTime().asMilliseconds()
 					    >= 2000) {  // if time > = 5 sec // Time constraint, ho
 
-						auto *temp = new Bullet(textureOfObject,
+						auto *temp = new Bullet(allTextures.getBullet(),
 						  pDefenderHolder->getPosition());
 						allBullets.push_back(temp);
 
@@ -377,10 +363,16 @@ int Game::run(RenderWindow &renderWindow) {
 
 	return 0;
 }
-
-void Game::addAttacker(vector<Attacker *> &attackers, Vector2f loc) {
-	auto *temp = new Attacker(myTextures.getAttacker(),loc);
+void Game::addAttacker(vector<Attacker *> &attackers,
+                 const Texture &attackerText,
+                 Vector2f loc) {
+	auto temp = new Attacker(attackerText, loc);
 	attackers.push_back(temp);
+}
+
+void Game::addDefender(vector<Defender *> &towers, const Texture &towerTexture, Vector2f loc) {
+	auto temp = new Defender(towerTexture, loc);
+	towers.push_back(temp);
 }
 
 void Game::toggleMuteSfx() {
@@ -390,3 +382,4 @@ void Game::toggleMuteSfx() {
 		muteSfx = true;
 	}
 }
+

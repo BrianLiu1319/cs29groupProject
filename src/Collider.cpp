@@ -1,8 +1,5 @@
 #include "Collider.hpp"
 
-#include <SFML/Graphics/Texture.hpp>
-#include <iostream>
-
 const short BULLET_OFFSET = 5;  // change this for number for bullet spawn location
 
 Collider::Collider(const Texture &textureTemp,
@@ -45,18 +42,6 @@ void Collider::updateObject() {
 		autoTravel(RIGHT);
 }
 
-void addAttacker(vector<Attacker *> &attackers,
-  const Texture &attackerText,
-  Vector2f loc) {
-	auto temp = new Attacker(attackerText, loc);
-	attackers.push_back(temp);
-}
-
-void addDefender(vector<Defender *> &towers, const Texture &defText, Vector2f loc) {
-	auto temp = new Defender(defText, loc);
-	towers.push_back(temp);
-}
-
 void Defender::fire(vector<Bullet *> &bulletsList, const Texture &bulletTextrue) {
 	auto point = this->getPosition();
 	point.y += BULLET_OFFSET;  // offset for bullet
@@ -75,12 +60,15 @@ AllTextures::AllTextures() {
 	l->loadFromFile(landSpritePath);
 	auto l2 = new Texture;
 	l2->loadFromFile(landSpritePath2);
+	auto in = new Texture;
+	in->loadFromFile(inventoryPath);
 
 	bullet = b;
 	tower = t;
 	attacker = a;
 	land = l;
 	land2 = l2;
+	inv = in;
 }
 
 Land::Land(int num, Vector2f o, AllTextures *texture) {
@@ -100,3 +88,4 @@ Vector2f Land::getPositionofLand() {
 	auto temp = spLand.getPosition() + offset;
 	return temp;
 }
+

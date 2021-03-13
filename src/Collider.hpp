@@ -5,16 +5,11 @@
 #include "SFML/System/Time.hpp"
 #include "SFML/System/Vector2.hpp"
 
-#include <ostream>
+#include <iostream>
 
 using namespace std;
 using namespace sf;
 
-static const string bulSpritePath = "assets/bul.png";
-static const string catSpritePath = "assets/cat1.png";
-static const string towerSpritePath = "assets/doge.png";
-static const string landSpritePath = "assets/grass.jpg";
-static const string landSpritePath2 = "assets/grass2.jpg";
 
 
 static const unsigned WINDOW_WIDTH = 1280;
@@ -75,11 +70,18 @@ public:
 };
 
 class AllTextures {
+	const string bulSpritePath = "assets/bul.png";
+	const string catSpritePath = "assets/cat1.png";
+	const string towerSpritePath = "assets/doge.png";
+	const string landSpritePath = "assets/grass.jpg";
+	const string landSpritePath2 = "assets/grass2.jpg";
+	const string inventoryPath = "assets/inv.png";
 	Texture *bullet;
 	Texture *tower;
 	Texture *attacker;
 	Texture *land;
 	Texture *land2;
+	Texture *inv;
 
 public:
 	AllTextures();
@@ -89,12 +91,14 @@ public:
 		delete attacker;
 		delete land;
 		delete land2;
+		delete inv;
 	}
 	Texture &getBullet() const { return *bullet; }
 	Texture &getTower() const { return *tower; }
 	Texture &getAttacker() const { return *attacker; }
 	Texture &getLand() const { return *land; }
 	Texture &getLand2() const { return *land2; }
+	Texture &getInv() const { return *inv; }
 };
 
 
@@ -110,4 +114,8 @@ public:
 	void setEmpty(bool em) { empty = em; }
 	bool getEmpty() const { return empty; }
 };
+
+
+
+
 #endif

@@ -32,14 +32,11 @@
 *.app
  
 # Prerequisites
-*.d
 *.cbp
 CMakeCache.txt
 cmake_install.cmake
 # Object files
-*.o
 *.ko
-*.obj
 *.elf
 
 # Linker output
@@ -48,25 +45,13 @@ cmake_install.cmake
 *.exp
 
 # Precompiled Headers
-*.gch
-*.pch
 
 # Libraries
-*.lib
-*.a
-*.la
-*.lo
 
 # Shared objects (inc. Windows DLLs)
-*.dll
-*.so
 *.so.*
-*.dylib
 
 # Executables
-*.exe
-*.out
-*.app
 *.i*86
 *.x86_64
 *.hex
@@ -377,12 +362,9 @@ MigrationBackup/
 /.idea/workspace.xml
 ### C++ template
 # Compiled Object files
-*.slo
 # Compiled Dynamic libraries
 # Fortran module files
-*.mod
 # Compiled Static libraries
-*.lai
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
