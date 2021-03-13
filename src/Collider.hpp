@@ -132,13 +132,23 @@ public:
 	Texture &getInv() const { return *inv; }
 };
 
-
+/**
+ * @brief Land object
+ * @var bool empty = bool tells if empty
+ * @var Texture image = Texture of the object
+ * @var Sprite spLand Sprite of the object
+ */
 class Land {
 	bool empty;
 	Texture image;
 	Sprite spLand;
-
 public:
+	/**
+	 * @brief Land Constructor
+	 * @param num = type of grid
+	 * @param point = coordinate of sf::Vector<2f>(x,y)
+	 * @param texture = Pointer to Alltextures obj
+	 */
 	Land(int num, Vector2f point, AllTextures *texture);
 	Sprite getSprite() { return spLand; }
 	Vector2f getPositionofLand();
