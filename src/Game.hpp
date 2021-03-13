@@ -46,7 +46,6 @@ public:
 	int run(RenderWindow &renderWindow);
 	unsigned int getScore() const { return score; }
 	void toggleMuteSfx() override;
-	void cleanUp();
 };
 
 #endif /* Game_hpp */

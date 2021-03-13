@@ -90,8 +90,15 @@ public:
 	};
 };
 
+
 /**
- * @brief
+ * @brief All texture object that holds textures
+ * @param const string bulSpritePath
+ * @param const string catSpritePath
+ * @param const string towerSpritePath
+ * @param const string landSpritePath
+ * @param const string landSpritePath2
+ * @param const string inventoryPath
  */
 class AllTextures {
 	const string bulSpritePath = "assets/bul.png";
@@ -132,7 +139,7 @@ class Land {
 	Sprite spLand;
 
 public:
-	Land(int num, Vector2f o, AllTextures *texture);
+	Land(int num, Vector2f point, AllTextures *texture);
 	Sprite getSprite() { return spLand; }
 	Vector2f getPositionofLand();
 	void setEmpty(bool em) { empty = em; }

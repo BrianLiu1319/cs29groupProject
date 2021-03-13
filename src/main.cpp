@@ -113,7 +113,6 @@ int main() {
 			case playGame:
 
 				dogsVsCats.run(window);
-				menu;
 				temp.setScore(dogsVsCats.getScore());
 				highScoreEntryBox.setScoreValue(dogsVsCats.getScore());
 

@@ -136,14 +136,6 @@ void Game::toggleMuteSfx() {
 		muteSfx = true;
 	}
 }
-/*
-void Game::cleanUp() {
-	for (auto item : allAttackers) { delete item;}
-	for (auto item : allBullets) { delete item;}
-	for (auto item : allDefenders) { delete item;}
-	for (auto item : landList) { delete item;}
-	for (auto item : invenList) { delete item;}
-}*/
 
 int Game::run(RenderWindow &renderWindow) {
 	gameOver = false;
@@ -333,6 +325,7 @@ int Game::run(RenderWindow &renderWindow) {
 
 	return 0;
 }
+
 Game::~Game() {
 	for (auto item : allAttackers) { delete item;}
 	for (auto item : allBullets) { delete item;}
