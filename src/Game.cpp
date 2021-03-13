@@ -198,11 +198,17 @@
                     cout << attackers[j]->getHealth() << endl;
                     if (attackers[j]->getHealth() <= 0)
                     {
-                        attackers.erase(attackers.begin() + j);
+                        attackers.erase(attackers.begin() + j);  // Last attacker is erased, loop continues to a non existent attacker.      
+                        getOut = true;
                     }
                     bullets.erase(bullets.begin() + i);
                     break;
                 }
+            }
+            if (getOut)
+            {
+                getOut = false;
+                break;
             }
 
             if (attackers.empty())
