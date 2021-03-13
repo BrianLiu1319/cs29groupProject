@@ -38,7 +38,7 @@ class Game : public Menu {
 	vector<Inventory *> generateInvenList();
 	AllTextures allTextures {};
 
-	int howManyTower(int money);
+	int howManyTower();
 	Defender *defenderBuild(Land *aLand);
 //	void fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList);
 	void showMoney(int money, RenderWindow &renderWindow);

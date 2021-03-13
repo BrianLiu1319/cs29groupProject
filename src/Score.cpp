@@ -2,7 +2,7 @@
 
 Score::Score() : name(""), date(time(0)), score(0) {}
 
-Score::Score(std::string n, Date d, unsigned int s) : date(d), score(s) {
+Score::Score(const std::string& n, Date d, unsigned int s) : date(d), score(s) {
 	for (int i = 0; i < maxChar; i++) { name[i] = ' '; }
 	name[maxChar] = '\0';
 }

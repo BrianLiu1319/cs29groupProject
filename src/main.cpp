@@ -38,7 +38,7 @@ int main() {
 	/*********************************
 	Set up the clock
 	*********************************/
-	float deltaTime = 0.0f;
+	float deltaTime;
 	Clock clock;
 
 	// just some testing for animation I did last time:
@@ -119,7 +119,7 @@ int main() {
 			case playGame:
 
 				dogsVsCats.run(window);
-				gameState = menu;
+				menu;
 				temp.setScore(dogsVsCats.getScore());
 				highScoreEntryBox.setScoreValue(dogsVsCats.getScore());
 
@@ -130,7 +130,7 @@ int main() {
 					gameState = menu;
 				}
 
-				deltaTime = clock.restart().asSeconds();
+				clock.restart().asSeconds();
 
 
 				// insert main game here!!!!

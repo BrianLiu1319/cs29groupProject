@@ -47,7 +47,7 @@ vector<Inventory *> Game::generateInvenList() {
 // this function calculate how many towers we could build. Currently I just set it to
 // just return 1, since I haven't made the cost yet.
 // PROBLEM TO FIX: Add a Cost to the Defender class and replace this
-int Game::howManyTower(int money) { // function with a defender instead of tower.
+int Game::howManyTower() { // function with a defender instead of tower.
 	/*
 	Tower* aTower = new Tower();       // Use this as a reference and replace with
 	Defender instead. int cost = aTower->getCost(); vector<Tower*> TowerList = {};
@@ -214,8 +214,8 @@ int Game::run(RenderWindow &renderWindow) {
 	// int counter used for selection.
 	int nSelected = -1;
 
-	Defender *tempDefender = nullptr;
-	Defender *pDefenderHolder = nullptr;
+	Defender *tempDefender;
+	Defender *pDefenderHolder;
 
 	while (!gameOver && renderWindow.isOpen()) {
 		while (renderWindow.pollEvent(event)) {
@@ -308,7 +308,7 @@ int Game::run(RenderWindow &renderWindow) {
 				         // -1; To prepare for next action;
 				nSelected = -1;  // the selected land should also back to -1
 				towerInStore
-				  = howManyTower(money);  // this statement get how many tower we can
+				  = howManyTower();  // this statement get how many tower we can
 				                          // build with rest money
 			}
 		}

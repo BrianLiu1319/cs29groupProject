@@ -1,6 +1,7 @@
 #ifndef INVENTORY_HPP
 #define INVENTORY_HPP
 #include "Collider.hpp"
+
 class Inventory {
 	Sprite spInven;
 	int contain;  // if contain == 0 it's a dog, if contain is 1,this Inventory
