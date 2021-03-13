@@ -72,7 +72,6 @@ Sets the texture and inverse
 void HowToPlay::setNextTexture(const std::string &path, const std::string &pathInv) {
 	if (!nextTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!nextTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
-
 	nextButton.setTexture(&nextTexture);
 }
 
