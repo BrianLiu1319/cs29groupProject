@@ -11,8 +11,9 @@ void SettingsMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	target.draw(sfxButton);
 	target.draw(musicButton);
 	target.draw(currDifficulty);
-	target.draw(nextButton);
-	target.draw(prevButton);
+	target.draw(text);
+	if (currDifficultyLevel < numOfDifficulty - 1) target.draw(nextButton);
+	if (currDifficultyLevel > 0) target.draw(prevButton);
 }
 
 /*********************************
@@ -21,11 +22,33 @@ Constructor.
  sfx, music, and back button according
  to the window size.
 *********************************/
-SettingsMenu::SettingsMenu(sf::Vector2f windowSize) : Menu(windowSize) {
+SettingsMenu::SettingsMenu(sf::Vector2f windowSize) : Menu(windowSize), currDifficultyLevel(0) {
 	// Calculate Button sizes and positions
 	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f, windowSize.y / 1080.0f * 135.0f);
 	sf::Vector2f centerButtonPos(windowSize.x / 2.0f - buttonSize.x / 2,
 	  windowSize.y / 2.0f - buttonSize.y / 2 + buttonSize.y);
+
+	// Set Textures
+	try {
+		setBgTexture(menuBackgroundTexturePath);
+		setCreditsTexture(creditsButtonTexturePath, creditsButtonTextureInvPath);
+		setHowtoTexture(howtoButtonTexturePath, howtoButtonTextureInvPath);
+		setBackTexture(backButtonTexturePath, backButtonTextureInvPath);
+		setSfxTexture(sfxButtonPath, sfxMuteButtonPath, sfxButtonInvPath, sfxMuteButtonInvPath);
+		setMusicTexture(musicButtonPath,
+		  musicMuteButtonPath,
+		  musicButtonInvPath,
+		  musicMuteButtonInvPath);
+		setClickSound(clickSFXPath01);
+		setDifficultyTextures(difficultyPath);
+		setNextTexture(nextButtonPath, nextButtonInvPath);
+		setPrevTexture(prevButtonPath, prevButtonInvPath);
+		setFont(fontPath);
+	} catch (const std::string &fileName) {
+		std::cerr << "Unable to open the file " << fileName << std::endl;
+		std::cerr << "Location: SettingsMenu" << std::endl;
+		exit(1);
+	}
 
 	// Set Buttons
 	creditsButton.setSize(buttonSize);
@@ -36,8 +59,8 @@ SettingsMenu::SettingsMenu(sf::Vector2f windowSize) : Menu(windowSize) {
 	howtoButton.setPosition(centerButtonPos);
 	howtoButton.setOutlineThickness(buttonSize.y / 20.0f);
 	musicButton.setSize(sf::Vector2f(buttonSize.x / 2.2f, buttonSize.y));
-	// musicButton.setPosition(windowSize.x/2 - musicButton.getSize().x * 1.1f,
-	// centerButtonPos.y - musicButton.getSize().x * 1.4f);
+	// musicButton.setPosition(windowSize.x/2 - musicButton.getSize().x * 1.1f, centerButtonPos.y -
+	// musicButton.getSize().x * 1.4f);
 	musicButton.setPosition(centerButtonPos.x, centerButtonPos.y - buttonSize.y * 1.25f);
 	musicButton.setOutlineThickness(buttonSize.y / 20.0f);
 	sfxButton.setSize(sf::Vector2f(buttonSize.x / 2.2f, buttonSize.y));
@@ -58,26 +81,12 @@ SettingsMenu::SettingsMenu(sf::Vector2f windowSize) : Menu(windowSize) {
 	  centerButtonPos.y - buttonSize.y * 2.6f);
 	prevButton.setOutlineThickness(buttonSize.y / 20.0f);
 
-	// Set Textures
-	try {
-		setBgTexture(menuBackgroundTexturePath);
-		setCreditsTexture(creditsButtonTexturePath, creditsButtonTextureInvPath);
-		setHowtoTexture(howtoButtonTexturePath, howtoButtonTextureInvPath);
-		setBackTexture(backButtonTexturePath, backButtonTextureInvPath);
-		setSfxTexture(sfxButtonPath, sfxMuteButtonPath, sfxButtonInvPath, sfxMuteButtonInvPath);
-		setMusicTexture(musicButtonPath,
-		  musicMuteButtonPath,
-		  musicButtonInvPath,
-		  musicMuteButtonInvPath);
-		setClickSound(clickSFXPath01);
-		setDifficultyTextures(difficultyPath);
-		setNextTexture(nextButtonPath, nextButtonInvPath);
-		setPrevTexture(prevButtonPath, prevButtonInvPath);
-	} catch (const std::string &fileName) {
-		std::cerr << "Unable to open the file " << fileName << std::endl;
-		std::cerr << "Location: SettingsMenu" << std::endl;
-		exit(1);
-	}
+	// Set text
+	text.setCharacterSize(static_cast<unsigned int>(windowSize.y / 25));
+	text.setFillColor(sf::Color(107, 16, 16));
+	text.setPosition(currDifficulty.getPosition().x + text.getCharacterSize() * 3.3f,
+	  currDifficulty.getPosition().y - buttonSize.y / 3.0f);
+	text.setString("Set Difficulty:");
 }
 
 /*********************************
@@ -193,6 +202,8 @@ int SettingsMenu::run(sf::Vector2f mousePos) {
 	 3 - How to Play
 	 4 - Toggle Music Mute and stay in Settings Menu
 	 5 - Toggle SFX Mute and stay in Settings Menu
+	 6 - Increase Difficulty
+	 7 - Decrease Difficulty
 	 */
 	int state = 0;
 
@@ -225,9 +236,28 @@ int SettingsMenu::run(sf::Vector2f mousePos) {
 		state = 5;
 	}
 
+	// Handle actions on the next and prev buttons.
+	if (currDifficultyLevel < numOfDifficulty - 1
+	    && handleButton(nextButton, nextTexture, nextTextureInv, mousePos)) {
+		currDifficultyLevel++;
+		currDifficulty.setTexture(&difficultyLevelTextures[currDifficultyLevel]);
+		state = 6;
+	}
+
+	if (currDifficultyLevel > 0
+	    && handleButton(prevButton, prevTexture, prevTextureInv, mousePos)) {
+		currDifficultyLevel--;
+		currDifficulty.setTexture(&difficultyLevelTextures[currDifficultyLevel]);
+		state = 7;
+	}
+
 	return state;
 }
 
+
+/*********************************
+Handle actions on a sound button.
+*********************************/
 bool SettingsMenu::handleSoundButton(sf::RectangleShape &button,
   const sf::Texture &buttonTexture,
   const sf::Texture &buttonInvTexture,
@@ -236,9 +266,6 @@ bool SettingsMenu::handleSoundButton(sf::RectangleShape &button,
   const sf::Vector2f &mousePos) {
 	bool isClicked = false;
 
-	/*********************************
-	Handle actions on the sound button.
-	*********************************/
 	if (isMouseOver(mousePos, button)) {
 		/*********************************
 		When mouse is hovering over
@@ -282,4 +309,14 @@ bool SettingsMenu::handleSoundButton(sf::RectangleShape &button,
 	}
 
 	return isClicked;
+}
+
+
+/*********************************
+Sets the font for the text.
+ Throws the path of file if not found.
+*********************************/
+void SettingsMenu::setFont(std::string path) {
+	if (!textFont.loadFromFile(path.c_str())) { throw(std::string(path)); }
+	text.setFont(textFont);
 }

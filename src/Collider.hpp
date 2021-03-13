@@ -4,6 +4,7 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/System/Time.hpp"
 #include "SFML/System/Vector2.hpp"
+
 #include <iostream>
 
 using namespace std;
@@ -14,7 +15,7 @@ static const unsigned WINDOW_HEIGHT = 720;
 /**
  * @enum DIRECTION = LEFT RIGHT TOWER
  */
-enum DIRECTION { LEFT, RIGHT, TWR };
+enum struct DIRECTION { LEFT, RIGHT, TWR };
 
 /// @brief
 /// Base Class for all dynamic game objects
@@ -24,14 +25,14 @@ protected:
 	int health;
 	float speed;
 	DIRECTION defaultDirection;
-/**
- * @brief Main Constructor for Collider
- * @param texture = constant sf::Texture address
- * @param direction	= enum (LEFT,RIGHT,TWR)
- * @param coordinate = sf::Vector<2f>(x,y)
- * @param objHealth = Health of object
- * @param objSpeed = Speed of Object
- */
+	/**
+	 * @brief Main Constructor for Collider
+	 * @param texture = constant sf::Texture address
+	 * @param direction	= enum (LEFT,RIGHT,TWR)
+	 * @param coordinate = sf::Vector<2f>(x,y)
+	 * @param objHealth = Health of object
+	 * @param objSpeed = Speed of Object
+	 */
 	Collider(const Texture &texture,
 	  DIRECTION direction,
 	  Vector2f coordinate,
@@ -62,7 +63,8 @@ public:
 	 * @param temp = address of Bullet Texture
 	 * @param spawnLocation = sf::Vector<2f>(x,y) coordiantes
 	 */
-	Bullet(const Texture &temp, Vector2f spawnLocation) : Collider(temp, RIGHT, spawnLocation, 25) {
+	Bullet(const Texture &temp, Vector2f spawnLocation) :
+	    Collider(temp, DIRECTION::RIGHT, spawnLocation, 25) {
 		scale(0.05, 0.05);
 		speed = 15;
 	}
@@ -75,7 +77,7 @@ class Attacker : public Collider {
 public:
 	//	void hurt(Collider &other) override;
 	Attacker(const Texture &catTexture, Vector2f location) :
-	    Collider(catTexture, LEFT, {WINDOW_WIDTH + 10, location.y}, 100, 10.0f) {
+	    Collider(catTexture, DIRECTION::LEFT, {WINDOW_WIDTH + 10, location.y}, 100, 10.0f) {
 		scale(0.5, 0.5);
 	};
 };
@@ -84,11 +86,14 @@ public:
  * @brief Defender derived from Collider
  */
 class Defender : public Collider {
+	unsigned price = 20;
+
 public:
 	void fire(vector<Bullet *> &bulletsList, const Texture &bulletTexture);
-	Defender(const Texture &towerTexture, Vector2f loc) :
-	    Collider(towerTexture, TWR, {loc.x, loc.y}, 100, 0) {
+	Defender(const Texture &towerTexture, Vector2f loc, unsigned level) :
+	    Collider(towerTexture, DIRECTION::TWR, {loc.x, loc.y}, 100 * level, 0) {
 		scale(0.5, 0.5);
+		price *= level;
 	};
 };
 

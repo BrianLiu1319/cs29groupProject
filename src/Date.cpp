@@ -29,11 +29,9 @@ std::ostream &operator<<(std::ostream &out, const Date &d) {
 	struct tm  datetime;
 	localtime_s(&datetime, &d.date);
 
-	out << std::right << std::setw(2) << std::setfill('0') << datetime.tm_mon + 1 <<
-	"/"
+	out << std::right << std::setw(2) << std::setfill('0') << datetime.tm_mon + 1 << "/"
 	<< std::setw(2) << datetime.tm_mday << "/"
-	<< std::setw(4) << (datetime.tm_year + 1900) << std::setw(0) << std::setfill('
-	');
+	<< std::setw(4) << (datetime.tm_year + 1900) << std::setw(0) << std::setfill(' ');
 
 	 return out;
 	*/
@@ -72,11 +70,9 @@ Date::operator std::string() const {
 	 struct tm  datetime;
 	 localtime_s(&datetime, &date);
 
-	 temp << std::right << std::setw(2) << std::setfill('0') << datetime.tm_mon + 1
-	 << "/"
+	 temp << std::right << std::setw(2) << std::setfill('0') << datetime.tm_mon + 1 << "/"
 	 << std::setw(2) << datetime.tm_mday << "/"
-	 << std::setw(4) << (datetime.tm_year + 1900) << std::setw(0) << std::setfill('
-	 ');
+	 << std::setw(4) << (datetime.tm_year + 1900) << std::setw(0) << std::setfill(' ');
 
 	 return temp.str();
 	 */

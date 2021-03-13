@@ -42,7 +42,6 @@ HighScoresPanel::HighScoresPanel(sf::Vector2f windowSize) {
 		readHighScoresFile();
 	} catch (const std::string &fileName) {
 		std::cout << "Unable to open high scores file " << fileName << std::endl;
-		std::cout << "Starting with a new high scores list." << std::endl;
 	}
 }
 
@@ -84,8 +83,8 @@ void HighScoresPanel::writeHighScoresFile() {
 		exit(1);
 	}
 
-	for (auto i = scores.cbegin(); i != scores.cend(); i++) {
-		fout.write(reinterpret_cast<const char *>(&(*i)), sizeof(Score));
+	for (const auto &score : scores) {
+		fout.write(reinterpret_cast<const char *>(&score), sizeof(Score));
 	}
 
 	fout.close();
@@ -119,7 +118,7 @@ Sets the texture for the panel.
  Throws the path of file if it isn't found.
 *********************************/
 void HighScoresPanel::setPanelTexture(std::string path) {
-	if (!panelTexture.loadFromFile(path.c_str())) { throw(std::string(path)); }
+	if (!panelTexture.loadFromFile(path)) { throw(std::string(path)); }
 	panel.setTexture(&panelTexture);
 }
 
@@ -128,7 +127,7 @@ Sets the font for the text.
  Throws the path of file if it isn't found.
 *********************************/
 void HighScoresPanel::setFont(std::string path) {
-	if (!textFont.loadFromFile(path.c_str())) { throw(std::string(path)); }
+	if (!textFont.loadFromFile(path)) { throw(std::string(path)); }
 	scoresText.setFont(textFont);
 }
 
@@ -160,7 +159,7 @@ bool HighScoresPanel::isHighScore(const Score &s) const {
 	if (scores.size() < maxScores) {
 		isHigh = true;
 	} else {
-		for (auto i = scores.cbegin(); i != scores.cend() && isHigh == false; i++) {
+		for (auto i = scores.cbegin(); i != scores.cend() && !isHigh; i++) {
 			if (s > (*i)) { isHigh = true; }
 		}
 	}

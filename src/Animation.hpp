@@ -1,6 +1,8 @@
 #ifndef Animation_hpp
 #define Animation_hpp
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <string>
 
 class Animation {
 private:
@@ -13,9 +15,15 @@ private:
 	bool loop;
 
 public:
-	Animation(sf::Texture *texture, sf::Vector2u imageCount, float switchTime);
-	~Animation() = default;
-	sf::FloatRect uvRect;
+	// Animation();
+	Animation(const sf::Texture &texture, const sf::Vector2u &imageCount, float switchTime);
+	Animation(const std::string &texturePath, const sf::Vector2u &imageCount, float switchTime);
+	~Animation();
+	sf::IntRect uvRect;
+	/*
+	void setTexture(const sf::Texture& texture, const sf::Vector2u& imageCount);
+	void setSwitchTime(float switchTime);
+	 */
 	void update(unsigned row, float deltaTime);
 	void update(float deltaTime);
 	void setNumOfSpritesInRow(unsigned row, unsigned num);

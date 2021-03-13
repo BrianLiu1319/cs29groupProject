@@ -24,13 +24,13 @@ private:
 	sf::Texture nextTexture, prevTexture, backTexture, nextTextureInv, prevTextureInv,
 	  backTextureInv;
 	sf::RectangleShape nextButton, prevButton, backButton, guidePage;
-	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-	int page;
-	static const int maxPage = 4;
+	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+	unsigned page;
+	static const unsigned int maxPage = 4;
 	std::array<sf::Texture, maxPage> guidePageTexture;
 
 public:
-	HowToPlay(sf::Vector2f windowSize);
+	explicit HowToPlay(sf::Vector2f windowSize);
 	void setNextTexture(const std::string &path, const std::string &pathInv);
 	void setPrevTexture(const std::string &path, const std::string &pathInv);
 	void setBackTexture(const std::string &path, const std::string &pathInv);

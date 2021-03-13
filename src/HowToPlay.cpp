@@ -47,7 +47,7 @@ HowToPlay::HowToPlay(sf::Vector2f windowSize) : Menu(windowSize) {
 	// Set Textures
 	try {
 		// Set up the array for different pages of the guide
-		for (int i = 0; i < maxPage; i++) {
+		for (unsigned i = 0; i < maxPage; i++) {
 			if (!guidePageTexture[i].loadFromFile(guidePagePath + std::to_string(i + 1) + ".png")) {
 				throw(guidePagePath + std::to_string(i + 1) + ".png");
 			}
@@ -72,6 +72,7 @@ Sets the texture and inverse
 void HowToPlay::setNextTexture(const std::string &path, const std::string &pathInv) {
 	if (!nextTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!nextTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
+
 	nextButton.setTexture(&nextTexture);
 }
 

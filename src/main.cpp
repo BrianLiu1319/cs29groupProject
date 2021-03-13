@@ -71,7 +71,7 @@ int main() {
 	while (window.isOpen()) {
 		deltaTime = clock.restart().asSeconds();
 
-		Event evnt{};
+		Event evnt {};
 		while (window.pollEvent(evnt)) {
 			if (evnt.type == Event::Closed) { window.close(); }
 			if (gameState == enterHighScore && evnt.type == Event::TextEntered) {
@@ -141,7 +141,8 @@ int main() {
 			case enterHighScore:
 
 				window.draw(highScoreEntryBox);
-				if (highScoreEntryBox.run(static_cast<Vector2f>(Mouse::getPosition(window)), deltaTime)) {
+				if (highScoreEntryBox.run(static_cast<Vector2f>(Mouse::getPosition(window)),
+				      deltaTime)) {
 					gameState = menu;
 					temp = highScoreEntryBox.getScore();
 					startMenu.updateScores(temp);

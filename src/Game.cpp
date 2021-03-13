@@ -106,13 +106,13 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 		for (unsigned int k = 0; k < defenders.size(); k++) {
 			if (defenders.empty()) break;
 			if (attackers[j]->getGlobalBounds().intersects(defenders[k]->getGlobalBounds())) {
-				attackers[j]->setDirection(TWR);
+				attackers[j]->setDirection(DIRECTION::TWR);
 				if (defenders[k]->getHealth() <= 0) {
 					// iterate through all attackers again//
 					// If bool stops,
 					for (auto &attacker : attackers) {
 						if (attacker->getGlobalBounds().intersects(defenders[k]->getGlobalBounds()))
-							attacker->setDirection(LEFT);
+							attacker->setDirection(DIRECTION::LEFT);
 					}
 					defenders.erase(defenders.begin() + k);
 					break;
@@ -127,8 +127,11 @@ void Game::addAttacker(vector<Attacker *> &attackers, const Texture &attackerTex
 	attackers.push_back(temp);
 }
 
-void Game::addDefender(vector<Defender *> &towers, const Texture &towerTexture, Vector2f loc) {
-	auto temp = new Defender(towerTexture, loc);
+void Game::addDefender(vector<Defender *> &towers,
+  const Texture &towerTexture,
+  Vector2f loc,
+  unsigned level) {
+	auto temp = new Defender(towerTexture, loc, level);
 	towers.push_back(temp);
 }
 
@@ -193,7 +196,8 @@ int Game::run(RenderWindow &renderWindow) {
 
 	// Line to use for separating space between inventory and grid? Unsure
 	Vertex line[] = {Vertex(Vector2f(0, 6 * landList[0]->getSprite().getLocalBounds().height)),
-	  Vertex(Vector2f(renderWindow.getSize().x,	6 * landList[0]->getSprite().getLocalBounds().height))};
+	  Vertex(
+	    Vector2f(renderWindow.getSize().x, 6 * landList[0]->getSprite().getLocalBounds().height))};
 
 	line->color = Color::White;
 
@@ -225,7 +229,7 @@ int Game::run(RenderWindow &renderWindow) {
 		for (auto item : landList) { renderWindow.draw(item->getSprite()); }
 
 		// draw InvenList below the grid
-		for (auto item : invenList) { renderWindow.draw(item->getSprite());}
+		for (auto item : invenList) { renderWindow.draw(item->getSprite()); }
 
 		// Checks to see if you clicked a inventory dog.
 		if (Mouse::isButtonPressed(Mouse::Left)) {
@@ -275,7 +279,10 @@ int Game::run(RenderWindow &renderWindow) {
 			if (landList[nSelected]->getEmpty()) {
 				landList[nSelected]->setEmpty(false);  // set the empty of a land to false, prevent
 				                                       // from being repeatedly use
-				addDefender(allDefenders,allTextures.getTower(),landList[nSelected]->getPositionofLand());
+				addDefender(allDefenders,
+				  allTextures.getTower(),
+				  landList[nSelected]->getPositionofLand(),
+				  0);
 				// money -= towerList[nSelected]->getCost();        // user' money
 				// should minus the cost of selected tower default cost of a tower is
 				// 40; PROBLEM: Work on money ^, consider working on Defender
@@ -298,9 +305,8 @@ int Game::run(RenderWindow &renderWindow) {
 			for (auto &defender : allDefenders) {
 				if (clock->getElapsedTime().asMilliseconds() >= 2000) {
 					//					cout << allBullets.size() << endl;
-					if (clock->getElapsedTime().asMilliseconds()
-					    >= 2000) {  // if time > = 5 sec
-						defender->fire(allBullets,allTextures.getBullet());
+					if (clock->getElapsedTime().asMilliseconds() >= 2000) {  // if time > = 5 sec
+						defender->fire(allBullets, allTextures.getBullet());
 						for (auto &attacker : allAttackers) {
 							// Purpose is to check for collision in here.
 							if (attacker->getGlobalBounds().intersects(
@@ -319,7 +325,7 @@ int Game::run(RenderWindow &renderWindow) {
 
 		// Use this to update, erase, and draw all the respective Bullets, Defenders,
 		// and Attackers.
-		renderWindow.draw(line,2,sf::Lines);
+		renderWindow.draw(line, 2, sf::Lines);
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allBullets));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allDefenders));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allAttackers));
@@ -331,10 +337,9 @@ int Game::run(RenderWindow &renderWindow) {
 }
 
 Game::~Game() {
-	for (auto item : allAttackers) { delete item;}
-	for (auto item : allBullets) { delete item;}
-	for (auto item : allDefenders) { delete item;}
-	for (auto item : landList) { delete item;}
-	for (auto item : invenList) { delete item;}
-
+	for (auto item : allAttackers) { delete item; }
+	for (auto item : allBullets) { delete item; }
+	for (auto item : allDefenders) { delete item; }
+	for (auto item : landList) { delete item; }
+	for (auto item : invenList) { delete item; }
 }

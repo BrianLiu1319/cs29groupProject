@@ -1,8 +1,8 @@
 #include "Score.hpp"
 
-Score::Score() : name(""), date(time(0)), score(0) {}
+Score::Score() : name(""), date(time(nullptr)), score(0) {}
 
-Score::Score(const std::string &n, Date d, unsigned int s) : date(d), score(s) {
+Score::Score(Date d, unsigned int s) : date(d), score(s) {
 	for (int i = 0; i < maxChar; i++) { name[i] = ' '; }
 	name[maxChar] = '\0';
 }
@@ -31,6 +31,6 @@ bool Score::operator==(const Score &s) const {
 }
 
 void Score::setName(std::string n) {
-	for (unsigned int i = 0; i < maxChar; i++) { name[i] = ' '; }
-	for (unsigned int i = 0; i < maxChar && i < n.size(); i++) { name[i] = n.at(i); }
+	for (int i = 0; i < maxChar; i++) { name[i] = ' '; }
+	for (int i = 0; i < maxChar && i < n.size(); i++) { name[i] = n.at(i); }
 }

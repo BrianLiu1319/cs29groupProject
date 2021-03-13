@@ -29,14 +29,14 @@ Collider::Collider(const Texture &texture,
 }
 
 /**
- * @brief Automatic increament of postion based on
+ * @brief Automatic increment of position based on
  * \enum DIRECTION
  * @param direction
  */
 void Collider::autoTravel(DIRECTION direction) {
-	if (direction == RIGHT)
+	if (direction == DIRECTION::RIGHT)
 		this->move(((0.1f) * speed), 0.0f);
-	else if (direction == LEFT)
+	else if (direction == DIRECTION::LEFT)
 		this->move(((-0.1f) * speed), 0.0f);
 }
 
@@ -57,10 +57,10 @@ void Collider::hurt(Collider &other) {
  */
 void Collider::updateObject() {
 	this->animate();
-	if (defaultDirection == LEFT)
-		autoTravel(LEFT);
-	else if (defaultDirection == RIGHT)
-		autoTravel(RIGHT);
+	if (defaultDirection == DIRECTION::LEFT)
+		autoTravel(DIRECTION::LEFT);
+	else if (defaultDirection == DIRECTION::RIGHT)
+		autoTravel(DIRECTION::RIGHT);
 }
 
 /**
@@ -109,9 +109,8 @@ AllTextures::AllTextures() {
 Land::Land(int num, Vector2f point, AllTextures *texture) {
 	if ((num + 1) % 2 == 0) {
 		spLand.setTexture(texture->getLand());
-	}
-	else
-	spLand.setTexture(texture->getLand2());
+	} else
+		spLand.setTexture(texture->getLand2());
 	spLand.setPosition(point);
 	spLand.setOrigin(image.getSize().x / 2.0f, image.getSize().y / 2.0f);
 	spLand.setTextureRect(IntRect(0, 0, 77, 94));

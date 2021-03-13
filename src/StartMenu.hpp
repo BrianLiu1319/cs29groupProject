@@ -10,6 +10,8 @@
 class StartMenu : public sf::Drawable {
 private:
 	// Folder Path
+	//    const std::string assetFolder = "/Users/jessicasusilo/Documents/Jessica S./DE ANZA/6 -
+	//    Winter 2021/CIS 29/Project Assets/";
 	const std::string assetFolder = "assets/";
 
 	// File Name

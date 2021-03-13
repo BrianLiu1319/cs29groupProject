@@ -7,4 +7,3 @@ FILE(GLOB AllSource src/*.*pp)
 include_directories(src assets)
 add_executable(GroupProject ${AllSource})
 target_link_libraries(GroupProject sfml-graphics sfml-audio)
-

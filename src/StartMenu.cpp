@@ -44,10 +44,13 @@ void StartMenu::setBgSound(std::string path) {
 
 /*********************************
 Runs the menu.
- Returns 0 to run the main game.
- Returns 1 to stay on the menu.
- Returns 2 to toggle mute music and stay on the menu.
- Returns 3 to toggle mute sfx and stay on the menu.
+ Returns:
+ 0 - run the main game.
+ 1 - stay on the menu.
+ 2 - toggle mute music and stay on the menu.
+ 3 - toggle mute sfx and stay on the menu.
+ 4 - increase difficulty and stay on the menu
+ 5 - decrease difficulty and stay on the menu
 *********************************/
 int StartMenu::run(sf::Vector2f mousePos) {
 	int state = 1;
@@ -90,6 +93,8 @@ int StartMenu::run(sf::Vector2f mousePos) {
 					howToPlay.toggleMuteSfx();
 					state = 3;
 					break;
+				case 6: state = 4; break;
+				case 7: state = 5; break;
 			}
 
 			break;

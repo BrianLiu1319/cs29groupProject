@@ -11,7 +11,9 @@
 
 class HighScoresPanel : public sf::Drawable {
 private:
-	// Folder Path
+	//    Folder Path
+	//    const std::string folderPath = "/Users/jessicasusilo/Documents/Jessica S./DE ANZA/6 -
+	//    Winter 2021/CIS 29/Project Assets/";
 	const std::string folderPath = "assets/";
 
 	// File Names

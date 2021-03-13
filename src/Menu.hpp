@@ -8,6 +8,8 @@
 class Menu : public sf::Drawable {
 protected:
 	// Folder Path
+	//    const std::string assetFolder = "/Users/jessicasusilo/Documents/Jessica S./DE ANZA/6 -
+	//    Winter 2021/CIS 29/Project Assets/";
 	const std::string assetFolder = "assets/";
 
 	sf::Texture bgTexture;
