@@ -15,13 +15,17 @@ using namespace sf;
 class Game : public Menu {
 	const string path = "assets/doge.png";
 	// assetFolder is in Screen.hpp
-	const std::string clickSFXPath01 = assetFolder + "click02.wav";
-
+	const string clickSFXPath01 = assetFolder + "click02.wav";
+	vector<Bullet *> allBullets {};
+	vector<Attacker *> allAttackers {};
+	vector<Defender *> allDefenders {};
 	Font font1;
 	Event event;
 	int money = 200;
+	AllTextures allTextures {};
+	vector<Land *> landList{};
+	vector<Inventory *> InvenList{};
 	unsigned int score = 0;
-
 	bool gameOver = false;
 	bool muteSfx = false;
 	void addAttacker(vector<Attacker *> &attackers,
@@ -34,9 +38,6 @@ class Game : public Menu {
 	void checkCollision(vector<Attacker *> &attackers,
 	  vector<Bullet *> &bullets,
 	  vector<Defender *> &defenders);
-	vector<Land *> generateLandList();
-	vector<Inventory *> generateInvenList();
-	AllTextures allTextures {};
 
 	int howManyTower();
 	Defender *defenderBuild(Land *aLand);

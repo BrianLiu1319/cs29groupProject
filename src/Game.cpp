@@ -1,4 +1,5 @@
 #include "Game.hpp"
+
 Game::Game(Vector2f windowSize) : Menu(windowSize) {
 	try {
 		setClickSound(clickSFXPath01);
@@ -7,41 +8,6 @@ Game::Game(Vector2f windowSize) : Menu(windowSize) {
 		std::cerr << "Location: Game" << std::endl;
 		exit(1);
 	}
-}
-
-vector<Land *> Game::generateLandList() {
-	vector<Land *> landList = {};
-	Vector2f tempPosition;
-	float x = 50;
-	float y = 50;
-	for (int i = 0; i < 60; i++) {
-		tempPosition.x = x;
-		tempPosition.y = y;
-		Land *aland = new Land(i, tempPosition, &allTextures);
-		landList.push_back(aland);
-		y += 94;
-
-		if (y
-		    > 480)  // Here, it checks if the grid doesn't exist and we go back down.
-		{
-			y = 50;
-			x += 74;
-		}
-	}
-	return landList;
-}
-
-// This function create a inventory vector which stores all inventory
-vector<Inventory *> Game::generateInvenList() {
-	vector<Inventory *> InvenList = {};
-	float x = 50;
-	float y = 600;
-	for (int i = 0; i < 2; i++) {
-		auto aInven = new Inventory({x, y}, i, allTextures.getInv());
-		InvenList.push_back(aInven);
-		x += 60;
-	}
-	return InvenList;
 }
 
 // this function calculate how many towers we could build. Currently I just set it to
@@ -178,10 +144,32 @@ int Game::run(RenderWindow &renderWindow) {
 	if (!font1.loadFromFile("assets/Font1.ttf")) cerr << "error loading font " << endl;
 	int towerInStore = 2;
 	auto *clock = new Clock();
-	// Land and Inventory Vectors
-	vector<Land *> landList;  // vector to store the land, you can think this vector
-	                          // is the grass grid!
-	vector<Inventory *> InvenList;
+
+	float x = 50;
+	float y = 600;
+	for (int i = 0; i < 2; i++) {
+		auto aInven = new Inventory({x, y}, i, allTextures.getInv());
+		InvenList.push_back(aInven);
+		x += 60;
+	}
+
+	Vector2f tempPosition;
+	x = 50;
+	y = 50;
+	for (int i = 0; i < 60; i++) {
+		tempPosition.x = x;
+		tempPosition.y = y;
+		Land *aland = new Land(i, tempPosition, &allTextures);
+		landList.push_back(aland);
+		y += 94;
+
+		if (y
+		    > 480)  // Here, it checks if the grid doesn't exist and we go back down.
+		{
+			y = 50;
+			x += 74;
+		}
+	}
 
 	/* // Unused but left for archive
 	vector<Tower*> towerList;        //This ia a vector stores all towers
@@ -190,16 +178,12 @@ int Game::run(RenderWindow &renderWindow) {
 	*/
 
 	// Vectors of the main subjects, allBullets // allAttackers // allDefenders
-	vector<Bullet *> allBullets = {};
-	vector<Attacker *> allAttackers = {};
+
 	// List of all defenders. Could implement this in the future.
 	// Have a separate list for built Towers to differentiate.
-	vector<Defender *> builtDefenderList = {};
 
 	int nInvenselected = -1;  // This int is a counter; represent the Inventory user
 	                          // selected; if user didn't select; it is -1;
-	InvenList = generateInvenList();  // create the Inventory list
-	landList = generateLandList();     // create land list
 
 	// allDefenders = generateTowerList(landList);    // create towerList, maybe this
 	// can be of use?
@@ -295,7 +279,7 @@ int Game::run(RenderWindow &renderWindow) {
 				landList[nSelected]->setEmpty(
 				  false);  // set the empty of a land to false, prevent from being
 				           // repeatedly use
-				builtDefenderList.push_back(tempDefender);
+				allDefenders.push_back(tempDefender);
 
 				// money -= towerList[nSelected]->getCost();        // user' money
 				// should minus the cost of selected tower default cost of a tower is
@@ -315,11 +299,11 @@ int Game::run(RenderWindow &renderWindow) {
 		// Fires every 1 second a bullet. Currently, the fire function creates
 		// bullets in the same spot PROBLEM: Makes bullets position in it's
 		// constructor take the vector of Tower.
-		if (!builtDefenderList.empty())  // If the number of towers that have been
+		if (!allDefenders.empty())  // If the number of towers that have been
 		                                   // built is not zero, we fire
 		{
-			for (unsigned int i = 0; i < builtDefenderList.size(); i++) {
-				pDefenderHolder = builtDefenderList[i];
+			for (unsigned int i = 0; i < allDefenders.size(); i++) {
+				pDefenderHolder = allDefenders[i];
 				if (clock->getElapsedTime().asMilliseconds() >= 2000) {
 					cout << allBullets.size() << endl;
 					if (clock->getElapsedTime().asMilliseconds()
@@ -332,10 +316,10 @@ int Game::run(RenderWindow &renderWindow) {
 						for (unsigned int l = 0; l < allAttackers.size(); l++) {
 							// Purpose is to check for collision in here.
 							if (allAttackers[l]->getGlobalBounds().intersects(
-							      builtDefenderList[i]->getGlobalBounds())) {
+							      allDefenders[i]->getGlobalBounds())) {
 								// allAttackers[l]->setDirection(TWR);
-								// builtDefenderList[i]->hurt(*(allAttackers[l]));
-								allAttackers[l]->hurt(*(builtDefenderList[i]));
+								// allDefenders[i]->hurt(*(allAttackers[l]));
+								allAttackers[l]->hurt(*(allDefenders[i]));
 							}
 						}
 					}
@@ -353,10 +337,10 @@ int Game::run(RenderWindow &renderWindow) {
 		gameClock(renderWindow,
 		  reinterpret_cast<vector<class Collider *> &>(allBullets));
 		gameClock(renderWindow,
-		  reinterpret_cast<vector<class Collider *> &>(builtDefenderList));
+		  reinterpret_cast<vector<class Collider *> &>(allDefenders));
 		gameClock(renderWindow,
 		  reinterpret_cast<vector<class Collider *> &>(allAttackers));
-		checkCollision(allAttackers, allBullets, builtDefenderList);
+		checkCollision(allAttackers, allBullets, allDefenders);
 		renderWindow.display();
 	}
 
@@ -383,7 +367,13 @@ void Game::toggleMuteSfx() {
 }
 
 void Game::cleanUp() {
-	for (auto item : ) {
+	for (auto item : allAttackers) {
 		
+	}
+	for (auto item : allBullets) {
+
+	}
+	for (auto item : allDefenders) {
+
 	}
 }
