@@ -88,4 +88,3 @@ Vector2f Land::getPositionofLand() {
 	auto temp = spLand.getPosition() + offset;
 	return temp;
 }
-

@@ -18,17 +18,16 @@ int main() {
 	/*********************************
 	Create a RenderWindow and Game
 	*********************************/
-	
-	RenderWindow window(VideoMode(1280, 720),
-	  "Dogs vs Cats",Style::Close);
+
+	RenderWindow window(VideoMode(1280, 720), "Dogs vs Cats", Style::Close);
 	window.setFramerateLimit(60);
 	Game dogsVsCats(static_cast<Vector2f>(window.getSize()));
 
 	/*********************************
 	Set up necessary stuff
 	*********************************/
-	StartMenu startMenu(static_cast<Vector2f>(window.getSize()));
-	HighScoreEntry highScoreEntryBox(static_cast<Vector2f>(window.getSize()));
+	StartMenu startMenu(window.getSize());
+	HighScoreEntry highScoreEntryBox(window.getSize());
 	// unsigned int score = 99999;
 	Score temp;
 	// bool muteMusic = false;
@@ -91,9 +90,7 @@ int main() {
 		switch (gameState) {
 			case menu:
 				window.draw(startMenu);
-				state = startMenu.run(
-				  static_cast<Vector2f>(Mouse::getPosition(window)));
-
+				state = startMenu.run(Mouse::getPosition(window));
 				switch (state) {
 					case 0: gameState = playGame; break;
 					// case 1:
@@ -102,7 +99,7 @@ int main() {
 						highScoreEntryBox.toggleMuteSfx();
 						dogsVsCats.toggleMuteSfx();
 						break;
-					default:break;
+					default: break;
 				}
 				// note to self: after integration, make sure "enterHighScore" is
 				// only triggered if the player has achieved a high score (use the
@@ -149,8 +146,7 @@ int main() {
 			case enterHighScore:
 
 				window.draw(highScoreEntryBox);
-				if (highScoreEntryBox.run(
-				      static_cast<Vector2f>(Mouse::getPosition(window)),
+				if (highScoreEntryBox.run(Mouse::getPosition(window),
 				      deltaTime)) {
 					gameState = menu;
 					temp = highScoreEntryBox.getScore();

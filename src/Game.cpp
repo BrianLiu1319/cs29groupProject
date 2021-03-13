@@ -13,7 +13,7 @@ Game::Game(Vector2f windowSize) : Menu(windowSize) {
 // this function calculate how many towers we could build. Currently I just set it to
 // just return 1, since I haven't made the cost yet.
 // PROBLEM TO FIX: Add a Cost to the Defender class and replace this
-int Game::howManyTower() { // function with a defender instead of tower.
+int Game::howManyTower() {  // function with a defender instead of tower.
 	/*
 	Tower* aTower = new Tower();       // Use this as a reference and replace with
 	Defender instead. int cost = aTower->getCost(); vector<Tower*> TowerList = {};
@@ -27,7 +27,8 @@ int Game::howManyTower() { // function with a defender instead of tower.
 // Take a selected land and build the tower on this land. Return the pointer of this
 // tower PROBLEM: Issue is dynamic memory. We need to delete this after!!!
 Defender *Game::defenderBuild(Land *aLand) {
-	auto aDefender = new Defender(allTextures.getTower(), aLand->getPositionofLand());
+	auto aDefender
+	  = new Defender(allTextures.getTower(), aLand->getPositionofLand());
 	return aDefender;
 }
 /*
@@ -39,19 +40,19 @@ Defender *Game::defenderBuild(Land *aLand) {
 // vector without the use of a function.
 
 void Game::fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList) {
-	Defender t = *fireTower;
-	if (clock->getElapsedTime().asMilliseconds()
-	    >= 1000) {  // if time > = 5 sec // Time constraint, ho
-		// Bullet mBullet = Bullet(t.getPosition()); //
-		// addBullet(bulletList, mBullet);// push a bullet into list, but we need to
-		// add a specific bullet... addBullet(bulletList);
-		auto *temp = new Bullet(allTextures.getBullet(),fireTower->getPosition());
-		bulletList.push_back(temp);
+    Defender t = *fireTower;
+    if (clock->getElapsedTime().asMilliseconds()
+        >= 1000) {  // if time > = 5 sec // Time constraint, ho
+        // Bullet mBullet = Bullet(t.getPosition()); //
+        // addBullet(bulletList, mBullet);// push a bullet into list, but we need to
+        // add a specific bullet... addBullet(bulletList);
+        auto *temp = new Bullet(allTextures.getBullet(),fireTower->getPosition());
+        bulletList.push_back(temp);
 
-		// Now we need to add a bullet with specific spot based on the tower
-		// position...
-	}
-	// Vector2f pt = aBullet.getSp()->getPosition();
+        // Now we need to add a bullet with specific spot based on the tower
+        // position...
+    }
+    // Vector2f pt = aBullet.getSp()->getPosition();
 }
 */
 
@@ -123,7 +124,7 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 				if (defenders[k]->getHealth() <= 0) {
 					// iterate through all attackers again//
 					// If bool stops,
-					for (auto & attacker : attackers) {
+					for (auto &attacker : attackers) {
 						if (attacker->getGlobalBounds().intersects(
 						      defenders[k]->getGlobalBounds()))
 							attacker->setDirection(LEFT);
@@ -141,7 +142,8 @@ int Game::run(RenderWindow &renderWindow) {
 	score = 0;
 	renderWindow.setVerticalSyncEnabled(true);
 	renderWindow.setFramerateLimit(60);
-	if (!font1.loadFromFile("assets/Font1.ttf")) cerr << "error loading font " << endl;
+	if (!font1.loadFromFile("assets/Font1.ttf"))
+		cerr << "error loading font " << endl;
 	int towerInStore = 2;
 	auto *clock = new Clock();
 
@@ -189,8 +191,7 @@ int Game::run(RenderWindow &renderWindow) {
 	// can be of use?
 
 	// Line to use for separating space between inventory and grid? Unsure
-	Vertex line[]
-	  = {Vertex(Vector2f(0, 0)), Vertex(Vector2f(500, 500))};
+	Vertex line[] = {Vertex(Vector2f(0, 0)), Vertex(Vector2f(500, 500))};
 
 	line->color = Color::White;
 
@@ -207,9 +208,11 @@ int Game::run(RenderWindow &renderWindow) {
 				case Event::KeyPressed:
 					if (Keyboard::isKeyPressed(Keyboard::M)) {
 						auto tempLandIndex = rand() % 60;
-						addAttacker(allAttackers,allTextures.getAttacker(),landList[tempLandIndex]->getPositionofLand());
+						addAttacker(allAttackers,
+						  allTextures.getAttacker(),
+						  landList[tempLandIndex]->getPositionofLand());
 					}
-				default:break;
+				default: break;
 			}
 		}
 		//
@@ -290,9 +293,8 @@ int Game::run(RenderWindow &renderWindow) {
 				  = -1;  // now we finish all things we should make nInven back to
 				         // -1; To prepare for next action;
 				nSelected = -1;  // the selected land should also back to -1
-				towerInStore
-				  = howManyTower();  // this statement get how many tower we can
-				                          // build with rest money
+				towerInStore = howManyTower();  // this statement get how many tower
+				                                // we can build with rest money
 			}
 		}
 
@@ -300,7 +302,7 @@ int Game::run(RenderWindow &renderWindow) {
 		// bullets in the same spot PROBLEM: Makes bullets position in it's
 		// constructor take the vector of Tower.
 		if (!allDefenders.empty())  // If the number of towers that have been
-		                                   // built is not zero, we fire
+		                            // built is not zero, we fire
 		{
 			for (unsigned int i = 0; i < allDefenders.size(); i++) {
 				pDefenderHolder = allDefenders[i];
@@ -347,13 +349,15 @@ int Game::run(RenderWindow &renderWindow) {
 	return 0;
 }
 void Game::addAttacker(vector<Attacker *> &attackers,
-                 const Texture &attackerText,
-                 Vector2f loc) {
+  const Texture &attackerText,
+  Vector2f loc) {
 	auto temp = new Attacker(attackerText, loc);
 	attackers.push_back(temp);
 }
 
-void Game::addDefender(vector<Defender *> &towers, const Texture &towerTexture, Vector2f loc) {
+void Game::addDefender(vector<Defender *> &towers,
+  const Texture &towerTexture,
+  Vector2f loc) {
 	auto temp = new Defender(towerTexture, loc);
 	towers.push_back(temp);
 }
@@ -367,13 +371,7 @@ void Game::toggleMuteSfx() {
 }
 
 void Game::cleanUp() {
-	for (auto item : allAttackers) {
-		
-	}
-	for (auto item : allBullets) {
-
-	}
-	for (auto item : allDefenders) {
-
-	}
+	for (auto item : allAttackers) {}
+	for (auto item : allBullets) {}
+	for (auto item : allDefenders) {}
 }

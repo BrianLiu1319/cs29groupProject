@@ -11,7 +11,6 @@ using namespace std;
 using namespace sf;
 
 
-
 static const unsigned WINDOW_WIDTH = 1280;
 static const unsigned WINDOW_HEIGHT = 720;
 
@@ -114,8 +113,6 @@ public:
 	void setEmpty(bool em) { empty = em; }
 	bool getEmpty() const { return empty; }
 };
-
-
 
 
 #endif

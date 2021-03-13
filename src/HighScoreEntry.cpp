@@ -17,7 +17,7 @@ Constructor.
  Sets up everything according to the
  window size.
 *********************************/
-HighScoreEntry::HighScoreEntry(sf::Vector2f windowSize) :
+HighScoreEntry::HighScoreEntry(sf::Vector2u windowSize) :
     Menu(windowSize), defaultCursorPos(0, 0) {
 	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f,
 	  windowSize.y / 1080.0f * 135.0f);
@@ -100,7 +100,7 @@ Runs the High Score Entry box.
  Updates the blinking cursor based on the
  delta time.
 *********************************/
-int HighScoreEntry::run(sf::Vector2f mousePos, float deltaTime) {
+int HighScoreEntry::run(sf::Vector2i mousePos, float deltaTime) {
 	/***
 	confirmed:
 	0 - High Score Entry

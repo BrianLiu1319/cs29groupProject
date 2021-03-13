@@ -18,7 +18,7 @@ Constructor.
  window size. Sets the game state
  to the default (main menu).
 *********************************/
-StartMenu::StartMenu(sf::Vector2f windowSize) :
+StartMenu::StartMenu(sf::Vector2u windowSize) :
     mainMenu(windowSize), settings(windowSize), credits(windowSize),
     howToPlay(windowSize) {
 	gameState = mainM;
@@ -50,7 +50,7 @@ Runs the menu.
  Returns 2 to toggle mute music and stay on the menu.
  Returns 3 to toggle mute sfx and stay on the menu.
 *********************************/
-int StartMenu::run(sf::Vector2f mousePos) {
+int StartMenu::run(sf::Vector2i mousePos) {
 	int state = 1;
 
 	if (!muteMusic && bgMusic.getStatus() != sf::Sound::Playing) { bgMusic.play(); }

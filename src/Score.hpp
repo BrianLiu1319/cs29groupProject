@@ -18,7 +18,7 @@ private:
 
 public:
 	Score();
-	Score(const std::string& n, Date d, unsigned int s);
+	Score(const std::string &n, Date d, unsigned int s);
 	unsigned int getScore() const { return score; }
 	Date getDate() const { return date; }
 	std::string getName() const {

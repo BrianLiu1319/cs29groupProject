@@ -31,7 +31,7 @@ private:
 	std::array<sf::Texture, maxPage> guidePageTexture;
 
 public:
-	HowToPlay(sf::Vector2f windowSize);
+	HowToPlay(sf::Vector2 windowSize);
 	void setNextTexture(std::string path, std::string pathInv);
 	void setPrevTexture(std::string path, std::string pathInv);
 	void setBackTexture(std::string path, std::string pathInv);

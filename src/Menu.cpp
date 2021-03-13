@@ -7,8 +7,8 @@ void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	target.draw(background);
 }
 
-Menu::Menu(sf::Vector2f windowSize) {
-	background.setSize(windowSize);
+Menu::Menu(sf::Vector2u windowSize) {
+	background.setSize(static_cast<sf::Vector2f>(windowSize));
 	mouseStartClick = true;
 }
 

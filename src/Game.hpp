@@ -23,8 +23,8 @@ class Game : public Menu {
 	Event event;
 	int money = 200;
 	AllTextures allTextures {};
-	vector<Land *> landList{};
-	vector<Inventory *> InvenList{};
+	vector<Land *> landList {};
+	vector<Inventory *> InvenList {};
 	unsigned int score = 0;
 	bool gameOver = false;
 	bool muteSfx = false;
@@ -41,7 +41,7 @@ class Game : public Menu {
 
 	int howManyTower();
 	Defender *defenderBuild(Land *aLand);
-//	void fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList);
+	//	void fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList);
 	void showMoney(int money, RenderWindow &renderWindow);
 
 public:

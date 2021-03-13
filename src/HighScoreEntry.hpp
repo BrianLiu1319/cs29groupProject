@@ -33,10 +33,10 @@ private:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
-	HighScoreEntry(sf::Vector2f windowSize);
+	HighScoreEntry(sf::Vector2u windowSize);
 	void setConfirmButtonTexture(std::string path, std::string pathInv);
 	void setFont(std::string path);
-	int run(sf::Vector2f mousePos, float deltaTime);
+	int run(sf::Vector2i mousePos, float deltaTime);
 	void enterText(char c);
 	void setScoreValue(unsigned int s) { score.setScore(s); }
 	Score getScore() const { return score; }
