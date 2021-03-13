@@ -34,10 +34,7 @@ class Game : public Menu {
 	void checkCollision(vector<Attacker *> &attackers,
 	  vector<Bullet *> &bullets,
 	  vector<Defender *> &defenders);
-
 	int howManyTower();
-	Defender *defenderBuild(Land *aLand);
-	//	void fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList);
 	void showMoney(int money, RenderWindow &renderWindow);
 
 public:
