@@ -4,67 +4,95 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/System/Time.hpp"
 #include "SFML/System/Vector2.hpp"
-
 #include <iostream>
 
 using namespace std;
 using namespace sf;
 
-
 static const unsigned WINDOW_WIDTH = 1280;
 static const unsigned WINDOW_HEIGHT = 720;
 
-// direction types for Auto Travel
 enum DIRECTION { LEFT, RIGHT, TWR };
 
+/// @brief
+/// Base Class for all dynamic game objects
+/// Derived from \class sf::Sprite
 class Collider : public Sprite {
 protected:
 	int health;
 	float speed;
 	DIRECTION defaultDirection;
-
-	Collider(const Texture &textureTemp,
+/**
+ * @brief Main Constructor for Collider
+ * @param texture = constant sf::Texture address
+ * @param direction	= enum (LEFT,RIGHT,TWR)
+ * @param coordinate = sf::Vector<2f>(x,y)
+ * @param objHealth = Health of object
+ * @param objSpeed = Speed of Object
+ */
+	Collider(const Texture &texture,
 	  DIRECTION direction,
-	  Vector2f positionOfObj,
+	  Vector2f coordinate,
 	  int objHealth = 10,
 	  float objSpeed = 60.0f);
-	virtual void animate() {};  // animate object
+	// animate object
+	virtual void animate() {};
+	/// @brief Change location of the object based on
+	/// @param direction enum
 	void autoTravel(DIRECTION direction);
 
 public:
 	int getHealth() const { return health; }
-	void setDirection(DIRECTION ab) { defaultDirection = ab; }
+	/// @brief	sets a new direction for object
+	/// @param new DIRECTION enum value
+	void setDirection(DIRECTION newDir) { defaultDirection = newDir; }
 	virtual void hurt(Collider &other);
 	virtual void updateObject();  // call funcs to calculate or whatever is needed to be done
 };
 
+/**
+ * @brief  Bullet derived from Collider
+ */
 class Bullet : public Collider {
 public:
-	Bullet(const Texture &temp, Vector2f loc) : Collider(temp, RIGHT, loc, 25) {
+	/**
+	 * @brief Main Constructor for Bullet
+	 * @param temp = address of Bullet Texture
+	 * @param spawnLocation = sf::Vector<2f>(x,y) coordiantes
+	 */
+	Bullet(const Texture &temp, Vector2f spawnLocation) : Collider(temp, RIGHT, spawnLocation, 25) {
 		scale(0.05, 0.05);
 		speed = 15;
 	}
 };
 
+/**
+ * @brief Attacker derived from Collider
+ */
 class Attacker : public Collider {
 public:
-	void attack() {}
 	//	void hurt(Collider &other) override;
 	Attacker(const Texture &catTexture, Vector2f loc) :
-	    Collider(catTexture, LEFT, {WINDOW_WIDTH, loc.y}, 100, 10.0f) {
+	    Collider(catTexture, LEFT, {WINDOW_WIDTH+10, loc.y}, 100, 10.0f) {
 		scale(0.5, 0.5);
 	};
 };
 
+/**
+ * @brief Defender derived from Collider
+ */
 class Defender : public Collider {
 public:
-	void fire(vector<Bullet *> &bulletsList, const Texture &bulletTextrue);
+	void fire(vector<Bullet *> &bulletsList, const Texture &bulletTexture);
 	Defender(const Texture &towerTexture, Vector2f loc) :
 	    Collider(towerTexture, TWR, {loc.x, loc.y}, 100, 0) {
 		scale(0.5, 0.5);
 	};
 };
 
+/**
+ * @brief
+ */
 class AllTextures {
 	const string bulSpritePath = "assets/bul.png";
 	const string catSpritePath = "assets/cat1.png";

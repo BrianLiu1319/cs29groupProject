@@ -2,19 +2,19 @@
 // change this for number for bullet spawn location
 const short BULLET_OFFSET = 5;
 
-Collider::Collider(const Texture &textureTemp,
+Collider::Collider(const Texture &texture,
   DIRECTION direction,
-  Vector2f positionOfObj,
+  Vector2f coordinate,
   int objHealth,
   float objSpeed) {
 	speed = objSpeed;
 	health = objHealth;
-	setTexture(textureTemp);
+	setTexture(texture);
 
 	Vector2f origin(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f);
 	setOrigin(origin);
 	defaultDirection = direction;
-	setPosition(positionOfObj.x, positionOfObj.y);
+	setPosition(coordinate.x, coordinate.y);
 	// Resize(20.0f, 20.0f); // Problem: Need to work on scaling the sprite
 	// somehow.
 }
@@ -42,10 +42,10 @@ void Collider::updateObject() {
 		autoTravel(RIGHT);
 }
 
-void Defender::fire(vector<Bullet *> &bulletsList, const Texture &bulletTextrue) {
+void Defender::fire(vector<Bullet *> &bulletsList, const Texture &bulletTexture) {
 	auto point = this->getPosition();
 	point.y += BULLET_OFFSET;  // offset for bullet
-	auto *temp = new Bullet(bulletTextrue, point);
+	auto *temp = new Bullet(bulletTexture, point);
 	bulletsList.push_back(temp);
 }
 
