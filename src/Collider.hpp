@@ -90,7 +90,6 @@ public:
 	};
 };
 
-
 /**
  * @brief All texture object that holds textures
  * @param const string bulSpritePath
