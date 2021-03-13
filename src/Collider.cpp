@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Collider.h"
 
-//Heyo Loser!!sfafasdfzdf
+//Heyo Loser!! Changed just now at 9:02
 ostream& operator <<(ostream& os, const Collider& collider) {
 	os << collider.typeName() << " :" << /*"uid: " << collider.uid <<*/  " health: "
 		<< collider.health << " speed: " << collider.speed
