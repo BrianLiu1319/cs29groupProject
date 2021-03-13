@@ -102,6 +102,7 @@ int main() {
 						highScoreEntryBox.toggleMuteSfx();
 						dogsVsCats.toggleMuteSfx();
 						break;
+					default:break;
 				}
 				// note to self: after integration, make sure "enterHighScore" is
 				// only triggered if the player has achieved a high score (use the

@@ -7,7 +7,7 @@ class Inventory {
 	int contain;  // if contain == 0 it's a dog, if contain is 1,this Inventory
 	// contain a sunflower
 public:
-	Inventory(Vector2f pt, int co, AllTextures *allTextures);
+	Inventory(Vector2f pt, int co, const Texture &texture);
 	Sprite getSprite() { return spInven; }
 };
 

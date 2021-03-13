@@ -37,7 +37,7 @@ vector<Inventory *> Game::generateInvenList() {
 	float x = 50;
 	float y = 600;
 	for (int i = 0; i < 2; i++) {
-		auto aInven = new Inventory({x, y}, i, &allTextures);
+		auto aInven = new Inventory({x, y}, i, allTextures.getInv());
 		InvenList.push_back(aInven);
 		x += 60;
 	}
@@ -88,7 +88,6 @@ void Game::fire(Clock *clock, Defender *fireTower, vector<Bullet *> bulletList) 
 	// Vector2f pt = aBullet.getSp()->getPosition();
 }
 */
-
 
 // This function define a textview that shows the how much money user has.
 void Game::showMoney(int money, RenderWindow &renderWindow) {
@@ -383,3 +382,8 @@ void Game::toggleMuteSfx() {
 	}
 }
 
+void Game::cleanUp() {
+	for (auto item : ) {
+		
+	}
+}

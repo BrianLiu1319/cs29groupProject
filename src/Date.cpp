@@ -1,6 +1,6 @@
 #include "Date.hpp"
 
-Date::Date() { date = time(0); }
+Date::Date() { date = time(nullptr); }
 
 Date::Date(time_t t) { date = t; }
 

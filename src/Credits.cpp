@@ -3,8 +3,7 @@
 /*********************************
  Draws the Credits screen.
  *********************************/
-void Credits::draw(sf::RenderTarget &target,
-  __unused sf::RenderStates states) const {
+void Credits::draw(sf::RenderTarget &target,sf::RenderStates states ) const {
 	target.draw(background);
 	target.draw(backButton);
 }
