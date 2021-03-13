@@ -295,7 +295,7 @@ int Game::run(RenderWindow &renderWindow) {
 		{
 			for (auto &defender : allDefenders) {
 				if (clock->getElapsedTime().asMilliseconds() >= 2000) {
-					cout << allBullets.size() << endl;
+					//					cout << allBullets.size() << endl;
 					if (clock->getElapsedTime().asMilliseconds()
 					    >= 2000) {  // if time > = 5 sec
 						defender->fire(allBullets,allTextures.getBullet());
