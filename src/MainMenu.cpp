@@ -16,11 +16,9 @@ Constructor.
  settings button according to
  the window size.
 *********************************/
-MainMenu::MainMenu(sf::Vector2f windowSize) :
-    Menu(windowSize), highScoresPanel(windowSize) {
+MainMenu::MainMenu(sf::Vector2f windowSize) : Menu(windowSize), highScoresPanel(windowSize) {
 	// Calculate Button sizes and positions
-	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f,
-	  windowSize.y / 1080.0f * 135.0f);
+	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f, windowSize.y / 1080.0f * 135.0f);
 	sf::Vector2f centerButtonPos(windowSize.x / 1920.0f * 1350.0f - buttonSize.x / 2,
 	  windowSize.y / 1080.0f * 700.0f - buttonSize.y / 2);
 
@@ -81,14 +79,10 @@ int MainMenu::run(sf::Vector2f mousePos) {
 	int state = 0;
 
 	// Handle actions on the play button.
-	if (handleButton(playButton, playTexture, playTextureInv, mousePos)) {
-		state = 1;
-	}
+	if (handleButton(playButton, playTexture, playTextureInv, mousePos)) { state = 1; }
 
 	// Handle actions on the settings button.
-	if (handleButton(settingButton, settingTexture, settingTextureInv, mousePos)) {
-		state = 2;
-	}
+	if (handleButton(settingButton, settingTexture, settingTextureInv, mousePos)) { state = 2; }
 
 	return state;
 }

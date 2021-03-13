@@ -13,17 +13,13 @@ private:
 	// NOTE: Go to Menu.hpp to change the Folder Path.
 
 	// File names
-	const std::string menuBackgroundTexturePath
-	  = assetFolder + "settings menu bg-01.png";
+	const std::string menuBackgroundTexturePath = assetFolder + "settings menu bg-01.png";
 	const std::string creditsButtonTexturePath = assetFolder + "credits button.png";
-	const std::string creditsButtonTextureInvPath
-	  = assetFolder + "credits button inverted.png";
+	const std::string creditsButtonTextureInvPath = assetFolder + "credits button inverted.png";
 	const std::string howtoButtonTexturePath = assetFolder + "how to button.png";
-	const std::string howtoButtonTextureInvPath
-	  = assetFolder + "how to button inverted.png";
+	const std::string howtoButtonTextureInvPath = assetFolder + "how to button inverted.png";
 	const std::string backButtonTexturePath = assetFolder + "back button.png";
-	const std::string backButtonTextureInvPath
-	  = assetFolder + "back button inverted.png";
+	const std::string backButtonTextureInvPath = assetFolder + "back button inverted.png";
 	const std::string sfxButtonPath = assetFolder + "sfx on.png";
 	const std::string sfxMuteButtonPath = assetFolder + "sfx off.png";
 	const std::string sfxButtonInvPath = assetFolder + "sfx on inverted.png";
@@ -31,8 +27,7 @@ private:
 	const std::string musicButtonPath = assetFolder + "music on.png";
 	const std::string musicMuteButtonPath = assetFolder + "music off.png";
 	const std::string musicButtonInvPath = assetFolder + "music on inverted.png";
-	const std::string musicMuteButtonInvPath
-	  = assetFolder + "music off inverted.png";
+	const std::string musicMuteButtonInvPath = assetFolder + "music off inverted.png";
 	const std::string clickSFXPath01 = assetFolder + "click02.wav";
 	const std::string difficultyPath = assetFolder + "difficulty-";
 	const std::string nextButtonPath = assetFolder + "next button.png";
@@ -43,12 +38,12 @@ private:
 	static const int numOfDifficulty = 3;
 	sf::Texture difficultyLevelTextures[numOfDifficulty];
 
-	sf::Texture creditsTexture, howtoTexture, creditsTextureInv, howtoTextureInv,
-	  sfxTexture, sfxMuteTexture, sfxTextureInv, sfxMuteTextureInv, musicTexture,
-	  musicMuteTexture, musicTextureInv, musicMuteTextureInv, backTexture,
-	  backTextureInv, nextTexture, prevTexture, nextTextureInv, prevTextureInv;
-	sf::RectangleShape creditsButton, howtoButton, backButton, sfxButton,
-	  musicButton, currDifficulty, nextButton, prevButton;
+	sf::Texture creditsTexture, howtoTexture, creditsTextureInv, howtoTextureInv, sfxTexture,
+	  sfxMuteTexture, sfxTextureInv, sfxMuteTextureInv, musicTexture, musicMuteTexture,
+	  musicTextureInv, musicMuteTextureInv, backTexture, backTextureInv, nextTexture, prevTexture,
+	  nextTextureInv, prevTextureInv;
+	sf::RectangleShape creditsButton, howtoButton, backButton, sfxButton, musicButton,
+	  currDifficulty, nextButton, prevButton;
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	bool handleSoundButton(sf::RectangleShape &button,
 	  const sf::Texture &buttonTexture,

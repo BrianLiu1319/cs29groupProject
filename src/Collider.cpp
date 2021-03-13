@@ -1,6 +1,6 @@
 #include "Collider.hpp"
-
-const short BULLET_OFFSET = 5;  // change this for number for bullet spawn location
+// change this for number for bullet spawn location
+const short BULLET_OFFSET = 5;
 
 Collider::Collider(const Texture &textureTemp,
   DIRECTION direction,
@@ -82,9 +82,9 @@ Land::Land(int num, Vector2f o, AllTextures *texture) {
 	empty = true;
 	// spLand.setScale(Vector2f(0.5, 0.5));
 }
+
 Vector2f Land::getPositionofLand() {
-	auto offset = Vector2f(
-	  {spLand.getLocalBounds().width / 2, spLand.getLocalBounds().height / 2});
+	auto offset = Vector2f({spLand.getLocalBounds().width / 2, spLand.getLocalBounds().height / 2});
 	auto temp = spLand.getPosition() + offset;
 	return temp;
 }

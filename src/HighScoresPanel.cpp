@@ -16,8 +16,7 @@ Constructor.
  existing High Scores file.
 *********************************/
 HighScoresPanel::HighScoresPanel(sf::Vector2f windowSize) {
-	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f,
-	  windowSize.y / 1080.0f * 135.0f);
+	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f, windowSize.y / 1080.0f * 135.0f);
 	sf::Vector2f centerButtonPos(windowSize.x / 1920.0f * 1350.0f - buttonSize.x / 2,
 	  windowSize.y / 1080.0f * 700.0f - buttonSize.y / 2);
 
@@ -31,14 +30,12 @@ HighScoresPanel::HighScoresPanel(sf::Vector2f windowSize) {
 	}
 
 	panel.setSize(sf::Vector2f(buttonSize.x, buttonSize.y * 3.7f));
-	panel.setPosition(
-	  sf::Vector2f(centerButtonPos.x, centerButtonPos.y - buttonSize.y * 4.0f));
+	panel.setPosition(sf::Vector2f(centerButtonPos.x, centerButtonPos.y - buttonSize.y * 4.0f));
 
 	scoresText.setCharacterSize(static_cast<unsigned int>(panel.getSize().y / 18));
 	scoresText.setLineSpacing(1.5f);
 	scoresText.setFillColor(sf::Color(107, 16, 16));
-	scoresText.setPosition(
-	  panel.getPosition().x + scoresText.getCharacterSize() * 1.2f,
+	scoresText.setPosition(panel.getPosition().x + scoresText.getCharacterSize() * 1.2f,
 	  panel.getPosition().y + scoresText.getCharacterSize() * 3.0f);
 
 	try {

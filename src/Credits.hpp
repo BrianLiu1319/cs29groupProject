@@ -8,8 +8,7 @@ private:
 	// NOTE: Go to Menu.hpp to change the Folder Path.
 
 	// File Names
-	const std::string menuBackgroundTexturePath
-	  = assetFolder + "credits menu bg-01.png";
+	const std::string menuBackgroundTexturePath = assetFolder + "credits menu bg-01.png";
 	const std::string backButtonPath = assetFolder + "back button.png";
 	const std::string backButtonInvPath = assetFolder + "back button inverted.png";
 	const std::string clickSFXPath01 = assetFolder + "click02.wav";

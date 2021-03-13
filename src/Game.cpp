@@ -3,9 +3,9 @@
 Game::Game(Vector2f windowSize) : Menu(windowSize) {
 	try {
 		setClickSound(clickSFXPath01);
-	} catch (const std::string &fileName) {
-		std::cerr << "Unable to open the file " << fileName << std::endl;
-		std::cerr << "Location: Game" << std::endl;
+	} catch (const string &fileName) {
+		cerr << "Unable to open the file " << fileName << endl;
+		cerr << "Location: Game" << endl;
 		exit(1);
 	}
 }
@@ -21,15 +21,6 @@ int Game::howManyTower() {  // function with a defender instead of tower.
 	//return amount;
 	*/
 	return 1;  // Just returns 1 for test purposes. Remove this for "amount" instead.
-}
-
-
-// Take a selected land and build the tower on this land. Return the pointer of this
-// tower PROBLEM: Issue is dynamic memory. We need to delete this after!!!
-Defender *Game::defenderBuild(Land *aLand) {
-	auto aDefender
-	  = new Defender(allTextures.getTower(), aLand->getPositionofLand());
-	return aDefender;
 }
 /*
 
@@ -63,9 +54,7 @@ void Game::showMoney(int money, RenderWindow &renderWindow) {
 	showMoney.setFont(font1);
 	showMoney.setFillColor(Color::Red);
 	showMoney.setString(show);
-	showMoney.setPosition(
-	  renderWindow.getSize().x - showMoney.getLocalBounds().width,
-	  50);
+	showMoney.setPosition(renderWindow.getSize().x - showMoney.getLocalBounds().width, 50);
 	showMoney.setCharacterSize(20);
 	showMoney.setStyle(Text::Regular);
 	renderWindow.draw(showMoney);
@@ -78,15 +67,13 @@ void Game::gameClock(RenderWindow &window, vector<Collider *> &things) {
 		things[i]->updateObject();
 		// Add dynamic cast for attacker for game over
 		if (dynamic_cast<Attacker *>(things[i]) != nullptr) {
-			if ((things[i])->getPosition().x
-			      > WINDOW_WIDTH + (things[i])->getGlobalBounds().width
+			if ((things[i])->getPosition().x > WINDOW_WIDTH + (things[i])->getGlobalBounds().width
 			    || (things[i])->getPosition().x < -100) {
 				gameOver = true;
 				return;
 			}
 		}
-		if ((things[i])->getPosition().x
-		      > WINDOW_WIDTH + (things[i])->getGlobalBounds().width
+		if ((things[i])->getPosition().x > WINDOW_WIDTH + (things[i])->getGlobalBounds().width
 		    || (things[i])->getPosition().x < -100) {
 			things.erase(things.begin() + i);
 		} else {
@@ -101,13 +88,10 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 	if (attackers.empty()) { return; }
 	for (unsigned int j = 0; j < attackers.size(); j++) {
 		for (unsigned int i = 0; i < bullets.size(); i++) {
-			if (bullets[i]->getGlobalBounds().intersects(
-			      attackers[j]->getGlobalBounds())) {
+			if (bullets[i]->getGlobalBounds().intersects(attackers[j]->getGlobalBounds())) {
 				bullets[i]->hurt(*(attackers[j]));
 				cout << attackers[j]->getHealth() << endl;
-				if (attackers[j]->getHealth() <= 0) {
-					attackers.erase(attackers.begin() + j);
-				}
+				if (attackers[j]->getHealth() <= 0) { attackers.erase(attackers.begin() + j); }
 				bullets.erase(bullets.begin() + i);
 				break;
 			}
@@ -118,15 +102,13 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 		// DEFENDER GONE STOPS RUNNING
 		for (unsigned int k = 0; k < defenders.size(); k++) {
 			if (defenders.empty()) break;
-			if (attackers[j]->getGlobalBounds().intersects(
-			      defenders[k]->getGlobalBounds())) {
+			if (attackers[j]->getGlobalBounds().intersects(defenders[k]->getGlobalBounds())) {
 				attackers[j]->setDirection(TWR);
 				if (defenders[k]->getHealth() <= 0) {
 					// iterate through all attackers again//
 					// If bool stops,
 					for (auto &attacker : attackers) {
-						if (attacker->getGlobalBounds().intersects(
-						      defenders[k]->getGlobalBounds()))
+						if (attacker->getGlobalBounds().intersects(defenders[k]->getGlobalBounds()))
 							attacker->setDirection(LEFT);
 					}
 					defenders.erase(defenders.begin() + k);
@@ -137,13 +119,38 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 	}
 }
 
+void Game::addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vector2f loc) {
+	auto temp = new Attacker(attackerText, loc);
+	attackers.push_back(temp);
+}
+
+void Game::addDefender(vector<Defender *> &towers, const Texture &towerTexture, Vector2f loc) {
+	auto temp = new Defender(towerTexture, loc);
+	towers.push_back(temp);
+}
+
+void Game::toggleMuteSfx() {
+	if (muteSfx) {
+		muteSfx = false;
+	} else {
+		muteSfx = true;
+	}
+}
+/*
+void Game::cleanUp() {
+	for (auto item : allAttackers) { delete item;}
+	for (auto item : allBullets) { delete item;}
+	for (auto item : allDefenders) { delete item;}
+	for (auto item : landList) { delete item;}
+	for (auto item : invenList) { delete item;}
+}*/
+
 int Game::run(RenderWindow &renderWindow) {
 	gameOver = false;
 	score = 0;
 	renderWindow.setVerticalSyncEnabled(true);
 	renderWindow.setFramerateLimit(60);
-	if (!font1.loadFromFile("assets/Font1.ttf"))
-		cerr << "error loading font " << endl;
+	if (!font1.loadFromFile("assets/Font1.ttf")) cerr << "error loading font " << endl;
 	int towerInStore = 2;
 	auto *clock = new Clock();
 
@@ -151,7 +158,7 @@ int Game::run(RenderWindow &renderWindow) {
 	float y = 600;
 	for (int i = 0; i < 2; i++) {
 		auto aInven = new Inventory({x, y}, i, allTextures.getInv());
-		InvenList.push_back(aInven);
+		invenList.push_back(aInven);
 		x += 60;
 	}
 
@@ -165,8 +172,7 @@ int Game::run(RenderWindow &renderWindow) {
 		landList.push_back(aland);
 		y += 94;
 
-		if (y
-		    > 480)  // Here, it checks if the grid doesn't exist and we go back down.
+		if (y > 480)  // Here, it checks if the grid doesn't exist and we go back down.
 		{
 			y = 50;
 			x += 74;
@@ -198,9 +204,6 @@ int Game::run(RenderWindow &renderWindow) {
 	// int counter used for selection.
 	int nSelected = -1;
 
-	Defender *tempDefender;
-	Defender *pDefenderHolder;
-
 	while (!gameOver && renderWindow.isOpen()) {
 		while (renderWindow.pollEvent(event)) {
 			switch (event.type) {
@@ -225,20 +228,19 @@ int Game::run(RenderWindow &renderWindow) {
 		for (auto it : landList) { renderWindow.draw(it->getSprite()); }
 
 		// draw InvenList below the grid
-		for (int i = 0; i < 2; i++) { renderWindow.draw(InvenList[i]->getSprite()); }
+		for (int i = 0; i < 2; i++) { renderWindow.draw(invenList[i]->getSprite()); }
 
 
 		// Checks to see if you clicked a inventory dog.
 		if (Mouse::isButtonPressed(Mouse::Left)) {
 			Vector2i mousePressPosition = Mouse::getPosition(renderWindow);
 			for (int i = 0; i < 2; i++) {
-				Sprite InvenSp = InvenList[i]->getSprite();
+				Sprite InvenSp = invenList[i]->getSprite();
 				if (InvenSp.getGlobalBounds().contains(mousePressPosition.x,
 				      mousePressPosition.y))  // if the range of a inventory contain
 				                              // the position of mouse
 				{
-					if (!muteSfx && click.getStatus() != Sound::Playing)
-						click.play();
+					if (!muteSfx && click.getStatus() != Sound::Playing) click.play();
 					if (towerInStore > 0) {
 						nInvenselected = i;  // the selected Inventory is i
 					}
@@ -248,23 +250,20 @@ int Game::run(RenderWindow &renderWindow) {
 		}
 
 		// Checks where you clicked to select a grid slot to place tower.
-		if (Mouse::isButtonPressed(Mouse::Left)
-		    && nInvenselected != -1)  // mouse event
+		if (Mouse::isButtonPressed(Mouse::Left) && nInvenselected != -1)  // mouse event
 		{
-			Vector2i mousePostion = Mouse::getPosition(
-			  renderWindow);  // get the relative position of mouse (get where custom
-			                  // release button)
+			Vector2i mousePostion
+			  = Mouse::getPosition(renderWindow);  // get the relative position of mouse (get where
+			                                       // custom release button)
 			// that's also where user want to build a tower
 
 			for (int i = 0; i < 60; i++)  // traverse the land list
 			{
 				Sprite landSprit = landList[i]->getSprite();
 				if (landSprit.getGlobalBounds().contains(mousePostion.x,
-				      mousePostion
-				        .y))  // if the range of land contain the position of mouse
+				      mousePostion.y))  // if the range of land contain the position of mouse
 				{
-					if (!muteSfx && click.getStatus() != Sound::Playing)
-						click.play();
+					if (!muteSfx && click.getStatus() != Sound::Playing) click.play();
 					nSelected = i;  // the selected land is i
 					break;
 				}
@@ -277,22 +276,18 @@ int Game::run(RenderWindow &renderWindow) {
 		    && nInvenselected > -1)  // make sure the selected code is inthe range of
 		                             // 0-30, the inventory shouldnt be -1
 		{
-			tempDefender = defenderBuild(landList[nSelected]);  //
 			if (landList[nSelected]->getEmpty()) {
-				landList[nSelected]->setEmpty(
-				  false);  // set the empty of a land to false, prevent from being
-				           // repeatedly use
-				allDefenders.push_back(tempDefender);
-
+				landList[nSelected]->setEmpty(false);  // set the empty of a land to false, prevent
+				                                       // from being repeatedly use
+				addDefender(allDefenders,allTextures.getTower(),landList[nSelected]->getPositionofLand());
 				// money -= towerList[nSelected]->getCost();        // user' money
 				// should minus the cost of selected tower default cost of a tower is
 				// 40; PROBLEM: Work on money ^, consider working on Defender
 				// functions with cost members.
 
-				nInvenselected
-				  = -1;  // now we finish all things we should make nInven back to
-				         // -1; To prepare for next action;
-				nSelected = -1;  // the selected land should also back to -1
+				nInvenselected = -1;  // now we finish all things we should make nInven back to
+				                      // -1; To prepare for next action;
+				nSelected = -1;       // the selected land should also back to -1
 				towerInStore = howManyTower();  // this statement get how many tower
 				                                // we can build with rest money
 			}
@@ -304,74 +299,45 @@ int Game::run(RenderWindow &renderWindow) {
 		if (!allDefenders.empty())  // If the number of towers that have been
 		                            // built is not zero, we fire
 		{
-			for (unsigned int i = 0; i < allDefenders.size(); i++) {
-				pDefenderHolder = allDefenders[i];
+			for (auto &defender : allDefenders) {
 				if (clock->getElapsedTime().asMilliseconds() >= 2000) {
 					cout << allBullets.size() << endl;
 					if (clock->getElapsedTime().asMilliseconds()
-					    >= 2000) {  // if time > = 5 sec // Time constraint, ho
-
-						auto *temp = new Bullet(allTextures.getBullet(),
-						  pDefenderHolder->getPosition());
-						allBullets.push_back(temp);
-
-						for (unsigned int l = 0; l < allAttackers.size(); l++) {
+					    >= 2000) {  // if time > = 5 sec
+						defender->fire(allBullets,allTextures.getBullet());
+						for (auto &attacker : allAttackers) {
 							// Purpose is to check for collision in here.
-							if (allAttackers[l]->getGlobalBounds().intersects(
-							      allDefenders[i]->getGlobalBounds())) {
+							if (attacker->getGlobalBounds().intersects(
+							      defender->getGlobalBounds())) {
 								// allAttackers[l]->setDirection(TWR);
 								// allDefenders[i]->hurt(*(allAttackers[l]));
-								allAttackers[l]->hurt(*(allDefenders[i]));
+								attacker->hurt(*defender);
 							}
 						}
 					}
 				}
 			}
 
-			if (clock->getElapsedTime().asMilliseconds() >= 2000) {
-				clock->restart();
-			}
+			if (clock->getElapsedTime().asMilliseconds() >= 2000) { clock->restart(); }
 		}
 
 		// Use this to update, erase, and draw all the respective Bullets, Defenders,
 		// and Attackers.
 
-		gameClock(renderWindow,
-		  reinterpret_cast<vector<class Collider *> &>(allBullets));
-		gameClock(renderWindow,
-		  reinterpret_cast<vector<class Collider *> &>(allDefenders));
-		gameClock(renderWindow,
-		  reinterpret_cast<vector<class Collider *> &>(allAttackers));
+		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allBullets));
+		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allDefenders));
+		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allAttackers));
 		checkCollision(allAttackers, allBullets, allDefenders);
 		renderWindow.display();
 	}
 
 	return 0;
 }
-void Game::addAttacker(vector<Attacker *> &attackers,
-  const Texture &attackerText,
-  Vector2f loc) {
-	auto temp = new Attacker(attackerText, loc);
-	attackers.push_back(temp);
-}
+Game::~Game() {
+	for (auto item : allAttackers) { delete item;}
+	for (auto item : allBullets) { delete item;}
+	for (auto item : allDefenders) { delete item;}
+	for (auto item : landList) { delete item;}
+	for (auto item : invenList) { delete item;}
 
-void Game::addDefender(vector<Defender *> &towers,
-  const Texture &towerTexture,
-  Vector2f loc) {
-	auto temp = new Defender(towerTexture, loc);
-	towers.push_back(temp);
-}
-
-void Game::toggleMuteSfx() {
-	if (muteSfx) {
-		muteSfx = false;
-	} else {
-		muteSfx = true;
-	}
-}
-
-void Game::cleanUp() {
-	for (auto item : allAttackers) {}
-	for (auto item : allBullets) {}
-	for (auto item : allDefenders) {}
 }

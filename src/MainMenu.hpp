@@ -15,14 +15,11 @@ private:
 	// NOTE: Go to Menu.hpp to change the Folder Path.
 
 	// File names
-	const std::string menuBackgroundTexturePath
-	  = assetFolder + "main menu bg-01.png";
+	const std::string menuBackgroundTexturePath = assetFolder + "main menu bg-01.png";
 	const std::string playButtonTexturePath = assetFolder + "play button.png";
-	const std::string playButtonTextureInvPath
-	  = assetFolder + "play button inverted.png";
+	const std::string playButtonTextureInvPath = assetFolder + "play button inverted.png";
 	const std::string settingButtonTexturePath = assetFolder + "setting button.png";
-	const std::string settingButtonTextureInvPath
-	  = assetFolder + "setting button inverted.png";
+	const std::string settingButtonTextureInvPath = assetFolder + "setting button inverted.png";
 	const std::string clickSFXPath01 = assetFolder + "click02.wav";
 	const std::string highScoresTexturePath = assetFolder + "high scores.png";
 

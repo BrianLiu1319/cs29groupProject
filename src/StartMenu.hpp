@@ -28,8 +28,8 @@ private:
 	bool muteMusic = false;
 
 public:
-	StartMenu(sf::Vector2u windowSize);
-	int run(sf::Vector2i mousePos);
+	StartMenu(sf::Vector2f windowSize);
+	int run(sf::Vector2f mousePos);
 	void setBgSound(std::string path);
 	void updateScores(const Score &s) { mainMenu.updateScores(s); }
 	bool isHighScore(const Score &s) const { return mainMenu.isHighScore(s); };

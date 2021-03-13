@@ -10,8 +10,7 @@ private:
 	// NOTE: Go to Menu.hpp to change the Folder Path.
 
 	// File names
-	const std::string menuBackgroundTexturePath
-	  = assetFolder + "how to play bg-01.png";
+	const std::string menuBackgroundTexturePath = assetFolder + "how to play bg-01.png";
 	const std::string nextButtonPath = assetFolder + "next button.png";
 	const std::string nextButtonInvPath = assetFolder + "next button inverted.png";
 	const std::string prevButtonPath = assetFolder + "prev button.png";
@@ -22,8 +21,8 @@ private:
 	const std::string guidePagePath = assetFolder + "guide-";
 
 
-	sf::Texture nextTexture, prevTexture, backTexture, nextTextureInv,
-	  prevTextureInv, backTextureInv;
+	sf::Texture nextTexture, prevTexture, backTexture, nextTextureInv, prevTextureInv,
+	  backTextureInv;
 	sf::RectangleShape nextButton, prevButton, backButton, guidePage;
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	int page;
@@ -31,7 +30,7 @@ private:
 	std::array<sf::Texture, maxPage> guidePageTexture;
 
 public:
-	HowToPlay(sf::Vector2 windowSize);
+	HowToPlay(sf::Vector2f windowSize);
 	void setNextTexture(std::string path, std::string pathInv);
 	void setPrevTexture(std::string path, std::string pathInv);
 	void setBackTexture(std::string path, std::string pathInv);

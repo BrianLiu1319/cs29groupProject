@@ -21,9 +21,7 @@ class Collider : public Sprite {
 protected:
 	int health;
 	float speed;
-	Texture textureOfObject {Texture()};
 	DIRECTION defaultDirection;
-	Vector2f position;
 
 	Collider(const Texture &textureTemp,
 	  DIRECTION direction,
@@ -37,8 +35,7 @@ public:
 	int getHealth() const { return health; }
 	void setDirection(DIRECTION ab) { defaultDirection = ab; }
 	virtual void hurt(Collider &other);
-	virtual void
-	updateObject();  // call funcs to calculate or whatever is needed to be done
+	virtual void updateObject();  // call funcs to calculate or whatever is needed to be done
 };
 
 class Bullet : public Collider {

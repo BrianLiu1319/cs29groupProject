@@ -7,7 +7,7 @@ void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	target.draw(background);
 }
 
-Menu::Menu(sf::Vector2u windowSize) {
+Menu::Menu(sf::Vector2f windowSize) {
 	background.setSize(static_cast<sf::Vector2f>(windowSize));
 	mouseStartClick = true;
 }
@@ -74,8 +74,7 @@ bool Menu::handleButton(sf::RectangleShape &button,
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseStartClick) {
 			if (!muteSfx) click.play();
 			mouseStartClick = false;
-		} else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left)
-		           && !mouseStartClick) {
+		} else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && !mouseStartClick) {
 			isClicked = true;
 			button.setOutlineColor(sf::Color::Transparent);
 			button.setTexture(&buttonTexture);

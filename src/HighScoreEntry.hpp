@@ -14,8 +14,7 @@ private:
 	// File Names
 	const std::string bgPath = assetFolder + "high score entry-01.png";
 	const std::string confirmButtonPath = assetFolder + "confirm button.png";
-	const std::string confirmButtonInvPath
-	  = assetFolder + "confirm button inverted.png";
+	const std::string confirmButtonInvPath = assetFolder + "confirm button inverted.png";
 	const std::string fontPath = assetFolder + "AnonymousPro-Regular.ttf";
 	const std::string clickSFXPath01 = assetFolder + "click02.wav";
 
@@ -33,10 +32,10 @@ private:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
-	HighScoreEntry(sf::Vector2u windowSize);
+	HighScoreEntry(sf::Vector2f windowSize);
 	void setConfirmButtonTexture(std::string path, std::string pathInv);
 	void setFont(std::string path);
-	int run(sf::Vector2i mousePos, float deltaTime);
+	int run(sf::Vector2f mousePos, float deltaTime);
 	void enterText(char c);
 	void setScoreValue(unsigned int s) { score.setScore(s); }
 	Score getScore() const { return score; }

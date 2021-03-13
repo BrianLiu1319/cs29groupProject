@@ -17,10 +17,8 @@ Constructor.
  Sets up everything according to the
  window size.
 *********************************/
-HighScoreEntry::HighScoreEntry(sf::Vector2u windowSize) :
-    Menu(windowSize), defaultCursorPos(0, 0) {
-	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f,
-	  windowSize.y / 1080.0f * 135.0f);
+HighScoreEntry::HighScoreEntry(sf::Vector2f windowSize) : Menu(windowSize), defaultCursorPos(0, 0) {
+	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f, windowSize.y / 1080.0f * 135.0f);
 	sf::Vector2f centerButtonPos(windowSize.x / 2.0f - buttonSize.x / 2,
 	  windowSize.y / 2.0f - buttonSize.y / 2);
 
@@ -40,27 +38,23 @@ HighScoreEntry::HighScoreEntry(sf::Vector2u windowSize) :
 	// Set Size, Position, Color, etc.
 	textBox.setFillColor(sf::Color::White);
 	confirmButton.setSize(sf::Vector2f(buttonSize.x, buttonSize.y));
-	confirmButton.setPosition(centerButtonPos.x,
-	  centerButtonPos.y + buttonSize.y * 1.8f);
+	confirmButton.setPosition(centerButtonPos.x, centerButtonPos.y + buttonSize.y * 1.8f);
 	confirmButton.setOutlineThickness(buttonSize.y / 20.0f);
 	textBox.setSize(sf::Vector2f(buttonSize.x, buttonSize.y));
 	textBox.setPosition(centerButtonPos.x, centerButtonPos.y + buttonSize.y * 0.5f);
 	maxLengthText.setCharacterSize(static_cast<unsigned int>(windowSize.y / 18));
 	maxLengthText.setFillColor(sf::Color(220, 220, 220));
 	maxLengthText.setString("max. 16 chars");
-	maxLengthText.setPosition(
-	  textBox.getPosition().x + maxLengthText.getCharacterSize() * 0.5f,
+	maxLengthText.setPosition(textBox.getPosition().x + maxLengthText.getCharacterSize() * 0.5f,
 	  textBox.getPosition().y + maxLengthText.getCharacterSize() * 0.5f);
 	inputText.setCharacterSize(static_cast<unsigned int>(windowSize.y / 18));
 	inputText.setFillColor(sf::Color(107, 16, 16));
-	inputText.setPosition(
-	  textBox.getPosition().x + inputText.getCharacterSize() * 0.5f,
+	inputText.setPosition(textBox.getPosition().x + inputText.getCharacterSize() * 0.5f,
 	  textBox.getPosition().y + inputText.getCharacterSize() * 0.5f);
 	cursor.setFillColor(sf::Color(107, 16, 16));
 	cursor.setSize(sf::Vector2f(windowSize.x / 500.0f, windowSize.y / 14.0f));
-	defaultCursorPos
-	  += sf::Vector2f(textBox.getPosition().x + inputText.getCharacterSize() * 0.5f,
-	    textBox.getPosition().y + inputText.getCharacterSize() * 0.5f);
+	defaultCursorPos += sf::Vector2f(textBox.getPosition().x + inputText.getCharacterSize() * 0.5f,
+	  textBox.getPosition().y + inputText.getCharacterSize() * 0.5f);
 	cursor.setPosition(defaultCursorPos);
 
 	totalTime = 0.0f;
@@ -83,12 +77,8 @@ Sets the texture for the confirm button.
  Throws the path of file if not found.
 *********************************/
 void HighScoreEntry::setConfirmButtonTexture(std::string path, std::string pathInv) {
-	if (!confirmButtonTexture.loadFromFile(path.c_str())) {
-		throw(std::string(path));
-	}
-	if (!confirmButtonTextureInv.loadFromFile(pathInv.c_str())) {
-		throw(std::string(pathInv));
-	}
+	if (!confirmButtonTexture.loadFromFile(path.c_str())) { throw(std::string(path)); }
+	if (!confirmButtonTextureInv.loadFromFile(pathInv.c_str())) { throw(std::string(pathInv)); }
 
 	confirmButton.setTexture(&confirmButtonTexture);
 }
@@ -100,7 +90,7 @@ Runs the High Score Entry box.
  Updates the blinking cursor based on the
  delta time.
 *********************************/
-int HighScoreEntry::run(sf::Vector2i mousePos, float deltaTime) {
+int HighScoreEntry::run(sf::Vector2f mousePos, float deltaTime) {
 	/***
 	confirmed:
 	0 - High Score Entry
@@ -120,10 +110,7 @@ int HighScoreEntry::run(sf::Vector2i mousePos, float deltaTime) {
 	}
 
 	// Handle actions on the confirm button.
-	if (handleButton(confirmButton,
-	      confirmButtonTexture,
-	      confirmButtonTextureInv,
-	      mousePos)) {
+	if (handleButton(confirmButton, confirmButtonTexture, confirmButtonTextureInv, mousePos)) {
 		confirmed = 1;
 
 		score.setName(textTyped);

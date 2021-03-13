@@ -25,7 +25,7 @@ protected:
 	  const sf::Vector2f &mousePos);
 
 public:
-	Menu(sf::Vector2u windowSize);
+	Menu(sf::Vector2f windowSize);
 	void setBgTexture(std::string path);
 	void setClickSound(std::string path);
 	virtual void toggleMuteSfx();

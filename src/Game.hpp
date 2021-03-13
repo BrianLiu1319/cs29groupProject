@@ -16,24 +16,20 @@ class Game : public Menu {
 	const string path = "assets/doge.png";
 	// assetFolder is in Screen.hpp
 	const string clickSFXPath01 = assetFolder + "click02.wav";
+	AllTextures allTextures {};
 	vector<Bullet *> allBullets {};
 	vector<Attacker *> allAttackers {};
 	vector<Defender *> allDefenders {};
+	vector<Land *> landList {};
+	vector<Inventory *> invenList {};
 	Font font1;
 	Event event;
 	int money = 200;
-	AllTextures allTextures {};
-	vector<Land *> landList {};
-	vector<Inventory *> InvenList {};
 	unsigned int score = 0;
 	bool gameOver = false;
 	bool muteSfx = false;
-	void addAttacker(vector<Attacker *> &attackers,
-	  const Texture &attackerText,
-	  Vector2f loc);
-	void addDefender(vector<Defender *> &towers,
-	  const Texture &towerTexture,
-	  Vector2f loc);
+	void addAttacker(vector<Attacker *> &attackers, const Texture &attackerText, Vector2f loc);
+	void addDefender(vector<Defender *> &towers, const Texture &towerTexture, Vector2f loc);
 	void gameClock(RenderWindow &window, vector<Collider *> &things);
 	void checkCollision(vector<Attacker *> &attackers,
 	  vector<Bullet *> &bullets,
@@ -46,6 +42,7 @@ class Game : public Menu {
 
 public:
 	Game(Vector2f windowSize);
+	~Game() override;
 	int run(RenderWindow &renderWindow);
 	unsigned int getScore() const { return score; }
 	void toggleMuteSfx() override;

@@ -15,13 +15,11 @@ Constructor.
 *********************************/
 Credits::Credits(sf::Vector2f windowSize) : Menu(windowSize) {
 	// Calculate Button sizes and positions
-	sf::Vector2f buttonSize(windowSize.y / 1080.0f * 135.0f,
-	  windowSize.y / 1080.0f * 135.0f);
+	sf::Vector2f buttonSize(windowSize.y / 1080.0f * 135.0f, windowSize.y / 1080.0f * 135.0f);
 
 	// Set Buttons
 	backButton.setSize(sf::Vector2f(buttonSize.y, buttonSize.y));
-	backButton.setPosition(windowSize.x / 1920.0f * 20.0f,
-	  windowSize.x / 1920.0f * 20.0f);
+	backButton.setPosition(windowSize.x / 1920.0f * 20.0f, windowSize.x / 1920.0f * 20.0f);
 	backButton.setOutlineThickness(buttonSize.y / 20.0f);
 
 	// Set Textures
@@ -75,8 +73,7 @@ int Credits::run(sf::Vector2f mousePos) {
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseStartClick) {
 			if (!muteSfx) click.play();
 			mouseStartClick = false;
-		} else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left)
-		           && !mouseStartClick) {
+		} else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && !mouseStartClick) {
 			state = 1;
 			backButton.setTexture(&backTexture);
 			backButton.setOutlineColor(sf::Color::Transparent);

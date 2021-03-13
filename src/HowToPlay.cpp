@@ -21,31 +21,26 @@ HowToPlay::HowToPlay(sf::Vector2f windowSize) : Menu(windowSize) {
 	page = 0;
 
 	// Calculate Button sizes and positions
-	sf::Vector2f buttonSize(windowSize.y / 1080.0f * 135.0f,
-	  windowSize.y / 1080.0f * 135.0f);
-	sf::Vector2f centerButtonPos(windowSize.x / 2.0f,
-	  windowSize.y / 2.0f - buttonSize.y / 2.0f);
+	sf::Vector2f buttonSize(windowSize.y / 1080.0f * 135.0f, windowSize.y / 1080.0f * 135.0f);
+	sf::Vector2f centerButtonPos(windowSize.x / 2.0f, windowSize.y / 2.0f - buttonSize.y / 2.0f);
 
 	// Set up page
-	guidePage.setSize(
-	  sf::Vector2f(windowSize.x / 3.0f * 2.0f, windowSize.y / 4.0f * 3.0f));
+	guidePage.setSize(sf::Vector2f(windowSize.x / 3.0f * 2.0f, windowSize.y / 4.0f * 3.0f));
 	guidePage.setPosition(windowSize.x / 2.0f - guidePage.getSize().x / 2.0f,
 	  windowSize.y / 2.0f - guidePage.getSize().y / 2.0f);
 
 	// Set Buttons
 	nextButton.setSize(sf::Vector2f(buttonSize.x / 2, buttonSize.x));
-	nextButton.setPosition(sf::Vector2f(
-	  centerButtonPos.x + windowSize.x / 1920.0f * 800.0f - buttonSize.x / 2.0f,
-	  centerButtonPos.y));
+	nextButton.setPosition(
+	  sf::Vector2f(centerButtonPos.x + windowSize.x / 1920.0f * 800.0f - buttonSize.x / 2.0f,
+	    centerButtonPos.y));
 	nextButton.setOutlineThickness(buttonSize.y / 20.0f);
 	prevButton.setSize(sf::Vector2f(buttonSize.x / 2, buttonSize.x));
 	prevButton.setPosition(
-	  sf::Vector2f(centerButtonPos.x - windowSize.x / 1920.0f * 800.0f,
-	    centerButtonPos.y));
+	  sf::Vector2f(centerButtonPos.x - windowSize.x / 1920.0f * 800.0f, centerButtonPos.y));
 	prevButton.setOutlineThickness(buttonSize.y / 20.0f);
 	backButton.setSize(sf::Vector2f(buttonSize.y, buttonSize.y));
-	backButton.setPosition(windowSize.x / 1920.0f * 20.0f,
-	  windowSize.x / 1920.0f * 20.0f);
+	backButton.setPosition(windowSize.x / 1920.0f * 20.0f, windowSize.x / 1920.0f * 20.0f);
 	backButton.setOutlineThickness(buttonSize.y / 20.0f);
 
 
@@ -53,8 +48,7 @@ HowToPlay::HowToPlay(sf::Vector2f windowSize) : Menu(windowSize) {
 	try {
 		// Set up the array for different pages of the guide
 		for (int i = 0; i < maxPage; i++) {
-			if (!guidePageTexture[i].loadFromFile(
-			      guidePagePath + std::to_string(i + 1) + ".png")) {
+			if (!guidePageTexture[i].loadFromFile(guidePagePath + std::to_string(i + 1) + ".png")) {
 				throw(guidePagePath + std::to_string(i + 1) + ".png");
 			}
 		}
@@ -116,15 +110,13 @@ int HowToPlay::run(sf::Vector2f mousePos) {
 	int state = 0;
 
 	// Handle actions on the next button.
-	if (page < maxPage - 1
-	    && handleButton(nextButton, nextTexture, nextTextureInv, mousePos)) {
+	if (page < maxPage - 1 && handleButton(nextButton, nextTexture, nextTextureInv, mousePos)) {
 		page++;
 		guidePage.setTexture(&guidePageTexture[page]);
 	}
 
 	// Handle actions on the prev button.
-	if (page > 0
-	    && handleButton(prevButton, prevTexture, prevTextureInv, mousePos)) {
+	if (page > 0 && handleButton(prevButton, prevTexture, prevTextureInv, mousePos)) {
 		page--;
 		guidePage.setTexture(&guidePageTexture[page]);
 	}

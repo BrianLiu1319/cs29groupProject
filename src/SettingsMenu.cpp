@@ -23,8 +23,7 @@ Constructor.
 *********************************/
 SettingsMenu::SettingsMenu(sf::Vector2f windowSize) : Menu(windowSize) {
 	// Calculate Button sizes and positions
-	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f,
-	  windowSize.y / 1080.0f * 135.0f);
+	sf::Vector2f buttonSize(windowSize.x / 1920.0f * 600.0f, windowSize.y / 1080.0f * 135.0f);
 	sf::Vector2f centerButtonPos(windowSize.x / 2.0f - buttonSize.x / 2,
 	  windowSize.y / 2.0f - buttonSize.y / 2 + buttonSize.y);
 
@@ -39,27 +38,23 @@ SettingsMenu::SettingsMenu(sf::Vector2f windowSize) : Menu(windowSize) {
 	musicButton.setSize(sf::Vector2f(buttonSize.x / 2.2f, buttonSize.y));
 	// musicButton.setPosition(windowSize.x/2 - musicButton.getSize().x * 1.1f,
 	// centerButtonPos.y - musicButton.getSize().x * 1.4f);
-	musicButton.setPosition(centerButtonPos.x,
-	  centerButtonPos.y - buttonSize.y * 1.25f);
+	musicButton.setPosition(centerButtonPos.x, centerButtonPos.y - buttonSize.y * 1.25f);
 	musicButton.setOutlineThickness(buttonSize.y / 20.0f);
 	sfxButton.setSize(sf::Vector2f(buttonSize.x / 2.2f, buttonSize.y));
 	sfxButton.setPosition(windowSize.x / 2 + buttonSize.x * 0.05f,
 	  centerButtonPos.y - buttonSize.y * 1.25f);
 	sfxButton.setOutlineThickness(buttonSize.y / 20.0f);
 	backButton.setSize(sf::Vector2f(buttonSize.y, buttonSize.y));
-	backButton.setPosition(windowSize.x / 1920.0f * 20.0f,
-	  windowSize.x / 1920.0f * 20.0f);
+	backButton.setPosition(windowSize.x / 1920.0f * 20.0f, windowSize.x / 1920.0f * 20.0f);
 	backButton.setOutlineThickness(buttonSize.y / 20.0f);
 	currDifficulty.setSize(buttonSize);
-	currDifficulty.setPosition(centerButtonPos.x,
-	  centerButtonPos.y - buttonSize.y * 2.6f);
+	currDifficulty.setPosition(centerButtonPos.x, centerButtonPos.y - buttonSize.y * 2.6f);
 	nextButton.setSize(sf::Vector2f(buttonSize.y / 3.0f, buttonSize.y));
 	nextButton.setPosition(windowSize.x / 2 + buttonSize.y * 1.5f,
 	  centerButtonPos.y - buttonSize.y * 2.6f);
 	nextButton.setOutlineThickness(buttonSize.y / 20.0f);
 	prevButton.setSize(sf::Vector2f(buttonSize.y / 3.0f, buttonSize.y));
-	prevButton.setPosition(
-	  windowSize.x / 2 - buttonSize.y * 1.5f - prevButton.getSize().x,
+	prevButton.setPosition(windowSize.x / 2 - buttonSize.y * 1.5f - prevButton.getSize().x,
 	  centerButtonPos.y - buttonSize.y * 2.6f);
 	prevButton.setOutlineThickness(buttonSize.y / 20.0f);
 
@@ -69,10 +64,7 @@ SettingsMenu::SettingsMenu(sf::Vector2f windowSize) : Menu(windowSize) {
 		setCreditsTexture(creditsButtonTexturePath, creditsButtonTextureInvPath);
 		setHowtoTexture(howtoButtonTexturePath, howtoButtonTextureInvPath);
 		setBackTexture(backButtonTexturePath, backButtonTextureInvPath);
-		setSfxTexture(sfxButtonPath,
-		  sfxMuteButtonPath,
-		  sfxButtonInvPath,
-		  sfxMuteButtonInvPath);
+		setSfxTexture(sfxButtonPath, sfxMuteButtonPath, sfxButtonInvPath, sfxMuteButtonInvPath);
 		setMusicTexture(musicButtonPath,
 		  musicMuteButtonPath,
 		  musicButtonInvPath,
@@ -121,9 +113,7 @@ void SettingsMenu::setSfxTexture(std::string path,
 	if (!sfxTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!sfxMuteTexture.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 	if (!sfxTextureInv.loadFromFile(pathMute)) { throw(std::string(pathMute)); }
-	if (!sfxMuteTextureInv.loadFromFile(pathMuteInv)) {
-		throw(std::string(pathMuteInv));
-	}
+	if (!sfxMuteTextureInv.loadFromFile(pathMuteInv)) { throw(std::string(pathMuteInv)); }
 
 	sfxButton.setTexture(&sfxTexture);
 }
@@ -139,9 +129,7 @@ void SettingsMenu::setMusicTexture(std::string path,
 	if (!musicTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!musicMuteTexture.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 	if (!musicTextureInv.loadFromFile(pathMute)) { throw(std::string(pathMute)); }
-	if (!musicMuteTextureInv.loadFromFile(pathMuteInv)) {
-		throw(std::string(pathMuteInv));
-	}
+	if (!musicMuteTextureInv.loadFromFile(pathMuteInv)) { throw(std::string(pathMuteInv)); }
 
 	musicButton.setTexture(&musicTexture);
 }
@@ -163,8 +151,7 @@ Sets the textures for the difficulty
 *********************************/
 void SettingsMenu::setDifficultyTextures(std::string path) {
 	for (int i = 0; i < numOfDifficulty; i++) {
-		if (!difficultyLevelTextures[i].loadFromFile(
-		      path + std::to_string(i + 1) + ".png")) {
+		if (!difficultyLevelTextures[i].loadFromFile(path + std::to_string(i + 1) + ".png")) {
 			throw(std::string(path));
 		}
 	}
@@ -210,19 +197,13 @@ int SettingsMenu::run(sf::Vector2f mousePos) {
 	int state = 0;
 
 	// Handle actions on the back button.
-	if (handleButton(backButton, backTexture, backTextureInv, mousePos)) {
-		state = 1;
-	}
+	if (handleButton(backButton, backTexture, backTextureInv, mousePos)) { state = 1; }
 
 	// Handle actions on the credits button
-	if (handleButton(creditsButton, creditsTexture, creditsTextureInv, mousePos)) {
-		state = 2;
-	}
+	if (handleButton(creditsButton, creditsTexture, creditsTextureInv, mousePos)) { state = 2; }
 
 	// Handle actions on the how to play button.
-	if (handleButton(howtoButton, howtoTexture, howtoTextureInv, mousePos)) {
-		state = 3;
-	}
+	if (handleButton(howtoButton, howtoTexture, howtoTextureInv, mousePos)) { state = 3; }
 
 	// Handle actions on the music button.
 	if (handleSoundButton(musicButton,
@@ -276,11 +257,9 @@ bool SettingsMenu::handleSoundButton(sf::RectangleShape &button,
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseStartClick) {
 			if (!muteSfx) click.play();
 			mouseStartClick = false;
-		} else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left)
-		           && !mouseStartClick) {
+		} else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && !mouseStartClick) {
 			isClicked = true;
-			if (button.getTexture() == &buttonTexture
-			    || button.getTexture() == &buttonInvTexture) {
+			if (button.getTexture() == &buttonTexture || button.getTexture() == &buttonInvTexture) {
 				button.setTexture(&buttonMuteTexture);
 			} else {
 				button.setTexture(&buttonTexture);
@@ -294,8 +273,7 @@ bool SettingsMenu::handleSoundButton(sf::RectangleShape &button,
 		*********************************/
 	} else if (button.getOutlineColor() != sf::Color::Transparent) {
 		button.setOutlineColor(sf::Color::Transparent);
-	} else if (button.getTexture() != &buttonTexture
-	           || button.getTexture() != &buttonMuteTexture) {
+	} else if (button.getTexture() != &buttonTexture || button.getTexture() != &buttonMuteTexture) {
 		if (button.getTexture() == &buttonInvTexture) {
 			button.setTexture(&buttonTexture);
 		} else if (button.getTexture() == &buttonMuteInvTexture) {

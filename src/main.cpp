@@ -18,7 +18,6 @@ int main() {
 	/*********************************
 	Create a RenderWindow and Game
 	*********************************/
-
 	RenderWindow window(VideoMode(1280, 720), "Dogs vs Cats", Style::Close);
 	window.setFramerateLimit(60);
 	Game dogsVsCats(static_cast<Vector2f>(window.getSize()));
@@ -26,8 +25,8 @@ int main() {
 	/*********************************
 	Set up necessary stuff
 	*********************************/
-	StartMenu startMenu(window.getSize());
-	HighScoreEntry highScoreEntryBox(window.getSize());
+	StartMenu startMenu(static_cast<Vector2f>(window.getSize()));
+	HighScoreEntry highScoreEntryBox(static_cast<Vector2f>(window.getSize()));
 	// unsigned int score = 99999;
 	Score temp;
 	// bool muteMusic = false;
@@ -56,7 +55,6 @@ int main() {
 	spriteAnimator.setNumOfSpritesInRow(1, 8);
 	 */
 
-
 	/*********************************
 	 The current state of the game.
 	 - menu
@@ -73,14 +71,12 @@ int main() {
 	while (window.isOpen()) {
 		deltaTime = clock.restart().asSeconds();
 
-		Event evnt;
+		Event evnt{};
 		while (window.pollEvent(evnt)) {
 			if (evnt.type == Event::Closed) { window.close(); }
 			if (gameState == enterHighScore && evnt.type == Event::TextEntered) {
-				if (evnt.text.unicode == 8
-				    || (evnt.text.unicode > 31 && evnt.text.unicode < 127)) {
-					highScoreEntryBox.enterText(
-					  static_cast<char>(evnt.text.unicode));
+				if (evnt.text.unicode == 8 || (evnt.text.unicode > 31 && evnt.text.unicode < 127)) {
+					highScoreEntryBox.enterText(static_cast<char>(evnt.text.unicode));
 				}
 			}
 		}
@@ -90,7 +86,7 @@ int main() {
 		switch (gameState) {
 			case menu:
 				window.draw(startMenu);
-				state = startMenu.run(Mouse::getPosition(window));
+				state = startMenu.run(static_cast<Vector2f>(Mouse::getPosition(window)));
 				switch (state) {
 					case 0: gameState = playGame; break;
 					// case 1:
@@ -146,8 +142,7 @@ int main() {
 			case enterHighScore:
 
 				window.draw(highScoreEntryBox);
-				if (highScoreEntryBox.run(Mouse::getPosition(window),
-				      deltaTime)) {
+				if (highScoreEntryBox.run(static_cast<Vector2f>(Mouse::getPosition(window)), deltaTime)) {
 					gameState = menu;
 					temp = highScoreEntryBox.getScore();
 					startMenu.updateScores(temp);

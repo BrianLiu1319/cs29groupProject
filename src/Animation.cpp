@@ -9,9 +9,7 @@ Constructor.
  and the image count.
  Loop is set to true by default.
 *********************************/
-Animation::Animation(sf::Texture *texture,
-  sf::Vector2u imageCount,
-  float switchTime) {
+Animation::Animation(sf::Texture *texture, sf::Vector2u imageCount, float switchTime) {
 	this->numOfRows = imageCount.y;
 	this->switchTime = switchTime;
 	activeRow = 0;
@@ -19,9 +17,7 @@ Animation::Animation(sf::Texture *texture,
 	totalTime = 0.0f;
 	currentImage.x = 0;
 	numOfSpritesInRow = new unsigned[imageCount.y];
-	for (unsigned int i = 0; i < imageCount.y; i++) {
-		numOfSpritesInRow[i] = imageCount.x;
-	}
+	for (unsigned int i = 0; i < imageCount.y; i++) { numOfSpritesInRow[i] = imageCount.x; }
 	uvRect.width = texture->getSize().x / static_cast<float>(imageCount.x);
 	uvRect.height = texture->getSize().y / static_cast<float>(imageCount.y);
 }
@@ -84,9 +80,7 @@ Sets the number of sprites in
  in a row is different from other
  rows.
 *********************************/
-void Animation::setNumOfSpritesInRow(unsigned row, unsigned num) {
-	numOfSpritesInRow[row] = num;
-}
+void Animation::setNumOfSpritesInRow(unsigned row, unsigned num) { numOfSpritesInRow[row] = num; }
 
 /*********************************
 Sets the currently active row.
