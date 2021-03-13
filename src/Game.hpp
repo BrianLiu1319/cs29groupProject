@@ -4,11 +4,11 @@
 #include "Inventory.hpp"
 #include "Menu.hpp"
 #include "SFML/Graphics.hpp"
-
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
 using namespace std;
 using namespace sf;
 

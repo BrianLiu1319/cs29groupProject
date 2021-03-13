@@ -22,8 +22,8 @@ int Game::howManyTower() {  // function with a defender instead of tower.
 	*/
 	return 1;  // Just returns 1 for test purposes. Remove this for "amount" instead.
 }
-/*
 
+/*
 // Fire function with the defender class. Responsible for creating new Bullets and
 // put them in the Bullet Vector. PROBLEM: Bullet still needs to take a position
 // vector from the Defender. Once we make the bullet, then we insert it Perhaps make
@@ -149,7 +149,8 @@ int Game::run(RenderWindow &renderWindow) {
 	float x = 50;
 	float y = 600;
 	for (int i = 0; i < 2; i++) {
-		auto aInven = new Inventory({x, y}, i, allTextures.getInv());
+		auto  point = Vector2f (x,y);
+		auto aInven = new Inventory(point, i, allTextures.getInv());
 		invenList.push_back(aInven);
 		x += 60;
 	}
@@ -163,9 +164,8 @@ int Game::run(RenderWindow &renderWindow) {
 		Land *aland = new Land(i, tempPosition, &allTextures);
 		landList.push_back(aland);
 		y += 94;
-
-		if (y > 480)  // Here, it checks if the grid doesn't exist and we go back down.
-		{
+		// Here, it checks if the grid doesn't exist and we go back down.
+		if (y > 480) {
 			y = 50;
 			x += 74;
 		}
@@ -189,7 +189,8 @@ int Game::run(RenderWindow &renderWindow) {
 	// can be of use?
 
 	// Line to use for separating space between inventory and grid? Unsure
-	Vertex line[] = {Vertex(Vector2f(0, 0)), Vertex(Vector2f(500, 500))};
+	Vertex line[] = {Vertex(Vector2f(0, 6 * landList[0]->getSprite().getLocalBounds().height)),
+	  Vertex(Vector2f(renderWindow.getSize().x,	6 * landList[0]->getSprite().getLocalBounds().height))};
 
 	line->color = Color::White;
 
@@ -210,18 +211,18 @@ int Game::run(RenderWindow &renderWindow) {
 				default: break;
 			}
 		}
-		//
+
 		// std::cout << "Elapsed time in microseconds: " <<
 		// clock->getElapsedTime().asMilliseconds() << std::endl;
 		renderWindow.clear();
 
 		showMoney(money, renderWindow);
+
 		// draw the landList(grid) by a for loop
-		for (auto it : landList) { renderWindow.draw(it->getSprite()); }
+		for (auto item : landList) { renderWindow.draw(item->getSprite()); }
 
 		// draw InvenList below the grid
-		for (int i = 0; i < 2; i++) { renderWindow.draw(invenList[i]->getSprite()); }
-
+		for (auto item : invenList) { renderWindow.draw(item->getSprite());}
 
 		// Checks to see if you clicked a inventory dog.
 		if (Mouse::isButtonPressed(Mouse::Left)) {
@@ -315,7 +316,7 @@ int Game::run(RenderWindow &renderWindow) {
 
 		// Use this to update, erase, and draw all the respective Bullets, Defenders,
 		// and Attackers.
-
+		renderWindow.draw(line,2,sf::Lines);
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allBullets));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allDefenders));
 		gameClock(renderWindow, reinterpret_cast<vector<class Collider *> &>(allAttackers));
