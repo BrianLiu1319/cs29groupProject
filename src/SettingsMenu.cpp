@@ -254,7 +254,6 @@ int SettingsMenu::run(sf::Vector2f mousePos) {
 	return state;
 }
 
-
 /*********************************
 Handle actions on a sound button.
 *********************************/
@@ -310,7 +309,6 @@ bool SettingsMenu::handleSoundButton(sf::RectangleShape &button,
 
 	return isClicked;
 }
-
 
 /*********************************
 Sets the font for the text.

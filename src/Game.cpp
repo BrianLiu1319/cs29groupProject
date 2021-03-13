@@ -282,7 +282,7 @@ int Game::run(RenderWindow &renderWindow) {
 				addDefender(allDefenders,
 				  allTextures.getTower(),
 				  landList[nSelected]->getPositionofLand(),
-				  0);
+				  nSelected);
 				// money -= towerList[nSelected]->getCost();        // user' money
 				// should minus the cost of selected tower default cost of a tower is
 				// 40; PROBLEM: Work on money ^, consider working on Defender
