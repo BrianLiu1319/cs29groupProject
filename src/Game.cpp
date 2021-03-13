@@ -55,7 +55,9 @@ void Game::showMoney(int money, RenderWindow &renderWindow) {
 	showMoney.setFillColor(Color::Red);
 	showMoney.setString(show);
 	showMoney.setPosition(renderWindow.getSize().x - showMoney.getLocalBounds().width,
-	  renderWindow.getSize().y - showMoney.getLocalBounds().height);
+	  500 + showMoney.getGlobalBounds().height + 10);
+	//	showMoney.setPosition(renderWindow.getSize().x - showMoney.getLocalBounds().width,
+	//	  renderWindow.getSize().y - showMoney.getLocalBounds().height);
 	showMoney.setCharacterSize(20);
 	showMoney.setStyle(Text::Regular);
 	renderWindow.draw(showMoney);
@@ -150,7 +152,7 @@ int Game::run(RenderWindow &renderWindow) {
 	float x = 50;
 	float y = 600;
 	for (int i = 0; i < 2; i++) {
-		auto  point = Vector2f (x,y);
+		auto point = Vector2f(x, y);
 		auto aInven = new Inventory(point, i, allTextures.getInv());
 		invenList.push_back(aInven);
 		x += 60;
@@ -159,7 +161,7 @@ int Game::run(RenderWindow &renderWindow) {
 	Vector2f tempPosition;
 	x = 50;
 	y = 50;
-	for (int i = 0; i < 60; i++) {
+	for (int i = 0; i < 80; i++) {
 		tempPosition.x = x;
 		tempPosition.y = y;
 		Land *aland = new Land(i, tempPosition, &allTextures);
