@@ -35,12 +35,16 @@ private:
     const std::string nextButtonInvPath = assetFolder + "next button inverted.png";
     const std::string prevButtonPath = assetFolder + "prev button.png";
     const std::string prevButtonInvPath = assetFolder + "prev button inverted.png";
+    const std::string fontPath = assetFolder + "AnonymousPro-Regular.ttf";
     
-    static const int numOfDifficulty = 3;
+    static const unsigned int numOfDifficulty = 3;
+    unsigned int currDifficultyLevel;
     sf::Texture difficultyLevelTextures[numOfDifficulty];
     
     sf::Texture creditsTexture, howtoTexture, creditsTextureInv, howtoTextureInv, sfxTexture, sfxMuteTexture, sfxTextureInv, sfxMuteTextureInv, musicTexture, musicMuteTexture, musicTextureInv, musicMuteTextureInv, backTexture, backTextureInv, nextTexture, prevTexture, nextTextureInv, prevTextureInv;
     sf::RectangleShape creditsButton, howtoButton, backButton, sfxButton, musicButton, currDifficulty, nextButton, prevButton;
+    sf::Font textFont;
+    sf::Text text;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     bool handleSoundButton(sf::RectangleShape& button, const sf::Texture& buttonTexture, const sf::Texture& buttonInvTexture, const sf::Texture& buttonMuteTexture, const sf::Texture& buttonMuteInvTexture, const sf::Vector2f& mousePos);
     
@@ -54,6 +58,7 @@ public:
     void setDifficultyTextures(std::string path);
     void setNextTexture(std::string path, std::string pathInv);
     void setPrevTexture(std::string path, std::string pathInv);
+    void setFont(std::string path);
     int run(sf::Vector2f mousePos);
 };
 

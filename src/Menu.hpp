@@ -10,7 +10,9 @@ class Menu : public sf::Drawable {
 protected:
     
     //Folder Path
+    //C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/
     const std::string assetFolder = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/";
+    //const std::string assetFolder = "/Users/jessicasusilo/Documents/Jessica S./DE ANZA/6 - Winter 2021/CIS 29/Project Assets/";
     
     sf::Texture bgTexture;
     sf::RectangleShape background;

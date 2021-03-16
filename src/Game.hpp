@@ -54,6 +54,14 @@ private:
     
     bool gameOver = false;
     bool muteSfx = false;
+
+    
+    struct MyStruct
+    {
+        vector <Land*>* lands;		// important: lands should be a pointer
+        vector<Attacker*>* attackers;
+    };
+    
     /*
      Difficulty Levels:
      1 - Easy
@@ -84,8 +92,12 @@ private:
     void enmyReminder(string txt, RenderWindow& renderWindow);
     void randomGenerCats(const vector <Land*>& landList,vector <Attacker*>& allAttackers);
     int wave(string special);
-    void regularGenerAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers);
-    void generateAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers);
+
+    //void regularGenerAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers);
+    void regularGenerAttacter(MyStruct* ms);
+    //void generateAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers);
+    void generateAttacter(MyStruct* ms);
+
     //**********************************
     // End of added functions 3/15
     //**********************************
