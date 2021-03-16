@@ -39,8 +39,8 @@ HighScoresPanel::HighScoresPanel(sf::Vector2f windowSize) {
     try {
         readHighScoresFile();
     } catch (const std::string& fileName) {
-        std::cout << "Unable to open high scores file " << fileName << std::endl;
-        std::cout << "Starting with a new high scores list." << std::endl;
+        std::cout << "Unable to open existing high scores file " << fileName << std::endl;
+        std::cout << "Starting game with a new high scores panel." << std::endl;
     }
 }
 

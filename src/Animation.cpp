@@ -9,19 +9,48 @@ Constructor.
  and the image count.
  Loop is set to true by default.
 *********************************/
-Animation::Animation(sf::Texture* texture, sf::Vector2u imageCount, float switchTime) {
-    this->numOfRows = imageCount.y;
+
+Animation::Animation(const sf::Texture& texture, const sf::Vector2u& imageCount, float switchTime) {
+    numOfRows = imageCount.y;
     this->switchTime = switchTime;
     activeRow = 0;
     loop = true;
     totalTime = 0.0f;
     currentImage.x = 0;
     numOfSpritesInRow = new unsigned[imageCount.y];
-    for(unsigned int i = 0; i < imageCount.y; i++) {
+    for(int i = 0; i < imageCount.y; i++) {
         numOfSpritesInRow[i] = imageCount.x;
     }
-    uvRect.width = texture->getSize().x / static_cast<float>(imageCount.x);
-    uvRect.height = texture->getSize().y / static_cast<float>(imageCount.y);
+    uvRect.width = texture.getSize().x / static_cast<float>(imageCount.x);
+    uvRect.height = texture.getSize().y / static_cast<float>(imageCount.y);
+}
+
+/*********************************
+Constructor.
+ Same as the other constructor,
+ except that it accepts the texture path
+ instead of a texture. It loads the texture
+ itself.
+*********************************/
+Animation::Animation(const std::string& texturePath, const sf::Vector2u& imageCount, float switchTime) {
+    sf::Texture texture;
+    if(!texture.loadFromFile(texturePath)) {
+        std::cerr << "Unable to load file " << texturePath << std::endl;
+        exit(1);
+    }
+    
+    numOfRows = imageCount.y;
+    this->switchTime = switchTime;
+    activeRow = 0;
+    loop = true;
+    totalTime = 0.0f;
+    currentImage.x = 0;
+    numOfSpritesInRow = new unsigned[imageCount.y];
+    for(int i = 0; i < imageCount.y; i++) {
+        numOfSpritesInRow[i] = imageCount.x;
+    }
+    uvRect.width = texture.getSize().x / static_cast<float>(imageCount.x);
+    uvRect.height = texture.getSize().y / static_cast<float>(imageCount.y);
 }
 
 /*********************************
@@ -65,6 +94,7 @@ void Animation::update(float deltaTime) {
     if(totalTime >= switchTime) {
         totalTime -= switchTime;
         currentImage.x++;
+        //std::cout << "CURRENT IMAGE:  " << currentImage.x << std::endl;
         if(currentImage.x >= numOfSpritesInRow[activeRow]) {
             if(loop) currentImage.x = 0;
             else currentImage.x = numOfSpritesInRow[activeRow] - 1;
@@ -94,14 +124,15 @@ void Animation::setActiveRow(unsigned row) {
     }
     
     activeRow = row;
+    currentImage.x = 0;
 }
 
 /*********************************
 Returns whether or not the animation
  is currently on the last frame.
 *********************************/
-bool Animation::isLastFrame() {
-    if(currentImage.x == numOfSpritesInRow[activeRow]) {
+bool Animation::isLastFrame() const {
+    if(currentImage.x == numOfSpritesInRow[activeRow] - 1) {
         return true;
     }
     return false;
@@ -113,4 +144,8 @@ Sets whether or not to loop the
 *********************************/
 void Animation::setLoop(bool set) {
     loop = set;
+}
+
+Animation::~Animation() {
+    delete [] numOfSpritesInRow;
 }

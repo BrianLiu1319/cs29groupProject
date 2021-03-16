@@ -8,20 +8,18 @@
 class Land
 {
 	private:
-		//int width;
-		//int height;
+		int width;
+		int height;
 		//TPosition centerPosition; //
 		//TPosition oPoint;
-
 		sf::Vector2f oPoint1;
-		bool empty = false;
+		bool empty;
 		sf::Texture image;
 		sf::Sprite spLand;
 		
 	public:
-		Land() = default;
+		Land();
 		Land(int num, sf::Vector2f o);
-		/*
 		void setWidth(int x)
 		{
 			width = x;
@@ -39,7 +37,6 @@ class Land
 			return height;
 		}
 
-	*/
 		sf::Sprite getSprite()
 		{
 			return spLand;

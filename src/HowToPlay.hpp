@@ -26,7 +26,7 @@ private:
     sf::RectangleShape nextButton, prevButton, backButton, guidePage;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     int page;
-    static const int maxPage = 4;
+    static const unsigned int maxPage = 4;
     std::array<sf::Texture, maxPage> guidePageTexture;
     
 public:

@@ -2,11 +2,10 @@
 #include <iostream>
 #include "Collider.h"
 
-//Heyo Loser!! Changed just now at 9:02
 ostream& operator <<(ostream& os, const Collider& collider) {
-	os << collider.typeName() << " :" << /*"uid: " << collider.uid <<*/  " health: "
-		<< collider.health << " speed: " << collider.speed
-		<< " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
+	os << collider.typeName() << " :" <<
+    /*"uid: " << collider.uid <<*/
+    " health: " << collider.health << " speed: " << collider.speed << " Origin: X:" << collider.getOrigin().x << " Y:" << collider.getOrigin().y;
 	return os;
 }
 
@@ -18,12 +17,13 @@ Collider::Collider(const string& textureFileName, DIRECTION direction, Vector2f 
 
 	Vector2f origin(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f);
 	setOrigin(origin);
+    
 	defaultDirection = direction;
 	setPosition(positionOfObj.x, positionOfObj.y);
 	//Resize(20.0f, 20.0f); // Problem: Need to work on scaling the sprite somehow. 
 }
 
-Collider::Collider(const Texture& textureTemp, DIRECTION direction, Vector2f positionOfObj, int objHealth, float objSpeed) {
+Collider::Collider(const Texture& textureTemp, DIRECTION direction, Vector2f positionOfObj,int objHealth, float objSpeed) {
 	speed = objSpeed;
 	health = objHealth;
 	setTexture(textureTemp);
@@ -32,6 +32,7 @@ Collider::Collider(const Texture& textureTemp, DIRECTION direction, Vector2f pos
 	setOrigin(origin);
 	defaultDirection = direction;
 	setPosition(positionOfObj.x, positionOfObj.y);
+    //setScale(0.5f, 0.5f);
 	//Resize(20.0f, 20.0f); // Problem: Need to work on scaling the sprite somehow. 
 }
 
@@ -60,7 +61,6 @@ void Collider::hurt(Collider& other) {
 }
 
 void Collider::updateObject() {
-	this->animate();
 	if (defaultDirection == LEFT) autoTravel(LEFT);
 	else if (defaultDirection == RIGHT) autoTravel(RIGHT);
 	/*
@@ -69,6 +69,7 @@ void Collider::updateObject() {
 	*/
 
 }
+
 
 /*
 void Bullet::hurt(Collider &other) {
@@ -80,7 +81,7 @@ void Attacker::hurt(Collider &other) {
 	// if (health == 0 ) dead
 }*/
 
-
+/*
 void addAttacker(vector<Attacker*>& attackers) {
 	auto* temp = new Attacker();
 	attackers.push_back(temp);
@@ -90,6 +91,7 @@ void addAttacker(vector<Attacker*>& attackers, Vector2f a) {
 	auto* temp = new Attacker(a);
 	attackers.push_back(temp);
 }
+ */
 
 /*
 void addBullet(vector<Bullet*>& things) {
@@ -99,7 +101,12 @@ void addBullet(vector<Bullet*>& things) {
 }
 */
 
+/*
 void addBullet(vector<Bullet*>& things, Bullet* a) {
 	Bullet* temp = a;
 	things.push_back(temp);
 }
+*/
+
+
+

@@ -7,7 +7,10 @@ Inventory::Inventory()
 }
 Inventory::Inventory(Vector2f pt, int co)
 {
-	string path = "/Users/jessicasusilo/Documents/Jessica S./DE ANZA/6 - Winter 2021/CIS 29/Project Assets/play button.png";
+//C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/
+	string path = "C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/play button.png";
+
+	//string path = "/Users/jessicasusilo/Documents/Jessica S./DE ANZA/6 - Winter 2021/CIS 29/Project Assets/play button.png";
 	width = 54;
 	height = 54;
 
