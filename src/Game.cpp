@@ -3,7 +3,8 @@
 Game::Game(sf::Vector2f windowSize) : Menu(windowSize) {
     try {
         setClickSound(clickSFXPath01);
-    } catch (const std::string& fileName) {
+    }
+    catch (const std::string& fileName) {
         std::cerr << "Unable to open the file " << fileName << std::endl;
         std::cerr << "Location: Game" << std::endl;
         exit(1);
@@ -167,7 +168,8 @@ int Game::wave(string special)
     return catMakerSped;
 }
 
-void Game::regularGenerAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers)
+//void Game::regularGenerAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers)
+void Game::regularGenerAttacter(MyStruct* ms)
 {
     while (gaming)
     {
@@ -183,12 +185,14 @@ void Game::regularGenerAttacter(vector <Land*>* aLandList, vector <Attacker*>& a
 
             }
             //generate cat on a random line. 
-            randomGenerCats(*aLandList, allAttackers);
+            randomGenerCats(*ms->lands, *ms->attackers);
         }
     }
+    ms = nullptr;
 }
 
-void Game::generateAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers)
+//void Game::generateAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers)
+void Game::generateAttacter(MyStruct* ms)
 {
     bool waveSwitch;
     clock_t start, finish;
@@ -225,7 +229,7 @@ void Game::generateAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAt
                         sleep(milliseconds(100));//10* 100 millseconds == 1second
 
                     }
-                    randomGenerCats(*aLandList, allAttackers);
+                    randomGenerCats(*ms->lands, *ms->attackers);
                 }
                 //the last wave is at 5th min
                 else {
@@ -236,7 +240,8 @@ void Game::generateAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAt
                             break;
                         sleep(milliseconds(100));//5* 100 == 500millsecond == 0.5second
                     }
-                    randomGenerCats(*aLandList, allAttackers);
+                    //randomGenerCats(*aLandList, allAttackers);
+                    randomGenerCats(*ms->lands, *ms->attackers);
                 }
                 waveFinish = clock();							//this varible take the lenght of waving time.
                 secInWave = (waveFinish - waveStart) / CLOCKS_PER_SEC;
@@ -311,7 +316,7 @@ void Game::gameClock(RenderWindow& window, vector<Collider*>& things) {
     }
     for (int i = 0; i < things.size(); i++)
     {
-        things[i]->updateObject(); 
+        things[i]->updateObject();
         // Add dynamic cast for attacker for game over
         if (dynamic_cast<Attacker*>(things[i]) != nullptr)
         {
@@ -330,7 +335,7 @@ void Game::gameClock(RenderWindow& window, vector<Collider*>& things) {
         {
             //window.draw(*things[i]);
 
-            
+
             if (things[i]->getMaker() == true)
             {
                 window.draw(*things[i]);
@@ -345,7 +350,7 @@ void Game::gameClock(RenderWindow& window, vector<Collider*>& things) {
                 window.draw(*things[i]);
                 threadLock.unlock();
             }
-            
+
 
         }
     }
@@ -372,25 +377,25 @@ void Game::checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets
                 cout << attackers[j]->getHealth() << endl;
                 if (attackers[j]->getHealth() <= 0)
                 {
-                     attackers[j]->setDefeated();
+                    attackers[j]->setDefeated();
                     //attackers.erase(attackers.begin() + j);
-                    
+
                     //NOTE:
                     //Difficulty doesn't change anything yet besides score!
                     //Harder difficulty should make Cats have more HP? or make more Cats spawn?
                     //But once you defeat a Cat you get more 
 
-                    switch(difficulty) {
-                        case 1:
-                            score += 100;
-                            break;
-                        case 2:
-                            score += 120;
-                            break;
-                        case 3:
-                            score += 140;
-                            break;
-                    }      
+                    switch (difficulty) {
+                    case 1:
+                        score += 100;
+                        break;
+                    case 2:
+                        score += 120;
+                        break;
+                    case 3:
+                        score += 140;
+                        break;
+                    }
                     getOut = true;
                 }
                 bullets.erase(bullets.begin() + i);
@@ -434,7 +439,7 @@ void Game::checkCollision(vector<Attacker*>& attackers, vector<Bullet*>& bullets
                                                   // 250 to setDirection back to left since some cats get stuck...
 
                 }
-             
+
             }
         }
     }
@@ -448,19 +453,19 @@ void Game::addBullet(vector<Bullet*>& things) {
 }
 
 int Game::run(RenderWindow& renderWindow) {
-    
+
     //RenderWindow renderWindow(VideoMode(1000, 1000), "Dogs vs Cats");
 
     Thread* regular = nullptr; // this is a thread control general enemies(not wave)(Steven)
     gameOver = false;
     score = 0;
-    
+
     sf::Texture textureOfObject;
     textureOfObject.loadFromFile("C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/bul.png");
     //textureOfObject
     //renderWindow.setVerticalSyncEnabled(true);
     renderWindow.setFramerateLimit(60);
-    
+
     if (!font1.loadFromFile("C:/Users/tommy/source/repos/jxsusilo/cs29groupProjectTrue/LATEST/assets/font1.ttf"))
         cout << "erro " << endl;
 
@@ -519,7 +524,7 @@ int Game::run(RenderWindow& renderWindow) {
     while (!gameOver && renderWindow.isOpen())
     {
         animationDeltaTime = animationClock.restart().asSeconds();
-        
+
         while (renderWindow.pollEvent(event))
         {
             switch (event.type)
@@ -542,18 +547,24 @@ int Game::run(RenderWindow& renderWindow) {
             //start two thread to generate enemies
             if (!regular)// (non-wave cats)skirmisher
             {
-                regular = new Thread(regularGenerAttacter, &landList);
+                MyStruct* ms = new MyStruct;
+                ms->attackers = &allAttackers;
+                ms->lands = &landList;
+                regular = new Thread(&Game::regularGenerAttacter,ms); //regular = new Thread(&Game::regularGenerAttacter,this); ??
                 regular->launch();
 
             }
             if (!a_TGenerate)//(wave cats) corps
             {
-                a_TGenerate = new Thread(generateAttacter, &landList);
+                MyStruct* ms = new MyStruct;
+                ms->attackers = &allAttackers;
+                ms->lands = &landList;
+                a_TGenerate = new Thread(&Game::generateAttacter, ms);
                 a_TGenerate->launch();
 
             }
 
-        }  
+        }
         renderWindow.clear();
 
         if (waving == true)
@@ -561,7 +572,7 @@ int Game::run(RenderWindow& renderWindow) {
             string wavegraderemind = " Wave " + to_string(waveGrade);
             enmyReminder(wavegraderemind, renderWindow);
         }
-         
+
 
         showMoney(money, renderWindow);
         // draw the landList(grid) by a for loop
@@ -587,7 +598,7 @@ int Game::run(RenderWindow& renderWindow) {
                 Sprite InvenSp = InvenList[i]->getSprite();
                 if (InvenSp.getGlobalBounds().contains(mousePressPosition.x, mousePressPosition.y))// if the range of a inventory contain the position of mouse
                 {
-                    if(!muteSfx && click.getStatus() != sf::Sound::Playing) click.play();
+                    if (!muteSfx && click.getStatus() != sf::Sound::Playing) click.play();
                     if (towerInStore > 0)
                     {
                         nInvenselected = i;                                                        // the selected Inventory is i
@@ -610,7 +621,7 @@ int Game::run(RenderWindow& renderWindow) {
                 Sprite landSprit = landList[i]->getSprite();
                 if (landSprit.getGlobalBounds().contains(mouseRepostion.x, mouseRepostion.y))// if the range of land contain the position of mouse
                 {
-                    if(!muteSfx && click.getStatus() != sf::Sound::Playing) click.play();
+                    if (!muteSfx && click.getStatus() != sf::Sound::Playing) click.play();
                     nSelected = i;                                                        // the selected land is i
                     break;
                 }
@@ -665,26 +676,26 @@ int Game::run(RenderWindow& renderWindow) {
 
 
 
-            /*
+        /*
 
-            if (landList[nSelected]->getEnpty() == true)
-            {
-                landList[nSelected]->setEmpty(false); //set the empty of a land to false, prevent from being repeatly use
-                builtDefenderList.push_back(tempDefender);
+        if (landList[nSelected]->getEnpty() == true)
+        {
+            landList[nSelected]->setEmpty(false); //set the empty of a land to false, prevent from being repeatly use
+            builtDefenderList.push_back(tempDefender);
 
-                //money -= towerList[nSelected]->getCost();        // user' money should minus the cost of selected tower default cost of a tower is 40;
-                //PROBLEM: Work on money ^, consider working on Defender functions with cost members.
+            //money -= towerList[nSelected]->getCost();        // user' money should minus the cost of selected tower default cost of a tower is 40;
+            //PROBLEM: Work on money ^, consider working on Defender functions with cost members.
 
-                nInvenselected = -1;                            //now we finish all things we should make nInven back to -1; To prepare for next action;
-                nSelected = -1;                                    //the selected land should also back to -1
-                towerInStore = howManyTower(money);                // this statement get how many tower we can build with rest money
-            }
+            nInvenselected = -1;                            //now we finish all things we should make nInven back to -1; To prepare for next action;
+            nSelected = -1;                                    //the selected land should also back to -1
+            towerInStore = howManyTower(money);                // this statement get how many tower we can build with rest money
         }
-        */
+    }
+    */
 
-        // Fires every 1 second a bullet. Currently, the fire function creates bullets in the same spot
-        // PROBLEM: Makes bullets position in it's constructor take the vector of Tower.
-                    
+    // Fires every 1 second a bullet. Currently, the fire function creates bullets in the same spot
+    // PROBLEM: Makes bullets position in it's constructor take the vector of Tower.
+
         if (builtDefenderList.size() > 0)  // If the number of towers that have been built is not zero, we fire
         {
             for (unsigned int i = 0; i < builtDefenderList.size(); i++)
@@ -701,7 +712,7 @@ int Game::run(RenderWindow& renderWindow) {
                         {
                             // Purpose is to check for collision in here.
                             if (allAttackers[l]->getGlobalBounds().intersects(builtDefenderList[i]->getGlobalBounds()))
-                            {                       
+                            {
                                 allAttackers[l]->hurt(*(builtDefenderList[i]));
                                 cout << builtDefenderList[i]->getHealth() << endl;
                                 cout << "HITTEM!! " << "THE DOG HP IS NOW " << builtDefenderList[i]->getHealth() << endl;
@@ -724,7 +735,7 @@ int Game::run(RenderWindow& renderWindow) {
             coinCollectin(builtMaker); //call collection function
 
         }
-        
+
         //Update Animations and erase defeated Cats/Dogs
         updateAnimations(builtDefenderList, allAttackers);
 
@@ -735,19 +746,19 @@ int Game::run(RenderWindow& renderWindow) {
         checkCollision(allAttackers, allBullets, builtDefenderList);
         renderWindow.display();
     }
-    
-    
+
+
     //Clear memory!! (There was memory leak before)
-    for(int i = 0; i < allAttackers.size(); i++) {
+    for (int i = 0; i < allAttackers.size(); i++) {
         delete allAttackers[i];
     }
-    for(int i = 0; i < allDefenders.size(); i++) {
+    for (int i = 0; i < allDefenders.size(); i++) {
         delete allDefenders[i];
     }
-    for(int i = 0; i < allBullets.size(); i++) {
+    for (int i = 0; i < allBullets.size(); i++) {
         delete allBullets[i];
     }
-    for(int i = 0; i < builtDefenderList.size(); i++) {
+    for (int i = 0; i < builtDefenderList.size(); i++) {
         delete builtDefenderList[i];
     }
     delete clock;
@@ -773,9 +784,10 @@ void Game::addAttacker(vector<Attacker*>& attackers, Vector2f a) {
 }
 
 void Game::toggleMuteSfx() {
-    if(muteSfx) {
+    if (muteSfx) {
         muteSfx = false;
-    } else {
+    }
+    else {
         muteSfx = true;
     }
 }
@@ -786,28 +798,30 @@ void Game::toggleMuteSfx() {
  Erases any defeated ones.
  *********************/
 void Game::updateAnimations(vector<Defender*>& defenders, vector<Attacker*>& attackers) {
-    
+
     //Update all Attackers
-    for(int i = 0; i < attackers.size(); i++) {
-        if(attackers[i]->isDefeated()) {
+    for (int i = 0; i < attackers.size(); i++) {
+        if (attackers[i]->isDefeated()) {
             threadLock.lock();
             delete attackers[i];
             attackers.erase(attackers.begin() + i);
             threadLock.unlock();
             cout << "Cat Dead" << endl;
-        } else {
+        }
+        else {
             attackers[i]->updateAnimation(animationDeltaTime);
         }
     }
-    
+
     //Update all Defenders
-    for(int i = 0; i < defenders.size(); i++) {
-        if(defenders[i]->isDefeated()) {
+    for (int i = 0; i < defenders.size(); i++) {
+        if (defenders[i]->isDefeated()) {
             delete defenders[i];
             defenders.erase(defenders.begin() + i);
-        } else {
+        }
+        else {
             defenders[i]->updateAnimation(animationDeltaTime);
         }
     }
-    
+
 }
