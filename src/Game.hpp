@@ -19,6 +19,8 @@
 using namespace std;
 using namespace sf;
 
+
+
 class Game : public Menu {
 private:
     const string path = assetFolder + "dogSprites.png";
@@ -33,6 +35,7 @@ private:
     unsigned int score = 0;
     sf::Clock animationClock;
     float animationDeltaTime = 0.0f;
+    bool gaming = false;
 
     //*****************************
     // Steven's Added stuff
@@ -71,6 +74,23 @@ private:
     vector<Defender*> generateTowerList(vector <Land*> landList);
     int howManyTower(int money);
     Defender* defenderBuild(Land* aLand);
+
+    //**********************
+    // Added this 3/15
+    //**********************
+
+    coinMaker* buildCoinMaker(Land* land);
+    void coinCollectin(vector<coinMaker*>& makerList);
+    void enmyReminder(string txt, RenderWindow& renderWindow);
+    void randomGenerCats(const vector <Land*>& landList,vector <Attacker*>& allAttackers);
+    int wave(string special);
+    void regularGenerAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers);
+    void generateAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers);
+    //**********************************
+    // End of added functions 3/15
+    //**********************************
+
+
     void fire(Clock* clock, Defender* fireTower, vector<Bullet*> bulletList);
     void drawBuiltDefender(vector <Defender*> builtTowerList, RenderWindow& renderWindow);
     void showMoney(int money, RenderWindow& renderWindow);

@@ -97,6 +97,161 @@ Defender* Game::defenderBuild(Land* aLand)
     return aDefender;
 }
 
+coinMaker* Game::buildCoinMaker(Land* land)
+{
+    Vector2f landPosi = land->getVector();
+    coinMaker* aMaker = new coinMaker(landPosi);
+    return aMaker;
+}
+
+void Game::coinCollectin(vector<coinMaker*>& makerList)
+{
+    int moneyGrowth = 0;
+    for (int i = 0; i < makerList.size(); i++)
+    {
+
+        if (makerList[i]->howmanyCoininBox() > 0)	//if the coinmaker has coins. 
+        {
+            moneyGrowth += makerList[i]->clearCoin();	//the groth money += every coinmaker's coin
+        }
+    }
+    money += moneyGrowth;
+    return;
+
+}
+
+void Game::enmyReminder(string txt, RenderWindow& renderWindow)
+{
+    Text showWave;
+    string show = txt;
+    showWave.setFont(font1);
+    showWave.setFillColor(sf::Color::Red);
+    showWave.setString(show);
+    showWave.setPosition(700, 900);
+    showWave.setCharacterSize(40);
+    showWave.setStyle(sf::Text::Regular);
+
+    renderWindow.draw(showWave);
+    return;
+}
+
+void Game::randomGenerCats(const vector <Land*>& landList, vector <Attacker*>& allAttackers)
+{
+    threadLock.lock();
+    Vector2f landTempVec;
+    srand((unsigned)time(NULL)); //waste memory
+    int tempLandIndex;
+    tempLandIndex = rand() % 30;
+    landTempVec = landList[tempLandIndex]->getVector();
+    addAttacker(allAttackers, landList[tempLandIndex]->getVector());
+    threadLock.unlock();
+    return;
+}
+
+int Game::wave(string special)
+{
+    int catMakerSped;
+    if (special == "F")//final wave began at 5th min. speed
+    {
+        catMakerSped = 5;
+
+    }
+    else if (special == "n") //normal
+    {
+        catMakerSped = 10;
+    }
+    else
+    {
+        return 50;
+    }
+    return catMakerSped;
+}
+
+void Game::regularGenerAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers)
+{
+    while (gaming)
+    {
+        //this thread only work when there's no cat corps.
+        if (waving == false)
+        {
+            //1 cats are generated in 5 second
+            for (int i = 0; i < 50; i++) //5 second 1 cats.
+            {
+                if (!gaming)
+                    break;
+                sleep(milliseconds(100));
+
+            }
+            //generate cat on a random line. 
+            randomGenerCats(*aLandList, allAttackers);
+        }
+    }
+}
+
+void Game::generateAttacter(vector <Land*>* aLandList, vector <Attacker*>& allAttackers)
+{
+    bool waveSwitch;
+    clock_t start, finish;
+    clock_t waveStart, waveFinish;
+    int secInAMin;
+    start = clock();// game begin
+    int sec;
+    int secInWave;
+
+    while (gaming)
+    {
+        waving = false;
+        finish = clock(); //timing
+        sec = (finish - start) / CLOCKS_PER_SEC; // this varible show how many seconds have escaped since game began. 
+        secInAMin = sec % 60;//this varible show the seconds of a min.like: the 5th second of the second min.
+
+        waveSwitch = true;
+        //wave begain
+        while (secInAMin == 5 && sec > 30 && waveSwitch == true)// if thime is 5th second of a min. and it'nt the first min. and switch is on. A wave of cat coming.
+        {
+            waveGrade++;
+            waveStart = clock();				//the wave timer is tiking. I set the length of a wave is 30 second.
+            secInWave = 0;
+            while (secInWave < 30)				//if the length of a wave is shorter than 30 second.wave continue			
+            {
+                waving = true;					//waving time is coming. if this global varible is true the regular generater gona stop working.
+                if (sec < 3000)					//if the gaming time is shorter than 5 min. we only do the normal wave
+                {
+
+                    for (int i = 0; i < wave("n"); i++) //1 second 1 cat.// this is normal wave.
+                    {
+                        if (!gaming)
+                            break;
+                        sleep(milliseconds(100));//10* 100 millseconds == 1second
+
+                    }
+                    randomGenerCats(*aLandList, allAttackers);
+                }
+                //the last wave is at 5th min
+                else {
+
+                    for (int i = 0; i < wave("F"); i++) //1 second 2 cats.
+                    {
+                        if (!gaming)
+                            break;
+                        sleep(milliseconds(100));//5* 100 == 500millsecond == 0.5second
+                    }
+                    randomGenerCats(*aLandList, allAttackers);
+                }
+                waveFinish = clock();							//this varible take the lenght of waving time.
+                secInWave = (waveFinish - waveStart) / CLOCKS_PER_SEC;
+            }
+            if (secInWave >= 30)							//if the waving time longer than 30. this wave should stop.
+            {
+                waveSwitch = false;
+                waving = false;
+
+            }
+
+        }
+    }
+}
+
 // Fire function with the defender class. Responsible for creating new Bullets and put them in the Bullet Vector.
 // PROBLEM: Bullet still needs to take a position vector from the Defender. Once we make the bullet, then we insert it
 // Perhaps make another function for addBullet(allBullets, bullet) or just add it directly to the vector without the use of a function.
@@ -173,7 +328,25 @@ void Game::gameClock(RenderWindow& window, vector<Collider*>& things) {
         }
         else
         {
-            window.draw(*things[i]);
+            //window.draw(*things[i]);
+
+            
+            if (things[i]->getMaker() == true)
+            {
+                window.draw(*things[i]);
+                if (things[i]->howmanyCoininBox() > 0)
+                {
+                    things[i]->drawCoins(window);
+                }
+
+            }
+            else {
+                threadLock.lock();
+                window.draw(*things[i]);
+                threadLock.unlock();
+            }
+            
+
         }
     }
 }
@@ -277,7 +450,8 @@ void Game::addBullet(vector<Bullet*>& things) {
 int Game::run(RenderWindow& renderWindow) {
     
     //RenderWindow renderWindow(VideoMode(1000, 1000), "Dogs vs Cats");
-    
+
+    Thread* regular = nullptr; // this is a thread control general enemies(not wave)(Steven)
     gameOver = false;
     score = 0;
     
@@ -311,6 +485,9 @@ int Game::run(RenderWindow& renderWindow) {
     vector<Attacker*> allAttackers = {};
     vector<Defender*> allDefenders = {}; // List of all defenders. Could implement this in the future.
     vector<Defender*> builtDefenderList = {}; // Have a seperate list for built Towers to differentiate.
+
+    // Added 3/15
+    vector<coinMaker*> builtMaker = {};
 
     int nInvenselected = -1;        //This int is a counter; represent the Inventory user selected; if user didnt select; it is -1;
     InvenList = generateInvenList();    // creat the Inventory list
@@ -359,10 +536,31 @@ int Game::run(RenderWindow& renderWindow) {
                 }
             }
         }
-        
-        //
-        //std::cout << "Elapsed time in microseconds: " << clock->getElapsedTime().asMilliseconds() << std::endl;
+
+        if (Keyboard::isKeyPressed(Keyboard::S))
+        {
+            //start two thread to generate enemies
+            if (!regular)// (non-wave cats)skirmisher
+            {
+                regular = new Thread(regularGenerAttacter, &landList);
+                regular->launch();
+
+            }
+            if (!a_TGenerate)//(wave cats) corps
+            {
+                a_TGenerate = new Thread(generateAttacter, &landList);
+                a_TGenerate->launch();
+
+            }
+
+        }  
         renderWindow.clear();
+
+        if (waving == true)
+        {
+            string wavegraderemind = " Wave " + to_string(waveGrade);
+            enmyReminder(wavegraderemind, renderWindow);
+        }
          
 
         showMoney(money, renderWindow);
@@ -380,7 +578,8 @@ int Game::run(RenderWindow& renderWindow) {
 
 
         // Checks to see if you clicked a inventory dog.
-        if (Mouse::isButtonPressed(sf::Mouse::Left))
+        //if (Mouse::isButtonPressed(sf::Mouse::Left))
+        if (event.type == Event::EventType::MouseButtonPressed)
         {
             Vector2i mousePressPosition = Mouse::getPosition(renderWindow);
             for (int i = 0; i < 2; i++)
@@ -400,7 +599,8 @@ int Game::run(RenderWindow& renderWindow) {
         }
 
         // Checks where you clicked to select a grid slot to place tower.
-        if (Mouse::isButtonPressed(sf::Mouse::Left) && nInvenselected != -1)// mouse event
+        //if (Mouse::isButtonPressed(sf::Mouse::Left) && nInvenselected != -1)// mouse event
+        if (event.type == Event::EventType::MouseButtonReleased && nInvenselected != -1)
         {
             Vector2i mouseRepostion = Mouse::getPosition(renderWindow);// get the relative position of mouse (get where custom release button)
             //that's also where user want to build a tower
@@ -421,6 +621,52 @@ int Game::run(RenderWindow& renderWindow) {
         if (nSelected >= 0 && nSelected < 60 && nInvenselected<2 && nInvenselected>-1)// make sure the selected code is inthe range of 0-30, the inventory shouldnt be -1
         {
             tempDefender = defenderBuild(landList[nSelected]);  //
+            coinMaker* aMaker = buildCoinMaker(landList[nSelected]);
+            if (landList[nSelected]->getEnpty() == true)
+            {
+                if (nInvenselected == 0 && money >= tempDefender->getCost())
+                {
+                    landList[nSelected]->setEmpty(false); //set the empty of a land to false, prevent from being repeatly use
+                    builtDefenderList.push_back(tempDefender);
+
+
+                    //money -= towerList[nSelected]->getCost();		// user' money should minus the cost of selected tower default cost of a tower is 40;
+                    //PROBLEM: Work on money ^, consider working on Defender functions with cost members.
+                    money -= tempDefender->getCost();
+                    nInvenselected = -1;							//now we finish all things we should make nInven back to -1; To prepare for next action;
+                    nSelected = -1;									//the selected land should also back to -1 
+                    towerInStore = howManyTower(money);			// this statement get how many tower we can build with rest money
+                }
+                //money maker
+
+                else if (nInvenselected == 1 && money >= aMaker->getCost())
+                {
+                    //give the land position to get a coinmaker
+                    builtMaker.push_back(aMaker);//put the maker in the makerlist
+                    money -= aMaker->getCost();	//make coinmaker cost money
+                    nSelected = -1;				//selected land is back to -1; for next operation
+                    nInvenselected = -1;		//also iventory button back to -1;
+
+                }
+
+                else
+                {
+
+                }
+                nSelected = -1;				//selected land is back to -1; for next operation
+                nInvenselected = -1;		//also iventory button back to -1;
+                aMaker = nullptr;	//set temp maker to null.
+                tempDefender = nullptr;
+            }
+        }
+
+
+
+
+
+
+            /*
+
             if (landList[nSelected]->getEnpty() == true)
             {
                 landList[nSelected]->setEmpty(false); //set the empty of a land to false, prevent from being repeatly use
@@ -434,6 +680,7 @@ int Game::run(RenderWindow& renderWindow) {
                 towerInStore = howManyTower(money);                // this statement get how many tower we can build with rest money
             }
         }
+        */
 
         // Fires every 1 second a bullet. Currently, the fire function creates bullets in the same spot
         // PROBLEM: Makes bullets position in it's constructor take the vector of Tower.
@@ -470,6 +717,13 @@ int Game::run(RenderWindow& renderWindow) {
                 clock->restart();
             }
         }
+        // Added 3-15
+        if (Keyboard::isKeyPressed(Keyboard::C))
+        {
+
+            coinCollectin(builtMaker); //call collection function
+
+        }
         
         //Update Animations and erase defeated Cats/Dogs
         updateAnimations(builtDefenderList, allAttackers);
@@ -498,7 +752,13 @@ int Game::run(RenderWindow& renderWindow) {
     }
     delete clock;
     delete aLand;
-        
+    bThread = false;
+
+    while (!bExitThread)		//this make the thread sleep after user close window 
+    {
+        //sleep(milliseconds(100));
+    }
+
     return 0;
 }
 
@@ -530,8 +790,11 @@ void Game::updateAnimations(vector<Defender*>& defenders, vector<Attacker*>& att
     //Update all Attackers
     for(int i = 0; i < attackers.size(); i++) {
         if(attackers[i]->isDefeated()) {
+            threadLock.lock();
             delete attackers[i];
             attackers.erase(attackers.begin() + i);
+            threadLock.unlock();
+            cout << "Cat Dead" << endl;
         } else {
             attackers[i]->updateAnimation(animationDeltaTime);
         }

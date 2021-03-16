@@ -40,8 +40,13 @@ static const string dogeTower = "/Users/jessicasusilo/Documents/Jessica S./DE AN
 static const unsigned WINDOW_WIDTH = 1280;
 static const unsigned WINDOW_HEIGHT = 720;
 
+
+// Added Steven's Global Variables here 3/15
 const int MONEYMAKERCOST = 20;
 const int MONEYPERCOIN = 10;
+//bool gaming = true;
+
+
 
 // direction types for Auto Travel
 enum DIRECTION {
@@ -52,6 +57,9 @@ class Collider : public Sprite {
 protected:
 	int health;
 	float speed;
+
+	// Change the cost, not supposed to be const OR here...
+	int cost = 40;
 	bool status = true;
 	Texture textureOfObject{ Texture() };
 	string spritePath;
@@ -79,6 +87,25 @@ public:
 	void setDirection(DIRECTION ab) { defaultDirection = ab; }
 	virtual void hurt(Collider& other);
 	virtual void updateObject();          // call funcs to calculate or whatever is needed to be done
+
+	// Added Steven's maker stuff here 3-15
+	bool getMaker()
+	{
+		return isMaker;
+	}
+	int getCost()
+	{
+		return cost;
+	}
+	virtual int howmanyCoininBox()
+	{
+		return 0;
+	}
+	virtual void drawCoins(RenderWindow& rn)
+	{
+		cout << "no coins" << endl;
+	}
+
 };
 
 class Bullet : public Collider {
