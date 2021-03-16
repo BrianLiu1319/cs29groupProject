@@ -1,8 +1,0 @@
-cmake_minimum_required(VERSION 3.17)
-project(cs29groupProject)
-add_compile_options(-Wall -Wextra -pedantic)
-set(CMAKE_CXX_STANDARD_REQUIRED 17)
-include_directories(src)
-add_executable(cs29groupProject main.cpp src/Collider.hpp src/Collider.cpp)
-find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
-target_link_libraries(cs29groupProject sfml-graphics sfml-audio)
