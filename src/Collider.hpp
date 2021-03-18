@@ -27,12 +27,10 @@ enum class DIRECTION { LEFT, RIGHT, TWR };
 
 
 class Collider : public Sprite {
-	// Collider Base Class
 protected:
 	int health = 0;
 	float speed = 0.f;
 	bool status = true;
-	bool isMaker = false;
 	Texture textureOfObject {Texture()};
 	DIR::DIRECTION defaultDirection = DIR::DIRECTION::TWR;
 
@@ -61,11 +59,6 @@ public:
 	void setDirection(DIR::DIRECTION ab) { defaultDirection = ab; }
 	virtual void hurt(Collider &other);
 	virtual void updateObject();
-	bool getMaker() const { return isMaker; }
-	virtual int howmanyCoininBox() { return 0; }
-	virtual void drawCoins(RenderWindow &rn) {
-		cout << "no coins to" << rn.getSystemHandle() << endl;
-	}
 };
 
 class Bullet : public Collider {

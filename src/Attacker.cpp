@@ -40,7 +40,7 @@ Attacker::Attacker(sf::Vector2f a, const string& b) :
 	setSfx();
 }
 
-// set the attacker's autotravel or if it dies to set up death
+// set the attacker's auto travel or if it dies to set up death
 void Attacker::updateObject() {
 	// does not move anymore if defeated
 	if (currState != STATES::defeated) {

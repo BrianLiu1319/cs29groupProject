@@ -13,7 +13,7 @@ Inventory::Inventory(Vector2f pt, int co) {
 		path = assetFolder + "dogSprite1Thumbnail.png";
 	}
 
-	if (!image.loadFromFile(path, sf::IntRect(0, 0, 54, 54))) { std::cout << "erro" << std::endl; }
+	if (!image.loadFromFile(path, sf::IntRect(0, 0, 54, 54))) { std::cout << "error" << std::endl; }
 
 	spInven.setTexture(image);
 	spInven.setPosition(pt);

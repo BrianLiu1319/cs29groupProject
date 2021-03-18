@@ -107,15 +107,9 @@ void Game::gameClock(RenderWindow &window, vector<Collider *> &things) {
 		    || (things[i])->getPosition().x < -100) {
 			things.erase(things.begin() + i);
 		} else {
-			if (things[i]->getMaker()) {
-				window.draw(*things[i]);
-				if (things[i]->howmanyCoininBox() > 0) { things[i]->drawCoins(window); }
-
-			} else {
-				threadLock.lock();
-				window.draw(*things[i]);
-				threadLock.unlock();
-			}
+			threadLock.lock();
+			window.draw(*things[i]);
+			threadLock.unlock();
 		}
 	}
 }
