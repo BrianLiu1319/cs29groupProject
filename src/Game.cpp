@@ -16,7 +16,7 @@ Game::Game(sf::Vector2f windowSize) :
 /*
 Generates tiles
 */
-vector<Land *> Game::genrateLandList() {
+vector<Land *> Game::generateLandList() {
 	vector<Land *> landList = {};
 	sf::Vector2f tempPosition;
 	float x = 50.f;
@@ -222,13 +222,7 @@ int Game::run(RenderWindow &renderWindow) {
 
 	int nInvenselected = -1;
 	InvenList = generateInvenList();
-	landList = genrateLandList();
-
-	// Line to use for seperating space between inventory and grid? Unsure
-	sf::Vertex line[] = {sf::Vertex(sf::Vector2f(0, 0)), sf::Vertex(sf::Vector2f(500, 500))};
-
-	line->color
-	  = Color(static_cast<sf::Uint8>(256), static_cast<sf::Uint8>(256), static_cast<sf::Uint8>(0));
+	landList = generateLandList();
 
 	// int counter used for selection.
 	int nSelected = -1;
@@ -414,11 +408,8 @@ int Game::run(RenderWindow &renderWindow) {
 
 		renderWindow.display();
 	}
-
 	if (bgMusic.getStatus() != sf::Sound::Stopped) { bgMusic.stop(); }
-
 	for (auto &allAttacker : allAttackers) { delete allAttacker; }
-
 	for (auto &allBullet : allBullets) { delete allBullet; }
 	for (auto &i : builtDefenderList) { delete i; }
 	delete clock;

@@ -51,10 +51,8 @@ private:
 	Font font1;
 	Event event{};
 
-	vector<Land *> genrateLandList();
+	vector<Land *> generateLandList();
 	vector<Inventory *> generateInvenList();
-
-
 	void addAttacker(vector<Attacker *> &attackers, sf::Vector2f a);
 	void gameClock(RenderWindow &window, vector<Collider *> &things);
 	void checkCollision(vector<Attacker *> &attackers,
@@ -62,8 +60,6 @@ private:
 	  vector<Defender *> &defenders,
 	  vector<Coin *> &coins);
 	void simpleAttackerGenerator(vector<Attacker *> &attackers, const vector<Land *> &landList);
-
-
 	void updateAnimations(vector<Defender *> &defenders,
 	  vector<Attacker *> &attackers,
 	  vector<Land *> &landList);
@@ -76,7 +72,6 @@ public:
 	int run(RenderWindow &renderWindow);
 	unsigned int getScore() const { return score; }
 	void toggleMuteMusic();
-
 	void increaseDifficulty() { difficulty++; }
 	void decreaseDifficulty() { difficulty--; }
 };
