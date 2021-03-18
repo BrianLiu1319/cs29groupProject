@@ -34,7 +34,7 @@ StartMenu::StartMenu(sf::Vector2f windowSize) :
 /*********************************
 Sets the background music.
 *********************************/
-void StartMenu::setBgSound(std::string path) {
+void StartMenu::setBgSound(const std::string& path) {
 	if (!bgMusic.openFromFile(path)) { throw(std::string(path)); }
 
 	bgMusic.setLoop(true);

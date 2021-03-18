@@ -69,8 +69,8 @@ HighScoreEntry::HighScoreEntry(sf::Vector2f windowSize) : Menu(windowSize), defa
 Sets the font for the text.
  Throws the path of file if not found.
 *********************************/
-void HighScoreEntry::setFont(std::string path) {
-	if (!inputTextFont.loadFromFile(path.c_str())) { throw(std::string(path)); }
+void HighScoreEntry::setFont(const std::string& path) {
+	if (!inputTextFont.loadFromFile(path)) { throw(std::string(path)); }
 	inputText.setFont(inputTextFont);
 	maxLengthText.setFont(inputTextFont);
 }
@@ -79,9 +79,9 @@ void HighScoreEntry::setFont(std::string path) {
 Sets the texture for the confirm button.
  Throws the path of file if not found.
 *********************************/
-void HighScoreEntry::setConfirmButtonTexture(std::string path, std::string pathInv) {
-	if (!confirmButtonTexture.loadFromFile(path.c_str())) { throw(std::string(path)); }
-	if (!confirmButtonTextureInv.loadFromFile(pathInv.c_str())) { throw(std::string(pathInv)); }
+void HighScoreEntry::setConfirmButtonTexture(const std::string& path, const std::string& pathInv) {
+	if (!confirmButtonTexture.loadFromFile(path)) { throw(std::string(path)); }
+	if (!confirmButtonTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
 	confirmButton.setTexture(&confirmButtonTexture);
 }
@@ -122,7 +122,7 @@ int HighScoreEntry::run(sf::Vector2f mousePos, float deltaTime) {
 		confirmed = 1;
 
 		score.setName(textTyped);
-		score.setDate(time(0));
+		score.setDate(time(nullptr));
 
 		textTyped.erase(textTyped.begin(), textTyped.end());
 		inputText.setString(textTyped);

@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <string.h>
+#include <cstring>
 
 class Inventory {
 private:

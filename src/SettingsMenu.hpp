@@ -55,20 +55,20 @@ private:
 
 public:
 	SettingsMenu(sf::Vector2f windowSize);
-	void setCreditsTexture(std::string path, std::string pathInv);
-	void setHowtoTexture(std::string path, std::string pathInv);
-	void setBackTexture(std::string path, std::string pathInv);
-	void setSfxTexture(std::string path,
-	  std::string pathInv,
-	  std::string pathMute,
-	  std::string pathMuteInv);
-	void setMusicTexture(std::string path,
-	  std::string pathInv,
-	  std::string pathMute,
-	  std::string pathMuteInv);
-	void setDifficultyTextures(std::string path);
-	void setNextTexture(std::string path, std::string pathInv);
-	void setPrevTexture(std::string path, std::string pathInv);
-	void setFont(std::string path);
+	void setCreditsTexture(const std::string& path, const std::string& pathInv);
+	void setHowtoTexture(const std::string& path, const std::string& pathInv);
+	void setBackTexture(const std::string& path, const std::string& pathInv);
+	void setSfxTexture(const std::string& path,
+	  const std::string& pathInv,
+	  const std::string& pathMute,
+	  const std::string& pathMuteInv);
+	void setMusicTexture(const std::string& path,
+	  const std::string& pathInv,
+	  const std::string& pathMute,
+	  const std::string& pathMuteInv);
+	void setDifficultyTextures(const std::string& path);
+	void setNextTexture(const std::string& path, const std::string& pathInv);
+	void setPrevTexture(const std::string& path, const std::string& pathInv);
+	void setFont(const std::string& path);
 	int run(sf::Vector2f mousePos);
 };

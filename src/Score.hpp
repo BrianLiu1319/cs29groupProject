@@ -16,7 +16,7 @@ private:
 
 public:
 	Score();
-	Score(std::string n, Date d, unsigned int s);
+	Score(const std::string& n, Date d, unsigned int s);
 	void setDate(time_t d) { date.setDate(d); }
 	void setName(std::string n);
 	void setScore(unsigned int s) { score = s; }

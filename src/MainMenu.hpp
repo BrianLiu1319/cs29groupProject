@@ -27,8 +27,8 @@ private:
 
 public:
 	MainMenu(sf::Vector2f windowSize);
-	void setPlayTexture(std::string path, std::string pathInv);
-	void setSettingTexture(std::string path, std::string pathInv);
+	void setPlayTexture(const std::string& path, const std::string& pathInv);
+	void setSettingTexture(const std::string& path, const std::string& pathInv);
 	int run(sf::Vector2f mousePos);
 	void updateScores(const Score &s) { highScoresPanel.update(s); }
 	bool isHighScore(const Score &s) const { return highScoresPanel.isHighScore(s); }

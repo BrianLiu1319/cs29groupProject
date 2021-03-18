@@ -24,8 +24,8 @@ protected:
 
 public:
 	Menu(sf::Vector2f windowSize);
-	void setBgTexture(std::string path);
-	void setClickSound(std::string path);
+	void setBgTexture(const std::string& path);
+	void setClickSound(const std::string& path);
 	void toggleMuteSfx();
 	virtual int run();
 };

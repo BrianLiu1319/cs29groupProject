@@ -29,9 +29,9 @@ private:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
-	HowToPlay(sf::Vector2f windowSize);
-	void setNextTexture(std::string path, std::string pathInv);
-	void setPrevTexture(std::string path, std::string pathInv);
-	void setBackTexture(std::string path, std::string pathInv);
+	explicit HowToPlay(sf::Vector2f windowSize);
+	void setNextTexture(const std::string& path, const std::string& pathInv);
+	void setPrevTexture(const std::string& path, const std::string& pathInv);
+	void setBackTexture(const std::string& path, const std::string& pathInv);
 	int run(sf::Vector2f mousePos);
 };

@@ -15,7 +15,7 @@ Menu::Menu(sf::Vector2f windowSize) {
 /*************
 Sets the background texture
 */
-void Menu::setBgTexture(std::string path) {
+void Menu::setBgTexture(const std::string& path) {
 	if (!bgTexture.loadFromFile(path)) { throw(std::string(path)); }
 	background.setTexture(&bgTexture);
 }
@@ -23,7 +23,7 @@ void Menu::setBgTexture(std::string path) {
 /*************
 Sets the click sound
 */
-void Menu::setClickSound(std::string path) {
+void Menu::setClickSound(const std::string& path) {
 	if (!clickBuffer.loadFromFile(path)) { throw(std::string(path)); }
 
 	click.setBuffer(clickBuffer);

@@ -36,9 +36,9 @@ private:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
-	HighScoreEntry(sf::Vector2f windowSize);
-	void setConfirmButtonTexture(std::string path, std::string pathInv);
-	void setFont(std::string path);
+	explicit HighScoreEntry(sf::Vector2f windowSize);
+	void setConfirmButtonTexture(const std::string& path, const std::string& pathInv);
+	void setFont(const std::string& path);
 	int run(sf::Vector2f mousePos, float deltaTime);
 	void enterText(char c);
 	void setScoreValue(unsigned int s) { score.setScore(s); }

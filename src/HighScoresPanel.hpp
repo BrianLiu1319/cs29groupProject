@@ -33,7 +33,7 @@ private:
 public:
 	HighScoresPanel(sf::Vector2f windowSize);
 	void update(const Score &s);
-	void setPanelTexture(std::string path);
-	void setFont(std::string path);
+	void setPanelTexture(const std::string& path);
+	void setFont(const std::string& path);
 	bool isHighScore(const Score &s) const;
 };

@@ -93,7 +93,7 @@ SettingsMenu::SettingsMenu(sf::Vector2f windowSize) : Menu(windowSize), currDiff
 Sets the texture and inversed
  texture of the credits button.
 *********************************/
-void SettingsMenu::setCreditsTexture(std::string path, std::string pathInv) {
+void SettingsMenu::setCreditsTexture(const std::string& path, const std::string& pathInv) {
 	if (!creditsTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!creditsTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
@@ -104,7 +104,7 @@ void SettingsMenu::setCreditsTexture(std::string path, std::string pathInv) {
 Sets the texture and inversed
  texture of the how to play button.
 *********************************/
-void SettingsMenu::setHowtoTexture(std::string path, std::string pathInv) {
+void SettingsMenu::setHowtoTexture(const std::string& path, const std::string& pathInv) {
 	if (!howtoTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!howtoTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
@@ -115,10 +115,10 @@ void SettingsMenu::setHowtoTexture(std::string path, std::string pathInv) {
 Sets the texture and mute
  texture of the sfx button.
 *********************************/
-void SettingsMenu::setSfxTexture(std::string path,
-  std::string pathInv,
-  std::string pathMute,
-  std::string pathMuteInv) {
+void SettingsMenu::setSfxTexture(const std::string& path,
+  const std::string& pathInv,
+  const std::string& pathMute,
+  const std::string& pathMuteInv) {
 	if (!sfxTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!sfxMuteTexture.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 	if (!sfxTextureInv.loadFromFile(pathMute)) { throw(std::string(pathMute)); }
@@ -131,10 +131,10 @@ void SettingsMenu::setSfxTexture(std::string path,
 Sets the texture and mute
  texture of the music button.
 *********************************/
-void SettingsMenu::setMusicTexture(std::string path,
-  std::string pathInv,
-  std::string pathMute,
-  std::string pathMuteInv) {
+void SettingsMenu::setMusicTexture(const std::string& path,
+  const std::string& pathInv,
+  const std::string& pathMute,
+  const std::string& pathMuteInv) {
 	if (!musicTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!musicMuteTexture.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 	if (!musicTextureInv.loadFromFile(pathMute)) { throw(std::string(pathMute)); }
@@ -147,7 +147,7 @@ void SettingsMenu::setMusicTexture(std::string path,
 Sets the texture and inverse
  texture of the back button.
 *********************************/
-void SettingsMenu::setBackTexture(std::string path, std::string pathInv) {
+void SettingsMenu::setBackTexture(const std::string& path, const std::string& pathInv) {
 	if (!backTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!backTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
@@ -158,7 +158,7 @@ void SettingsMenu::setBackTexture(std::string path, std::string pathInv) {
 Sets the textures for the difficulty
  levels.
 *********************************/
-void SettingsMenu::setDifficultyTextures(std::string path) {
+void SettingsMenu::setDifficultyTextures(const std::string& path) {
 	for (unsigned i = 0; i < numOfDifficulty; i++) {
 		if (!difficultyLevelTextures[i].loadFromFile(path + std::to_string(i + 1) + ".png")) {
 			throw(std::string(path));
@@ -172,7 +172,7 @@ void SettingsMenu::setDifficultyTextures(std::string path) {
 Sets the texture and inverse
  texture of the next button.
 *********************************/
-void SettingsMenu::setNextTexture(std::string path, std::string pathInv) {
+void SettingsMenu::setNextTexture(const std::string& path, const std::string& pathInv) {
 	if (!nextTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!nextTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
@@ -183,7 +183,7 @@ void SettingsMenu::setNextTexture(std::string path, std::string pathInv) {
 Sets the texture and inverse
  texture of the prev button.
 *********************************/
-void SettingsMenu::setPrevTexture(std::string path, std::string pathInv) {
+void SettingsMenu::setPrevTexture(const std::string& path, const std::string& pathInv) {
 	if (!prevTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!prevTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
@@ -314,7 +314,7 @@ bool SettingsMenu::handleSoundButton(sf::RectangleShape &button,
 Sets the font for the text.
  Throws the path of file if not found.
 *********************************/
-void SettingsMenu::setFont(std::string path) {
-	if (!textFont.loadFromFile(path.c_str())) { throw(std::string(path)); }
+void SettingsMenu::setFont(const std::string& path) {
+	if (!textFont.loadFromFile(path)) { throw(std::string(path)); }
 	text.setFont(textFont);
 }

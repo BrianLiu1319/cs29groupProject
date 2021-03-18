@@ -48,7 +48,7 @@ MainMenu::MainMenu(sf::Vector2f windowSize) : Menu(windowSize), highScoresPanel(
 Sets the texture and inversed
  texture of the play button.
 *********************************/
-void MainMenu::setPlayTexture(std::string path, std::string pathInv) {
+void MainMenu::setPlayTexture(const std::string& path, const std::string& pathInv) {
 	if (!playTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!playTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
@@ -59,7 +59,7 @@ void MainMenu::setPlayTexture(std::string path, std::string pathInv) {
 Sets the texture and inversed
  texture of the settings button.
 *********************************/
-void MainMenu::setSettingTexture(std::string path, std::string pathInv) {
+void MainMenu::setSettingTexture(const std::string& path, const std::string& pathInv) {
 	if (!settingTexture.loadFromFile(path)) { throw(std::string(path)); }
 	if (!settingTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
