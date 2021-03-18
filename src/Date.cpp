@@ -1,3 +1,7 @@
+#ifdef _MSC_VER  // for MS Visual Studio
+    #pragma warning(disable:4996)
+#endif
+
 #include "Date.hpp"
 
 Date::Date() { date = time(nullptr); }
