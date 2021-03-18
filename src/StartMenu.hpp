@@ -8,27 +8,28 @@
 #include "SettingsMenu.hpp"
 
 class StartMenu : public sf::Drawable {
-  // NOTE: Go to FolderPath.hpp to change the Folder Path.
+	// NOTE: Go to FolderPath.hpp to change the Folder Path.
 private:
-  enum class startStates { mainM, settingM, howToPlayM, creditsM };
-  startStates gameState;
+	enum class startStates { mainM, settingM, howToPlayM, creditsM };
+	startStates gameState;
 
-  const std::string menuBGMusicPath = assetFolder + "Wii Music.wav";
+	const std::string menuBGMusicPath = assetFolder + "Wii Music.wav";
 
-  int status;
-  bool muteMusic = false;
+	int status;
+	bool muteMusic = false;
 
-  MainMenu mainMenu;
-  SettingsMenu settings;
-  Credits credits;
-  HowToPlay howToPlay;
-  sf::Music bgMusic;
+	MainMenu mainMenu;
+	SettingsMenu settings;
+	Credits credits;
+	HowToPlay howToPlay;
+	sf::Music bgMusic;
 
-  void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
 public:
-  StartMenu(sf::Vector2f windowSize);
-  int run(sf::Vector2f mousePos);
-  void setBgSound(std::string path);
-  void updateScores(const Score &s) { mainMenu.updateScores(s); }
-  bool isHighScore(const Score &s) const { return mainMenu.isHighScore(s); };
+	StartMenu(sf::Vector2f windowSize);
+	int run(sf::Vector2f mousePos);
+	void setBgSound(std::string path);
+	void updateScores(const Score &s) { mainMenu.updateScores(s); }
+	bool isHighScore(const Score &s) const { return mainMenu.isHighScore(s); };
 };
