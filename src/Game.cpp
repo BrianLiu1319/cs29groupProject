@@ -314,7 +314,7 @@ int Game::run(RenderWindow &renderWindow) {
 		// If you selected a inventory dog AND a grid spot, create and place a tower
 		// there.
 		if (nSelected >= 0 && nSelected < 60 && nInvenselected < 3 && nInvenselected > -1
-		    && landList[nSelected]->getEnpty()) {
+		    && landList[nSelected]->getEmpty()) {
 			if (nInvenselected == 0 && money >= 40) {
 				tempDefender = new Defender(landList[nSelected]->getVector());
 				landList[nSelected]->setEmpty(false);
@@ -361,10 +361,14 @@ int Game::run(RenderWindow &renderWindow) {
 					cout << allBullets.size() << endl;
 					if (clock->getElapsedTime().asMilliseconds() >= 2000) {
 						if (item->getCost() == 40) {
-							auto *temp = new Bullet(textureOfObject, item->getPosition());
+							auto loc = item->getPosition();
+							loc.x += 45;
+							auto *temp = new Bullet(textureOfObject, loc);
 							allBullets.push_back(temp);
 						} else if (item->getCost() == 80) {
-							auto *temp = new Bullet(textureOfObject1, item->getPosition(), 2);
+							auto loc = item->getPosition();
+							loc.x += 45;
+							auto *temp = new Bullet(textureOfObject1, loc, 2);
 							allBullets.push_back(temp);
 						}
 

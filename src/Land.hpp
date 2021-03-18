@@ -19,5 +19,5 @@ public:
 	sf::Sprite getSprite() { return spLand; }
 	sf::Vector2f getVector() { return spLand.getPosition(); }
 	void setEmpty(bool em) { empty = em; }
-	bool getEnpty() { return empty; }
+	bool getEmpty() { return empty; }
 };

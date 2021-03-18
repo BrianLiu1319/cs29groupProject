@@ -47,12 +47,12 @@ int main() {
 	while (window.isOpen()) {
 		deltaTime = clock.restart().asSeconds();
 
-		sf::Event evnt;
-		while (window.pollEvent(evnt)) {
-			if (evnt.type == sf::Event::Closed) { window.close(); }
-			if (gameState == states::enterHighScore && evnt.type == sf::Event::TextEntered) {
-				if (evnt.text.unicode == 8 || (evnt.text.unicode > 31 && evnt.text.unicode < 127)) {
-					highScoreEntryBox.enterText(static_cast<char>(evnt.text.unicode));
+		Event event{};
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed) { window.close(); }
+			if (gameState == states::enterHighScore && event.type == sf::Event::TextEntered) {
+				if (event.text.unicode == 8 || (event.text.unicode > 31 && event.text.unicode < 127)) {
+					highScoreEntryBox.enterText(static_cast<char>(event.text.unicode));
 				}
 			}
 		}
