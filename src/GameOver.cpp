@@ -53,9 +53,9 @@ GameOver::GameOver(sf::Vector2f windowSize) : Menu(windowSize), score(0) {
 Sets the texture for the confirm button.
  Throws the path of file if not found.
 *********************************/
-void GameOver::setConfirmButtonTexture(std::string path, std::string pathInv) {
-	if (!confirmButtonTexture.loadFromFile(path.c_str())) { throw(std::string(path)); }
-	if (!confirmButtonTextureInv.loadFromFile(pathInv.c_str())) { throw(std::string(pathInv)); }
+void GameOver::setConfirmButtonTexture(const std::string& path, const std::string& pathInv) {
+	if (!confirmButtonTexture.loadFromFile(path)) { throw(std::string(path)); }
+	if (!confirmButtonTextureInv.loadFromFile(pathInv)) { throw(std::string(pathInv)); }
 
 	confirmButton.setTexture(&confirmButtonTexture);
 }
@@ -64,8 +64,8 @@ void GameOver::setConfirmButtonTexture(std::string path, std::string pathInv) {
 Sets the font for the text.
  Throws the path of file if not found.
 *********************************/
-void GameOver::setFont(std::string path) {
-	if (!textFont.loadFromFile(path.c_str())) { throw(std::string(path)); }
+void GameOver::setFont(const std::string& path) {
+	if (!textFont.loadFromFile(path)) { throw(std::string(path)); }
 	text.setFont(textFont);
 }
 

@@ -15,17 +15,15 @@ private:
 	STATES currState = STATES::moving;
 
 	void setSfx();
-	void attack() {}
 
 public:
 	Attacker();
-	Attacker(sf::Vector2f a);
-	Attacker(sf::Vector2f a, string b);
+	explicit Attacker(sf::Vector2f a);
+	Attacker(sf::Vector2f a, const string& b);
 
 	void updateAnimation(float deltaTime);
 	void updateObject();
 	void setDefeated();
-	void setMoving();
 	void meow();
 	void sadSound();
 

@@ -13,7 +13,6 @@ Constructor.
 Toolbar::Toolbar(sf::Vector2f windowSize) : Menu(windowSize) {
 	// Calculate sizes and positions
 	sf::Vector2f buttonSize(windowSize.y / 1080.0f * 130.0f, windowSize.y / 1080.0f * 130.0f);
-	sf::Vector2f centerButtonPos(windowSize.x / 2.0f, windowSize.y / 2.0f - buttonSize.y / 2.0f);
 
 	// Set Textures
 	try {

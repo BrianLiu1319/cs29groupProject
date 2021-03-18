@@ -160,7 +160,7 @@ bool HighScoresPanel::isHighScore(const Score &s) const {
 	if (scores.size() < maxScores) {
 		isHigh = true;
 	} else {
-		for (auto i = scores.cbegin(); i != scores.cend() && isHigh == false; i++) {
+		for (auto i = scores.cbegin(); i != scores.cend() && !isHigh; i++) {
 			if (s > (*i)) { isHigh = true; }
 		}
 	}

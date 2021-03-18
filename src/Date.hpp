@@ -13,11 +13,11 @@ private:
 public:
 	Date();
 	Date(const Date &) = default;
-	Date(time_t);
+	explicit Date(time_t);
 	void setDate(time_t d) { date = d; }
 	friend std::ostream &operator<<(std::ostream &out, const Date &d);
 	bool operator<(const Date &d) const;
 	bool operator>(const Date &d) const;
 	bool operator==(const Date &d) const;
-	operator std::string() const;
+	explicit operator std::string() const;
 };

@@ -63,6 +63,7 @@ int StartMenu::run(sf::Vector2f mousePos) {
 			switch (status) {
 				case 1: state = 0; break;
 				case 2: gameState = startStates::settingM; break;
+					default:break;
 			}
 
 			break;
@@ -92,6 +93,7 @@ int StartMenu::run(sf::Vector2f mousePos) {
 					break;
 				case 6: state = 4; break;
 				case 7: state = 5; break;
+					default:break;
 			}
 
 			break;
@@ -100,6 +102,7 @@ int StartMenu::run(sf::Vector2f mousePos) {
 			status = howToPlay.run(mousePos);
 			switch (status) {
 				case 1: gameState = startStates::settingM; break;
+					default:break;
 			}
 			break;
 
@@ -108,6 +111,7 @@ int StartMenu::run(sf::Vector2f mousePos) {
 			status = credits.run(mousePos);
 			switch (status) {
 				case 1: gameState = startStates::settingM; break;
+					default:break;
 			}
 			break;
 	}

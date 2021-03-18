@@ -10,8 +10,6 @@
 using namespace std;
 using namespace sf;
 class Coin {
-	int money = 10;
-	int liveTime = 50000;
 	Vector2f oPoint;
 
 	Texture image;
@@ -19,13 +17,7 @@ class Coin {
 
 public:
 	Coin();
-	Coin(Vector2f point);
-	~Coin() {};
-
+	explicit Coin(Vector2f point);
+	~Coin() = default;
 	Sprite getSp() { return spCoin; }
-	int getMoney() { return money; }
-	Vector2f getPos() { return oPoint; }
-
-	void StepIt() { liveTime -= 1000; }
-	int getLive() { return liveTime; }
 };

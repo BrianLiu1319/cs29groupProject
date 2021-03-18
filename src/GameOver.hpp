@@ -27,9 +27,9 @@ private:
 	void setGameOverSound();
 
 public:
-	GameOver(sf::Vector2f windowSize);
+	explicit GameOver(sf::Vector2f windowSize);
 	int run(sf::Vector2f mousePos);
-	void setConfirmButtonTexture(std::string path, std::string pathInv);
-	void setFont(std::string path);
+	void setConfirmButtonTexture(const std::string& path, const std::string& pathInv);
+	void setFont(const std::string& path);
 	void setScore(unsigned int s);
 };

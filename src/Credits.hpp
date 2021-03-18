@@ -17,7 +17,7 @@ private:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
-	Credits(sf::Vector2f windowSize);
-	void setBackTexture(std::string path, std::string pathInv);
+	explicit Credits(sf::Vector2f windowSize);
+	void setBackTexture(const std::string& path, const std::string& pathInv);
 	int run(sf::Vector2f mousePos);
 };

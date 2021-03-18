@@ -2,32 +2,6 @@
 
 /*********************************
 Constructor.
- Gets the texture, the (x, y) image
- count, and the switch time.
- Calculates the size of the uvRect
- based on the size of the texture
- and the image count.
- Loop is set to true by default.
-*********************************/
-Animation::Animation(const sf::Texture &texture, const sf::Vector2u &imageCount, float switchTime) {
-	numOfRows = imageCount.y;
-	this->switchTime = switchTime;
-	activeRow = 0;
-	loop = true;
-	totalTime = 0.0f;
-	currentImage.x = 0;
-	numOfSpritesInRow = new unsigned[imageCount.y];
-	for (int i = 0; i < static_cast<int>(imageCount.y); i++) {
-		numOfSpritesInRow[i] = imageCount.x;
-	}
-	uvRect.width = static_cast<int>(
-	  static_cast<float>(texture.getSize().x) / static_cast<float>(imageCount.x));
-	uvRect.height = static_cast<int>(
-	  static_cast<float>(texture.getSize().y) / static_cast<float>(imageCount.y));
-}
-
-/*********************************
-Constructor.
  Same as the other constructor,
  except that it accepts the texture path
  instead of a texture. It loads the texture
@@ -109,14 +83,6 @@ void Animation::update(float deltaTime) {
 	uvRect.left = currentImage.x * uvRect.width;
 	uvRect.top = currentImage.y * uvRect.height;
 }
-
-/*********************************
-Sets the number of sprites in
- a row. Used for when the number
- in a row is different from other
- rows.
-*********************************/
-void Animation::setNumOfSpritesInRow(unsigned row, unsigned num) { numOfSpritesInRow[row] = num; }
 
 /*********************************
 Sets the currently active row.

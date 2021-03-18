@@ -24,7 +24,7 @@ Defender::Defender(sf::Vector2f a, float b) :
     Collider(dogeTower2, DIR::DIRECTION::RIGHT, {a.x, a.y + 47.0f}, 660, 0.0f),
     animator(dogeTower2, sf::Vector2u(4, 2), 1.0f / 3.0f), landIndex(0) {
 	scale(0.5, 0.5);
-	Vector2f origin(0, getGlobalBounds().height / 2.0f);
+	Vector2f origin(0, getGlobalBounds().height / b);
 	setOrigin(origin);
 	cost = 60;
 
@@ -103,18 +103,6 @@ void Defender::setDefeated() {
 	currState = STATES::defeated;
 	animator.setLoop(false);
 	animator.setActiveRow(1);
-}
-
-/**************
-Sets the Defender to be standing.
- Switches the animation to
- the standing animation and makes
- it loop.
-**************/
-void Defender::setStanding() {
-	currState = STATES::standing;
-	animator.setLoop(true);
-	animator.setActiveRow(0);
 }
 
 /*

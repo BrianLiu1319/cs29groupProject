@@ -17,7 +17,7 @@ protected:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	bool isMouseOver(sf::Vector2f mousePos, const sf::RectangleShape &button);
 	bool muteSfx = false;
-	bool handleButton(sf::RectangleShape &button,
+	virtual bool handleButton(sf::RectangleShape &button,
 	  const sf::Texture &buttonTexture,
 	  const sf::Texture &buttonInvTexture,
 	  const sf::Vector2f &mousePos);

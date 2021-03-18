@@ -1,15 +1,8 @@
 #include "Animation.hpp"
-#include "Date.hpp"
 #include "Game.hpp"
 #include "GameOver.hpp"
 #include "HighScoreEntry.hpp"
-#include "Score.hpp"
 #include "StartMenu.hpp"
-
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <string>
 
 using namespace std;
 
@@ -35,7 +28,7 @@ int main() {
 	/*********************************
 	Set up the clock
 	*********************************/
-	float deltaTime = 0.0f;
+	float deltaTime;
 	sf::Clock clock;
 
 	/*********************************
@@ -92,6 +85,7 @@ int main() {
 						// difficulty--;
 						dogsVsCats.decreaseDifficulty();
 						break;
+					default:break;
 				}
 
 				break;

@@ -2,7 +2,7 @@
 #include "Collider.hpp"
 using namespace std;
 using namespace sf;
-Coin::Coin() {}
+Coin::Coin() = default;
 Coin::Coin(Vector2f point) {
 	Font font2;
 	if (!font2.loadFromFile(assetFolder + "Font1.ttf")) cout << "erro " << endl;

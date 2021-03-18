@@ -22,7 +22,7 @@ Attacker::Attacker(sf::Vector2f a) :
 	setSfx();
 }
 
-Attacker::Attacker(sf::Vector2f a, string b) :
+Attacker::Attacker(sf::Vector2f a, const string& b) :
     Collider(b, DIR::DIRECTION::LEFT, {WINDOW_WIDTH, a.y + 47.0f}, 100, 10.0f),
     animator(b, sf::Vector2u(4, 2), 1.0f / 3.0f) {
 	updateAnimation(0.0f);
@@ -82,18 +82,6 @@ void Attacker::setDefeated() {
 	currState = STATES::defeated;
 	animator.setLoop(false);
 	animator.setActiveRow(1);
-}
-
-/**************
-Sets the Attacker to be moving.
- Switches the animation to
- the moving animation and makes
- it loop.
-**************/
-void Attacker::setMoving() {
-	currState = STATES::moving;
-	animator.setLoop(true);
-	animator.setActiveRow(0);
 }
 
 /*

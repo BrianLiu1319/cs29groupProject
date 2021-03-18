@@ -29,12 +29,9 @@ private:
 	const std::string bgMusicPath = assetFolder + "background music.wav";
 	const std::string bgTexturePath = assetFolder + "game background-01.png";
 
-	const int widthOfLand = 74;
-	const int heightOfLand = 94;
 	int money = 200;
 	unsigned int score = 0;
 	float animationDeltaTime = 0.0f;
-	bool gaming = false;
 	float deltaGenTime = 0.0f;
 	float waveGenTime = 0.0f;
 	bool waveStart = false;
@@ -52,7 +49,7 @@ private:
 	Toolbar tools;
 	sf::Clock animationClock;
 	Font font1;
-	Event event;
+	Event event{};
 
 	vector<Land *> genrateLandList();
 	vector<Inventory *> generateInvenList();
@@ -67,8 +64,6 @@ private:
 	void simpleAttackerGenerator(vector<Attacker *> &attackers, const vector<Land *> &landList);
 
 
-	void drawBuiltDefender(vector<Defender *> builtTowerList, RenderWindow &renderWindow);
-
 	void updateAnimations(vector<Defender *> &defenders,
 	  vector<Attacker *> &attackers,
 	  vector<Land *> &landList);
@@ -77,7 +72,7 @@ private:
 	void setBgMusic();
 
 public:
-	Game(sf::Vector2f windowSize);
+	explicit Game(sf::Vector2f windowSize);
 	int run(RenderWindow &renderWindow);
 	unsigned int getScore() const { return score; }
 	void toggleMuteMusic();

@@ -8,13 +8,9 @@
 
 class Inventory {
 private:
-	int width = 0;
-	int height = 0;
-
-	sf::Vector2f position;
 	sf::Texture image;
 	sf::Sprite spInven;
-	int contain;  // if contain == 0 it's a dog, if contain is 1,this Inventory
+	// if contain == 0 it's a dog, if contain is 1,this Inventory
 	              // contain a sunflower
 
 public:

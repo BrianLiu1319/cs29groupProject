@@ -13,7 +13,6 @@ private:
 
 	int healthCost = 40;
 	int whistleRefund = 20;
-	bool mute = false;
 
 	sf::Texture whistleTexture, whistleTextureInv, healthTexture, healthTextureInv;
 	sf::RectangleShape whistleButton, healthButton;

@@ -40,7 +40,7 @@ vector<Land *> Game::genrateLandList() {
 vector<Inventory *> Game::generateInvenList() {
 	vector<Inventory *> InvenList = {};
 	Vector2f aPosition;
-	Inventory *aInven = NULL;
+	Inventory *aInven = nullptr;
 	float x = 50;
 	float y = 600;
 	for (int i = 0; i < 3; i++) {
@@ -51,15 +51,6 @@ vector<Inventory *> Game::generateInvenList() {
 		x += 60;
 	}
 	return InvenList;
-}
-
-/*
-Draws selected Defender onto list
-*/
-void Game::drawBuiltDefender(vector<Defender *> builtTowerList, RenderWindow &renderWindow) {
-	for (int i = 0; i < static_cast<int>(builtTowerList.size()); i++) {
-		renderWindow.draw(*builtTowerList[i]);
-	}
 }
 
 /*
@@ -75,10 +66,10 @@ void Game::simpleAttackerGenerator(vector<Attacker *> &attackers, const vector<L
 		deltaGenTime += temp;
 		waveGenTime += temp;
 
-		float randomTimeframe = static_cast<float>(rand() % 5 + 10.0f);
+		float randomTimeframe = rand() % 5 + 10.0f;
 		randomTimeframe -= currentWave * 0.5f;
 
-		if (waveGenTime >= static_cast<float>(randomTimeframe) * 8 / difficulty * 1.5f) {
+		if (waveGenTime >= randomTimeframe * 8 / difficulty * 1.5f) {
 			if (numDogsInBigWave < numCatsPerWave) {
 				randomTimeframe *= 0.3f;
 				onWave = true;
@@ -90,8 +81,8 @@ void Game::simpleAttackerGenerator(vector<Attacker *> &attackers, const vector<L
 			}
 		}
 
-		if (deltaGenTime >= static_cast<float>(randomTimeframe) / difficulty * 1.5f) {
-			int tempLandIndex = rand() % landList.size();
+		if (deltaGenTime >= randomTimeframe / difficulty * 1.5f) {
+			int tempLandIndex = static_cast<int>(rand() % landList.size());
 			addAttacker(attackers, landList[tempLandIndex]->getVector());
 			deltaGenTime = 0;
 			if (onWave) numDogsInBigWave++;
@@ -116,7 +107,7 @@ void Game::gameClock(RenderWindow &window, vector<Collider *> &things) {
 		    || (things[i])->getPosition().x < -100) {
 			things.erase(things.begin() + i);
 		} else {
-			if (things[i]->getMaker() == true) {
+			if (things[i]->getMaker()) {
 				window.draw(*things[i]);
 				if (things[i]->howmanyCoininBox() > 0) { things[i]->drawCoins(window); }
 
@@ -153,6 +144,7 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 						case 1: score += 100; break;
 						case 2: score += 200; break;
 						case 3: score += 300; break;
+						default: break;
 					}
 					if (attackers[j]->getSpeed() == 25.0f) {
 						coins.push_back(new Coin(attackers[j]->getPosition()));
@@ -176,10 +168,10 @@ void Game::checkCollision(vector<Attacker *> &attackers,
 				if (defenders[k]->getHealth() <= 0 && defenders[k]->getStatus()) {
 					if (!muteSfx) defenders[k]->sadSound();
 
-					for (unsigned int z = 0; z < attackers.size(); z++) {
-						if (attackers[z]->getGlobalBounds().intersects(
+					for (auto & attacker : attackers) {
+						if (attacker->getGlobalBounds().intersects(
 						      defenders[k]->getGlobalBounds()))
-							attackers[z]->setDirection(DIR::DIRECTION::LEFT);
+							attacker->setDirection(DIR::DIRECTION::LEFT);
 					}
 
 					defenders[k]->setDefeated();
@@ -214,7 +206,7 @@ int Game::run(RenderWindow &renderWindow) {
 		cout << "Unable to open font file " << assetFolder + "Font1.ttf" << endl;
 
 	// int time = 0;
-	Clock *clock = new Clock();
+	auto *clock = new Clock();
 	sf::Vector2f landPoint(50.f, 50.f);
 	Land *aLand = new Land(0, landPoint);
 
@@ -241,10 +233,8 @@ int Game::run(RenderWindow &renderWindow) {
 	// int counter used for selection.
 	int nSelected = -1;
 
-	Defender *tempDefender = nullptr;
+	Defender *tempDefender;
 	int tempLandIndex;
-	sf::Vector2f landTempVec;
-
 	while (!gameOver && renderWindow.isOpen()) {
 		animationDeltaTime = animationClock.restart().asSeconds();
 
@@ -274,7 +264,6 @@ int Game::run(RenderWindow &renderWindow) {
 					      || Keyboard::isKeyPressed(Keyboard::RShift))
 					    && Keyboard::isKeyPressed(Keyboard::M)) {
 						tempLandIndex = rand() % 30;
-						landTempVec = landList[tempLandIndex]->getVector();
 						addAttacker(allAttackers, landList[tempLandIndex]->getVector());
 					}
 					break;
@@ -376,8 +365,6 @@ int Game::run(RenderWindow &renderWindow) {
 			}
 			nSelected = -1;
 			nInvenselected = -1;
-
-			tempDefender = nullptr;
 		}
 
 		if (!builtDefenderList.empty()) {
@@ -555,12 +542,12 @@ void Game::handleTools(vector<Defender *> &defenders,
 			mouseStartClick = false;
 			if (!muteSfx) click.play();
 
-			for (int i = 0; i < static_cast<int>(defenders.size()); i++) {
-				if (defenders[i]->getGlobalBounds().contains(
+			for (auto & defender : defenders) {
+				if (defender->getGlobalBounds().contains(
 				      static_cast<float>(mousePressPosition.x),
 				      static_cast<float>(mousePressPosition.y))) {
 					if (money >= tools.getHealthCost()) {
-						(*defenders[i]).increaseHealth(100);
+						(*defender).increaseHealth(100);
 
 						money -= tools.getHealthCost();
 					}

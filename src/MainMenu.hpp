@@ -18,7 +18,6 @@ private:
 	const std::string settingButtonTexturePath = assetFolder + "setting button.png";
 	const std::string settingButtonTextureInvPath = assetFolder + "setting button inverted.png";
 	const std::string clickSFXPath01 = assetFolder + "click02.wav";
-	const std::string highScoresTexturePath = assetFolder + "high scores.png";
 
 	sf::Texture playTexture, settingTexture, playTextureInv, settingTextureInv;
 	sf::RectangleShape playButton, settingButton;

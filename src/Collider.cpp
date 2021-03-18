@@ -1,7 +1,5 @@
 #include "Collider.hpp"
 
-#include <SFML/Graphics/Texture.hpp>
-#include <iostream>
 using namespace DIR;
 
 ostream &operator<<(ostream &os, const Collider &collider) {
